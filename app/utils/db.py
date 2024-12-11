@@ -1,6 +1,6 @@
-from pymongo import MongoClient, ASCENDING, DESCENDING
+from pymongo import MongoClient, ASCENDING
 
-# MongoDB 연결 설정
+# MongoDB 설정
 MONGO_URI = "mongodb://localhost:27017"
 DATABASE_NAME = "job_db"
 
@@ -24,9 +24,9 @@ class Database:
         채용 공고 컬렉션 생성 및 인덱스 설정
         """
         collection = self.db["jobs"]
-        collection.create_index([("title", ASCENDING), ("company_id", ASCENDING)], unique=True)
+        collection.create_index([("title", ASCENDING), ("company", ASCENDING)], unique=True)
         collection.create_index("location", ASCENDING)
-        collection.create_index("job_sector", ASCENDING)
+        collection.create_index("created_at", ASCENDING)
         print("Jobs collection initialized.")
 
     def create_companies_collection(self):
@@ -141,7 +141,7 @@ if __name__ == "__main__":
 
     # 예시 데이터 삽입
     job_model = JobModel(db.db)
-    job_model.insert_job({"title": "Software Engineer", "company_id": "1", "location": "Seoul", "job_sector": "IT"})
+    job_model.insert_job({"title": "Software Engineer", "company": "Tech Corp", "location": "Seoul", "created_at": datetime.now().isoformat()})
 
     company_model = CompanyModel(db.db)
     company_model.insert_company({"name": "Tech Corp", "industry": "IT"})
