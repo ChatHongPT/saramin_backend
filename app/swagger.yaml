@@ -385,7 +385,7 @@ paths:
   /auth/delete:
     delete:
       summary: 회원 탈퇴
-      description: 사용자 계정을 삭제하는 API
+      description: 사용자 계정을 제거하는 API
       requestBody:
         required: true
         content:
