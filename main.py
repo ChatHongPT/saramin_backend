@@ -1,12 +1,13 @@
-from flask import Flask, send_from_directory
+from flask import Flask
 from flask_swagger_ui import get_swaggerui_blueprint
-import os
+from app.Crawling.crawler import run_crawler
+from app.utils.db import MongoDBManager
 
 app = Flask(__name__)
 
 # Swagger 설정
 SWAGGER_URL = '/swagger'
-API_URL = '/swagger.yaml'  # 절대 경로를 설정
+API_URL = '/swagger.yaml'
 swaggerui_blueprint = get_swaggerui_blueprint(
     SWAGGER_URL,
     API_URL,
@@ -14,15 +15,24 @@ swaggerui_blueprint = get_swaggerui_blueprint(
 )
 app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
 
-# Swagger YAML 파일 경로
-@app.route('/swagger.yaml')
-def swagger_file():
-    """app/ 폴더에 있는 swagger.yaml 파일 제공"""
-    return send_from_directory(os.path.join(app.root_path, 'app'), 'swagger.yaml')
-
 @app.route("/", methods=["GET"])
 def home():
-    return {"message": "Welcome to the API!"}, 200
+    """기본 경로"""
+    return {"message": "Welcome to the WSD Assignment API!"}, 200
+
+@app.route('/api/crawl', methods=['POST'])
+def crawl_jobs():
+    """크롤링 실행 및 MongoDB 저장"""
+    count = run_crawler(pages=5)
+    return {"message": f"{count}개의 공고가 저장되었습니다."}, 200
+
+@app.route('/api/jobs', methods=['GET'])
+def get_jobs():
+    """MongoDB에서 채용 공고 조회"""
+    mongo = MongoDBManager()
+    jobs = list(mongo.db["JobPostings"].find({}, {"_id": 0}))
+    mongo.close()
+    return {"jobs": jobs}, 200
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5001, debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)
