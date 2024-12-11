@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from pymongo import DESCENDING
 from app.utils.db import get_db_connection
+from app.utils.cache import get_from_cache, set_to_cache
 from bson.objectid import ObjectId
 
 # Blueprint 설정
@@ -18,6 +19,7 @@ def get_jobs():
     """
     page = int(request.args.get('page', 1))
     page_size = 20
+    cache_key = f"jobs_page_{page}"  # Redis 캐시 키
     filters = {}
     sort = request.args.get('sort', 'created_at')
     order = DESCENDING if request.args.get('order', 'desc') == 'desc' else 1
@@ -37,10 +39,15 @@ def get_jobs():
     if stack:
         filters['job_sector'] = {'$regex': stack, '$options': 'i'}
 
+    # Redis 캐시 확인
+    cached_jobs = get_from_cache(cache_key)
+    if cached_jobs:
+        return jsonify(cached_jobs), 200
+
     # 페이지네이션
     skip = (page - 1) * page_size
 
-    # 데이터 조회
+    # MongoDB 데이터 조회
     jobs = jobs_collection.find(filters).sort(sort, order).skip(skip).limit(page_size)
     result = [
         {
@@ -55,6 +62,9 @@ def get_jobs():
         for job in jobs
     ]
 
+    # Redis에 캐싱
+    set_to_cache(cache_key, result)
+
     return jsonify(result), 200
 
 @jobs_bp.route('/jobs/search', methods=['GET'])
@@ -65,6 +75,12 @@ def search_jobs():
     keyword = request.args.get('keyword', '')
     company = request.args.get('company', '')
     position = request.args.get('position', '')
+    cache_key = f"jobs_search_{keyword}_{company}_{position}"  # Redis 캐시 키
+
+    # Redis 캐시 확인
+    cached_jobs = get_from_cache(cache_key)
+    if cached_jobs:
+        return jsonify(cached_jobs), 200
 
     filters = {
         "$or": []
@@ -94,6 +110,9 @@ def search_jobs():
         for job in jobs
     ]
 
+    # Redis에 캐싱
+    set_to_cache(cache_key, result)
+
     return jsonify(result), 200
 
 @jobs_bp.route('/jobs/<string:job_id>', methods=['GET'])
@@ -101,6 +120,14 @@ def get_job_detail(job_id):
     """
     공고 상세 조회 API (GET /jobs/:id)
     """
+    cache_key = f"job_{job_id}"  # Redis 캐시 키
+
+    # Redis 캐시 확인
+    cached_job = get_from_cache(cache_key)
+    if cached_job:
+        return jsonify(cached_job), 200
+
+    # MongoDB에서 데이터 조회
     job = jobs_collection.find_one({"_id": ObjectId(job_id)})
 
     if not job:
@@ -135,6 +162,9 @@ def get_job_detail(job_id):
         "views": job.get("views", 0),
         "related_jobs": related_result
     }
+
+    # Redis에 캐싱
+    set_to_cache(cache_key, result)
 
     return jsonify(result), 200
 
@@ -188,5 +218,9 @@ def delete_job(job_id):
 
     if result.deleted_count == 0:
         return jsonify({"error": "공고를 찾을 수 없습니다."}), 404
+
+    # Redis 캐시 무효화
+    cache_key = f"job_{job_id}"
+    set_to_cache(cache_key, None)
 
     return jsonify({"message": "공고가 삭제되었습니다."}), 200
