@@ -27,8 +27,8 @@ def home():
     return {"message": "Welcome to the API!"}, 200
 
 # 블루프린트 등록
-app.register_blueprint(jobs_bp, url_prefix='/api')  # jobs 블루프린트 등록
-app.register_blueprint(auth_bp, url_prefix='/api')  # auth 블루프린트 등록
+app.register_blueprint(jobs_bp, url_prefix='/api/jobs')  # jobs 블루프린트 등록
+app.register_blueprint(auth_bp, url_prefix='/api/auth')  # auth 블루프린트 등록
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5001, debug=True)
