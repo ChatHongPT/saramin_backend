@@ -1,0 +1,19 @@
+openapi: 3.0.0
+info:
+  title: WSD Assignment API
+  version: 1.0.0
+paths:
+  /api/crawl:
+    post:
+      summary: Run the crawler
+      description: Execute the crawler to fetch job postings and store them in MongoDB.
+      responses:
+        200:
+          description: Crawler executed successfully.
+  /api/jobs:
+    get:
+      summary: Get job postings
+      description: Retrieve all job postings from MongoDB.
+      responses:
+        200:
+          description: A list of job postings.
