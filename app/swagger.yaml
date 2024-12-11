@@ -171,43 +171,6 @@ paths:
                         company:
                           type: string
 
-  /api/jobs:
-    post:
-      summary: 공고 등록
-      description: 새로운 공고를 등록
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                title:
-                  type: string
-                company:
-                  type: string
-                location:
-                  type: string
-                career:
-                  type: string
-                salary:
-                  type: string
-                job_sector:
-                  type: string
-      responses:
-        '201':
-          description: 공고 등록 성공
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                  id:
-                    type: string
-
-  /api/jobs/{id}:
     put:
       summary: 공고 수정
       description: 특정 ID의 공고를 수정
@@ -267,6 +230,42 @@ paths:
                 type: object
                 properties:
                   message:
+                    type: string
+
+  /api/jobs:
+    post:
+      summary: 공고 등록
+      description: 새로운 공고를 등록
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                company:
+                  type: string
+                location:
+                  type: string
+                career:
+                  type: string
+                salary:
+                  type: string
+                job_sector:
+                  type: string
+      responses:
+        '201':
+          description: 공고 등록 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  id:
                     type: string
 
   /auth/register:
@@ -385,7 +384,7 @@ paths:
   /auth/delete:
     delete:
       summary: 회원 탈퇴
-      description: 사용자 계정을 제거하는 API
+      description: 사용자 계정을 삭제하는 API
       requestBody:
         required: true
         content:
