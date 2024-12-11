@@ -42,10 +42,16 @@ def get_jobs():
     # Redis 캐시 확인
     cached_jobs = get_from_cache(cache_key)
     if cached_jobs:
-        return jsonify(cached_jobs), 200
+        return jsonify({
+            "status": "success",
+            "data": cached_jobs,
+            "pagination": None
+        }), 200
 
     # 페이지네이션
     skip = (page - 1) * page_size
+    total_items = jobs_collection.count_documents(filters)
+    total_pages = (total_items + page_size - 1) // page_size
 
     # MongoDB 데이터 조회
     jobs = jobs_collection.find(filters).sort(sort, order).skip(skip).limit(page_size)
@@ -65,7 +71,15 @@ def get_jobs():
     # Redis에 캐싱
     set_to_cache(cache_key, result)
 
-    return jsonify(result), 200
+    return jsonify({
+        "status": "success",
+        "data": result,
+        "pagination": {
+            "currentPage": page,
+            "totalPages": total_pages,
+            "totalItems": total_items
+        }
+    }), 200
 
 @jobs_bp.route('/jobs/search', methods=['GET'])
 def search_jobs():
@@ -80,11 +94,12 @@ def search_jobs():
     # Redis 캐시 확인
     cached_jobs = get_from_cache(cache_key)
     if cached_jobs:
-        return jsonify(cached_jobs), 200
+        return jsonify({
+            "status": "success",
+            "data": cached_jobs
+        }), 200
 
-    filters = {
-        "$or": []
-    }
+    filters = {"$or": []}
 
     if keyword:
         filters["$or"].append({"title": {"$regex": keyword, "$options": "i"}})
@@ -113,7 +128,10 @@ def search_jobs():
     # Redis에 캐싱
     set_to_cache(cache_key, result)
 
-    return jsonify(result), 200
+    return jsonify({
+        "status": "success",
+        "data": result
+    }), 200
 
 @jobs_bp.route('/jobs/<string:job_id>', methods=['GET'])
 def get_job_detail(job_id):
@@ -125,31 +143,23 @@ def get_job_detail(job_id):
     # Redis 캐시 확인
     cached_job = get_from_cache(cache_key)
     if cached_job:
-        return jsonify(cached_job), 200
+        return jsonify({
+            "status": "success",
+            "data": cached_job
+        }), 200
 
     # MongoDB에서 데이터 조회
     job = jobs_collection.find_one({"_id": ObjectId(job_id)})
 
     if not job:
-        return jsonify({"error": "공고를 찾을 수 없습니다."}), 404
+        return jsonify({
+            "status": "error",
+            "message": "공고를 찾을 수 없습니다.",
+            "code": "JOB_NOT_FOUND"
+        }), 404
 
     # 조회수 증가
     jobs_collection.update_one({"_id": ObjectId(job_id)}, {"$inc": {"views": 1}})
-
-    # 관련 공고 추천 (같은 job_sector 기준)
-    related_jobs = jobs_collection.find({
-        "job_sector": job["job_sector"],
-        "_id": {"$ne": ObjectId(job_id)}
-    }).limit(5)
-
-    related_result = [
-        {
-            "id": str(r_job["_id"]),
-            "title": r_job["title"],
-            "company": r_job["company"]
-        }
-        for r_job in related_jobs
-    ]
 
     result = {
         "id": str(job["_id"]),
@@ -159,14 +169,16 @@ def get_job_detail(job_id):
         "career": job["career"],
         "salary": job.get("salary", "정보 없음"),
         "job_sector": job["job_sector"],
-        "views": job.get("views", 0),
-        "related_jobs": related_result
+        "views": job.get("views", 0)
     }
 
     # Redis에 캐싱
     set_to_cache(cache_key, result)
 
-    return jsonify(result), 200
+    return jsonify({
+        "status": "success",
+        "data": result
+    }), 200
 
 @jobs_bp.route('/jobs', methods=['POST'])
 def create_job():
@@ -177,7 +189,11 @@ def create_job():
 
     required_fields = ["title", "company", "location", "career", "job_sector"]
     if not all(field in data for field in required_fields):
-        return jsonify({"error": "필수 필드가 누락되었습니다."}), 400
+        return jsonify({
+            "status": "error",
+            "message": "필수 필드가 누락되었습니다.",
+            "code": "MISSING_FIELDS"
+        }), 400
 
     job = {
         "title": data["title"],
@@ -191,7 +207,11 @@ def create_job():
     }
 
     result = jobs_collection.insert_one(job)
-    return jsonify({"message": "공고가 등록되었습니다.", "id": str(result.inserted_id)}), 201
+    return jsonify({
+        "status": "success",
+        "message": "공고가 등록되었습니다.",
+        "data": {"id": str(result.inserted_id)}
+    }), 201
 
 @jobs_bp.route('/jobs/<string:job_id>', methods=['PUT'])
 def update_job(job_id):
@@ -202,12 +222,19 @@ def update_job(job_id):
 
     job = jobs_collection.find_one({"_id": ObjectId(job_id)})
     if not job:
-        return jsonify({"error": "공고를 찾을 수 없습니다."}), 404
+        return jsonify({
+            "status": "error",
+            "message": "공고를 찾을 수 없습니다.",
+            "code": "JOB_NOT_FOUND"
+        }), 404
 
     updated_data = {key: data[key] for key in data if key in job}
     jobs_collection.update_one({"_id": ObjectId(job_id)}, {"$set": updated_data})
 
-    return jsonify({"message": "공고가 수정되었습니다."}), 200
+    return jsonify({
+        "status": "success",
+        "message": "공고가 수정되었습니다."
+    }), 200
 
 @jobs_bp.route('/jobs/<string:job_id>', methods=['DELETE'])
 def delete_job(job_id):
@@ -217,10 +244,17 @@ def delete_job(job_id):
     result = jobs_collection.delete_one({"_id": ObjectId(job_id)})
 
     if result.deleted_count == 0:
-        return jsonify({"error": "공고를 찾을 수 없습니다."}), 404
+        return jsonify({
+            "status": "error",
+            "message": "공고를 찾을 수 없습니다.",
+            "code": "JOB_NOT_FOUND"
+        }), 404
 
     # Redis 캐시 무효화
     cache_key = f"job_{job_id}"
     set_to_cache(cache_key, None)
 
-    return jsonify({"message": "공고가 삭제되었습니다."}), 200
+    return jsonify({
+        "status": "success",
+        "message": "공고가 삭제되었습니다."
+    }), 200

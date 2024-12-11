@@ -2,11 +2,159 @@ openapi: 3.0.0
 info:
   title: Job Management API
   version: 1.0.0
+
 paths:
+  /auth/register:
+    post:
+      summary: 회원 가입
+      description: 사용자 회원 가입 API
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                username:
+                  type: string
+      responses:
+        '201':
+          description: 회원 가입 성공
+        '400':
+          description: 잘못된 요청
+        '409':
+          description: 중복된 이메일
+
+  /auth/login:
+    post:
+      summary: 로그인
+      description: 사용자 로그인 API
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+      responses:
+        '200':
+          description: 로그인 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  token:
+                    type: string
+        '400':
+          description: 잘못된 요청
+        '401':
+          description: 인증 실패
+
+  /auth/refresh:
+    post:
+      summary: 토큰 갱신
+      description: Refresh 토큰을 통해 새로운 Access 토큰을 발급
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                refresh_token:
+                  type: string
+      responses:
+        '200':
+          description: 토큰 갱신 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  token:
+                    type: string
+        '401':
+          description: 인증 실패
+
+  /auth/profile:
+    put:
+      summary: 회원 정보 수정
+      description: 사용자 프로필 정보 수정 API
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                new_password:
+                  type: string
+                new_username:
+                  type: string
+      responses:
+        '200':
+          description: 회원 정보 수정 성공
+        '400':
+          description: 잘못된 요청
+        '404':
+          description: 사용자 없음
+
+  /auth/delete:
+    delete:
+      summary: 회원 탈퇴
+      description: 사용자 계정을 삭제하는 API
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+      responses:
+        '200':
+          description: 회원 탈퇴 성공
+        '400':
+          description: 잘못된 요청
+        '404':
+          description: 사용자 없음
+
   /api/jobs:
     get:
       summary: 공고 목록 조회
       description: 모든 공고를 필터링, 정렬, 페이지네이션으로 조회
+      tags:
+        - Jobs
       parameters:
         - name: page
           in: query
@@ -78,6 +226,8 @@ paths:
     post:
       summary: 공고 등록
       description: 새로운 공고를 등록
+      tags:
+        - Jobs
       requestBody:
         required: true
         content:
@@ -110,58 +260,12 @@ paths:
                   id:
                     type: string
 
-  /api/jobs/search:
-    get:
-      summary: 공고 검색
-      description: 키워드, 회사명, 포지션으로 공고 검색
-      parameters:
-        - name: keyword
-          in: query
-          description: 검색 키워드
-          required: false
-          schema:
-            type: string
-        - name: company
-          in: query
-          description: 회사명 검색
-          required: false
-          schema:
-            type: string
-        - name: position
-          in: query
-          description: 포지션 검색
-          required: false
-          schema:
-            type: string
-      responses:
-        '200':
-          description: 공고 검색 성공
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: string
-                    title:
-                      type: string
-                    company:
-                      type: string
-                    location:
-                      type: string
-                    career:
-                      type: string
-                    salary:
-                      type: string
-                    job_sector:
-                      type: string
-
   /api/jobs/{id}:
     get:
       summary: 공고 상세 조회
       description: 특정 ID의 공고를 상세 조회
+      tags:
+        - Jobs
       parameters:
         - name: id
           in: path
@@ -207,6 +311,8 @@ paths:
     put:
       summary: 공고 수정
       description: 특정 ID의 공고를 수정
+      tags:
+        - Jobs
       parameters:
         - name: id
           in: path
@@ -246,6 +352,8 @@ paths:
     delete:
       summary: 공고 삭제
       description: 특정 ID의 공고를 삭제
+      tags:
+        - Jobs
       parameters:
         - name: id
           in: path
@@ -263,138 +371,3 @@ paths:
                 properties:
                   message:
                     type: string
-
-  /auth/register:
-    post:
-      summary: 회원 가입
-      description: 사용자 회원 가입 API
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                email:
-                  type: string
-                  format: email
-                password:
-                  type: string
-                username:
-                  type: string
-      responses:
-        '201':
-          description: 회원 가입 성공
-        '400':
-          description: 잘못된 요청
-        '409':
-          description: 중복된 이메일
-
-  /auth/login:
-    post:
-      summary: 로그인
-      description: 사용자 로그인 API
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                email:
-                  type: string
-                  format: email
-                password:
-                  type: string
-      responses:
-        '200':
-          description: 로그인 성공
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                  token:
-                    type: string
-        '400':
-          description: 잘못된 요청
-        '401':
-          description: 인증 실패
-
-  /auth/refresh:
-    post:
-      summary: 토큰 갱신
-      description: Refresh 토큰을 통해 새로운 Access 토큰을 발급
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                refresh_token:
-                  type: string
-      responses:
-        '200':
-          description: 토큰 갱신 성공
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                  token:
-                    type: string
-        '401':
-          description: 인증 실패
-
-  /auth/profile:
-    put:
-      summary: 회원 정보 수정
-      description: 사용자 프로필 정보 수정 API
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                email:
-                  type: string
-                  format: email
-                new_password:
-                  type: string
-                new_username:
-                  type: string
-      responses:
-        '200':
-          description: 회원 정보 수정 성공
-        '400':
-          description: 잘못된 요청
-        '404':
-          description: 사용자 없음
-
-  /auth/delete:
-    delete:
-      summary: 회원 탈퇴
-      description: 사용자 계정을 삭제하는 API
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                email:
-                  type: string
-                  format: email
-      responses:
-        '200':
-          description: 회원 탈퇴 성공
-        '400':
-          description: 잘못된 요청
-        '404':
-          description: 사용자 없음
