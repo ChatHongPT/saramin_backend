@@ -5,11 +5,55 @@ info:
 paths:
   /api/jobs:
     get:
-      summary: Get all job postings
-      description: Returns a list of all job postings in the database.
+      summary: 공고 목록 조회
+      description: 모든 공고를 필터링, 정렬, 페이지네이션으로 조회
+      parameters:
+        - name: page
+          in: query
+          description: 페이지 번호
+          required: false
+          schema:
+            type: integer
+            default: 1
+        - name: region
+          in: query
+          description: 지역별 필터링
+          required: false
+          schema:
+            type: string
+        - name: career
+          in: query
+          description: 경력별 필터링
+          required: false
+          schema:
+            type: string
+        - name: salary
+          in: query
+          description: 급여 필터링
+          required: false
+          schema:
+            type: integer
+        - name: stack
+          in: query
+          description: 기술 스택 필터링
+          required: false
+          schema:
+            type: string
+        - name: sort
+          in: query
+          description: 정렬 기준
+          required: false
+          schema:
+            type: string
+        - name: order
+          in: query
+          description: 정렬 방향 (asc/desc)
+          required: false
+          schema:
+            type: string
       responses:
         '200':
-          description: A JSON array of job postings.
+          description: 공고 목록 조회 성공
           content:
             application/json:
               schema:
@@ -19,21 +63,45 @@ paths:
                   properties:
                     id:
                       type: string
-                      description: Unique ID of the job posting.
                     title:
                       type: string
-                      description: Title of the job posting.
+                    company:
+                      type: string
                     location:
                       type: string
-                      description: Location of the job posting.
+                    career:
+                      type: string
+                    salary:
+                      type: string
+                    job_sector:
+                      type: string
 
-  /api/companies:
+  /api/jobs/search:
     get:
-      summary: Get all companies
-      description: Returns a list of all companies in the database.
+      summary: 공고 검색
+      description: 키워드, 회사명, 포지션으로 공고 검색
+      parameters:
+        - name: keyword
+          in: query
+          description: 검색 키워드
+          required: false
+          schema:
+            type: string
+        - name: company
+          in: query
+          description: 회사명 검색
+          required: false
+          schema:
+            type: string
+        - name: position
+          in: query
+          description: 포지션 검색
+          required: false
+          schema:
+            type: string
       responses:
         '200':
-          description: A JSON array of companies.
+          description: 공고 검색 성공
           content:
             application/json:
               schema:
@@ -43,13 +111,163 @@ paths:
                   properties:
                     id:
                       type: string
-                      description: Unique ID of the company.
-                    name:
+                    title:
                       type: string
-                      description: Name of the company.
-                    industry:
+                    company:
                       type: string
-                      description: Industry of the company.
+                    location:
+                      type: string
+                    career:
+                      type: string
+                    salary:
+                      type: string
+                    job_sector:
+                      type: string
+
+  /api/jobs/{id}:
+    get:
+      summary: 공고 상세 조회
+      description: 특정 ID의 공고를 상세 조회
+      parameters:
+        - name: id
+          in: path
+          description: 공고 ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 공고 상세 조회 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  title:
+                    type: string
+                  company:
+                    type: string
+                  location:
+                    type: string
+                  career:
+                    type: string
+                  salary:
+                    type: string
+                  job_sector:
+                    type: string
+                  views:
+                    type: integer
+                  related_jobs:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        title:
+                          type: string
+                        company:
+                          type: string
+
+  /api/jobs:
+    post:
+      summary: 공고 등록
+      description: 새로운 공고를 등록
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                company:
+                  type: string
+                location:
+                  type: string
+                career:
+                  type: string
+                salary:
+                  type: string
+                job_sector:
+                  type: string
+      responses:
+        '201':
+          description: 공고 등록 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  id:
+                    type: string
+
+  /api/jobs/{id}:
+    put:
+      summary: 공고 수정
+      description: 특정 ID의 공고를 수정
+      parameters:
+        - name: id
+          in: path
+          description: 공고 ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                company:
+                  type: string
+                location:
+                  type: string
+                career:
+                  type: string
+                salary:
+                  type: string
+                job_sector:
+                  type: string
+      responses:
+        '200':
+          description: 공고 수정 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+    delete:
+      summary: 공고 삭제
+      description: 특정 ID의 공고를 삭제
+      parameters:
+        - name: id
+          in: path
+          description: 공고 ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 공고 삭제 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
 
   /auth/register:
     post:
@@ -65,19 +283,16 @@ paths:
                 email:
                   type: string
                   format: email
-                  description: 사용자 이메일
                 password:
                   type: string
-                  description: 사용자 비밀번호
                 username:
                   type: string
-                  description: 사용자 이름
       responses:
-        201:
+        '201':
           description: 회원 가입 성공
-        400:
+        '400':
           description: 잘못된 요청
-        409:
+        '409':
           description: 중복된 이메일
 
   /auth/login:
@@ -94,12 +309,10 @@ paths:
                 email:
                   type: string
                   format: email
-                  description: 사용자 이메일
                 password:
                   type: string
-                  description: 사용자 비밀번호
       responses:
-        200:
+        '200':
           description: 로그인 성공
           content:
             application/json:
@@ -108,13 +321,11 @@ paths:
                 properties:
                   message:
                     type: string
-                    description: 성공 메시지
                   token:
                     type: string
-                    description: JWT 토큰
-        400:
+        '400':
           description: 잘못된 요청
-        401:
+        '401':
           description: 인증 실패
 
   /auth/refresh:
@@ -130,9 +341,8 @@ paths:
               properties:
                 refresh_token:
                   type: string
-                  description: Refresh 토큰
       responses:
-        200:
+        '200':
           description: 토큰 갱신 성공
           content:
             application/json:
@@ -141,11 +351,9 @@ paths:
                 properties:
                   message:
                     type: string
-                    description: 성공 메시지
                   token:
                     type: string
-                    description: 새로운 JWT 토큰
-        401:
+        '401':
           description: 인증 실패
 
   /auth/profile:
@@ -162,19 +370,16 @@ paths:
                 email:
                   type: string
                   format: email
-                  description: 사용자 이메일
                 new_password:
                   type: string
-                  description: 새 비밀번호
                 new_username:
                   type: string
-                  description: 새 사용자 이름
       responses:
-        200:
+        '200':
           description: 회원 정보 수정 성공
-        400:
+        '400':
           description: 잘못된 요청
-        404:
+        '404':
           description: 사용자 없음
 
   /auth/delete:
@@ -191,11 +396,10 @@ paths:
                 email:
                   type: string
                   format: email
-                  description: 삭제할 사용자 이메일
       responses:
-        200:
+        '200':
           description: 회원 탈퇴 성공
-        400:
+        '400':
           description: 잘못된 요청
-        404:
+        '404':
           description: 사용자 없음

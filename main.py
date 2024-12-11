@@ -1,5 +1,7 @@
 from flask import Flask, send_from_directory
 from flask_swagger_ui import get_swaggerui_blueprint
+from app.routes.jobs import jobs_bp  # jobs 블루프린트 추가
+from app.routes.auth import auth_bp  # auth 블루프린트 추가
 import os
 
 app = Flask(__name__)
@@ -23,6 +25,10 @@ def swagger_file():
 @app.route("/", methods=["GET"])
 def home():
     return {"message": "Welcome to the API!"}, 200
+
+# 블루프린트 등록
+app.register_blueprint(jobs_bp, url_prefix='/api')  # jobs 블루프린트 등록
+app.register_blueprint(auth_bp, url_prefix='/api')  # auth 블루프린트 등록
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5001, debug=True)
