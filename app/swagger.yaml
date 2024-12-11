@@ -1,4 +1,3 @@
-# swagger.yaml
 openapi: 3.0.0
 info:
   title: Job Management API
@@ -51,3 +50,152 @@ paths:
                     industry:
                       type: string
                       description: Industry of the company.
+
+  /auth/register:
+    post:
+      summary: 회원 가입
+      description: 사용자 회원 가입 API
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: 사용자 이메일
+                password:
+                  type: string
+                  description: 사용자 비밀번호
+                username:
+                  type: string
+                  description: 사용자 이름
+      responses:
+        201:
+          description: 회원 가입 성공
+        400:
+          description: 잘못된 요청
+        409:
+          description: 중복된 이메일
+
+  /auth/login:
+    post:
+      summary: 로그인
+      description: 사용자 로그인 API
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: 사용자 이메일
+                password:
+                  type: string
+                  description: 사용자 비밀번호
+      responses:
+        200:
+          description: 로그인 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: 성공 메시지
+                  token:
+                    type: string
+                    description: JWT 토큰
+        400:
+          description: 잘못된 요청
+        401:
+          description: 인증 실패
+
+  /auth/refresh:
+    post:
+      summary: 토큰 갱신
+      description: Refresh 토큰을 통해 새로운 Access 토큰을 발급
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                refresh_token:
+                  type: string
+                  description: Refresh 토큰
+      responses:
+        200:
+          description: 토큰 갱신 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: 성공 메시지
+                  token:
+                    type: string
+                    description: 새로운 JWT 토큰
+        401:
+          description: 인증 실패
+
+  /auth/profile:
+    put:
+      summary: 회원 정보 수정
+      description: 사용자 프로필 정보 수정 API
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: 사용자 이메일
+                new_password:
+                  type: string
+                  description: 새 비밀번호
+                new_username:
+                  type: string
+                  description: 새 사용자 이름
+      responses:
+        200:
+          description: 회원 정보 수정 성공
+        400:
+          description: 잘못된 요청
+        404:
+          description: 사용자 없음
+
+  /auth/delete:
+    delete:
+      summary: 회원 탈퇴
+      description: 사용자 계정을 삭제하는 API
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: 삭제할 사용자 이메일
+      responses:
+        200:
+          description: 회원 탈퇴 성공
+        400:
+          description: 잘못된 요청
+        404:
+          description: 사용자 없음
