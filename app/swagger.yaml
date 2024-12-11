@@ -75,6 +75,40 @@ paths:
                       type: string
                     job_sector:
                       type: string
+    post:
+      summary: 공고 등록
+      description: 새로운 공고를 등록
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                company:
+                  type: string
+                location:
+                  type: string
+                career:
+                  type: string
+                salary:
+                  type: string
+                job_sector:
+                  type: string
+      responses:
+        '201':
+          description: 공고 등록 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  id:
+                    type: string
 
   /api/jobs/search:
     get:
@@ -170,7 +204,6 @@ paths:
                           type: string
                         company:
                           type: string
-
     put:
       summary: 공고 수정
       description: 특정 ID의 공고를 수정
@@ -210,7 +243,6 @@ paths:
                 properties:
                   message:
                     type: string
-
     delete:
       summary: 공고 삭제
       description: 특정 ID의 공고를 삭제
@@ -230,42 +262,6 @@ paths:
                 type: object
                 properties:
                   message:
-                    type: string
-
-  /api/jobs:
-    post:
-      summary: 공고 등록
-      description: 새로운 공고를 등록
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                title:
-                  type: string
-                company:
-                  type: string
-                location:
-                  type: string
-                career:
-                  type: string
-                salary:
-                  type: string
-                job_sector:
-                  type: string
-      responses:
-        '201':
-          description: 공고 등록 성공
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                  id:
                     type: string
 
   /auth/register:
