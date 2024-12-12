@@ -14,7 +14,6 @@
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
 # under the License.
-
 """Exceptions that may happen in all the webdriver code."""
 
 from typing import Optional
@@ -286,3 +285,7 @@ class NoSuchDriverException(WebDriverException):
         with_support = f"{msg}; {SUPPORT_MSG} {ERROR_URL}/driver_location"
 
         super().__init__(with_support, screen, stacktrace)
+
+
+class DetachedShadowRootException(WebDriverException):
+    """Raised when referenced shadow root is no longer attached to the DOM."""

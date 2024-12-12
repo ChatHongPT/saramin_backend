@@ -16,6 +16,7 @@
 # under the License.
 
 from selenium.webdriver.common.driver_finder import DriverFinder
+from selenium.webdriver.remote.client_config import ClientConfig
 from selenium.webdriver.remote.remote_connection import RemoteConnection
 from selenium.webdriver.remote.webdriver import WebDriver as RemoteWebDriver
 
@@ -31,7 +32,7 @@ class WebDriver(RemoteWebDriver):
         self,
         options: Options = None,
         service: Service = None,
-        keep_alive=True,
+        keep_alive: bool = True,
     ) -> None:
         """Creates a new instance of the Ie driver.
 
@@ -40,28 +41,35 @@ class WebDriver(RemoteWebDriver):
         :Args:
          - options - IE Options instance, providing additional IE options
          - service - (Optional) service instance for managing the starting and stopping of the driver.
-         - keep_alive - Deprecated: Whether to configure RemoteConnection to use HTTP keep-alive.
+         - keep_alive - Whether to configure RemoteConnection to use HTTP keep-alive.
         """
 
-        self.iedriver = service if service else Service()
-        self.options = options if options else Options()
-        self.keep_alive = keep_alive
+        self.service = service if service else Service()
+        options = options if options else Options()
 
-        self.iedriver.path = DriverFinder.get_path(self.iedriver, self.options)
-        self.iedriver.start()
+        self.service.path = self.service.env_path() or DriverFinder(self.service, options).get_driver_path()
+        self.service.start()
 
+        client_config = ClientConfig(remote_server_addr=self.service.service_url, keep_alive=keep_alive, timeout=120)
         executor = RemoteConnection(
-            remote_server_addr=self.iedriver.service_url,
-            keep_alive=self.keep_alive,
-            ignore_proxy=self.options._ignore_local_proxy,
+            ignore_proxy=options._ignore_local_proxy,
+            client_config=client_config,
         )
 
-        super().__init__(command_executor=executor, options=self.options)
+        try:
+            super().__init__(command_executor=executor, options=options)
+        except Exception:
+            self.quit()
+            raise
+
         self._is_remote = False
 
     def quit(self) -> None:
-        super().quit()
-        self.iedriver.stop()
-
-    def create_options(self) -> Options:
-        return Options()
+        """Closes the browser and shuts down the IEServerDriver executable."""
+        try:
+            super().quit()
+        except Exception:
+            # We don't care about the message because something probably has gone wrong
+            pass
+        finally:
+            self.service.stop()

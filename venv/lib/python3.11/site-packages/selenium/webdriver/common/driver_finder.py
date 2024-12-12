@@ -15,7 +15,6 @@
 # specific language governing permissions and limitations
 # under the License.
 import logging
-import shutil
 from pathlib import Path
 
 from selenium.common.exceptions import NoSuchDriverException
@@ -27,23 +26,74 @@ logger = logging.getLogger(__name__)
 
 
 class DriverFinder:
+    """A Driver finding class responsible for obtaining the correct driver and
+    associated browser.
+
+    :param service: instance of the driver service class.
+    :param options: instance of the browser options class.
+    """
+
+    def __init__(self, service: Service, options: BaseOptions) -> None:
+        self._service = service
+        self._options = options
+        self._paths = {"driver_path": "", "browser_path": ""}
+
     """Utility to find if a given file is present and executable.
 
     This implementation is still in beta, and may change.
     """
 
-    def __init__(self) -> None:
-        pass
+    def get_browser_path(self) -> str:
+        return self._binary_paths()["browser_path"]
 
-    @staticmethod
-    def get_path(service: Service, options: BaseOptions) -> str:
-        path = shutil.which(service.path)
+    def get_driver_path(self) -> str:
+        return self._binary_paths()["driver_path"]
+
+    def _binary_paths(self) -> dict:
+        if self._paths["driver_path"]:
+            return self._paths
+
+        browser = self._options.capabilities["browserName"]
         try:
-            path = SeleniumManager().driver_location(options) if path is None else path
+            path = self._service.path
+            if path:
+                logger.debug(
+                    "Skipping Selenium Manager; path to %s driver specified in Service class: %s", browser, path
+                )
+                if not Path(path).is_file():
+                    raise ValueError(f"The path is not a valid file: {path}")
+                self._paths["driver_path"] = path
+            else:
+                output = SeleniumManager().binary_paths(self._to_args())
+                if Path(output["driver_path"]).is_file():
+                    self._paths["driver_path"] = output["driver_path"]
+                else:
+                    raise ValueError(f'The driver path is not a valid file: {output["driver_path"]}')
+                if Path(output["browser_path"]).is_file():
+                    self._paths["browser_path"] = output["browser_path"]
+                else:
+                    raise ValueError(f'The browser path is not a valid file: {output["browser_path"]}')
         except Exception as err:
-            raise NoSuchDriverException(f"Unable to obtain {service.path} using Selenium Manager; {err}")
+            msg = f"Unable to obtain driver for {browser}"
+            raise NoSuchDriverException(msg) from err
+        return self._paths
 
-        if path is None or not Path(path).is_file():
-            raise NoSuchDriverException(f"Unable to locate or obtain {service.path}")
+    def _to_args(self) -> list:
+        args = ["--browser", self._options.capabilities["browserName"]]
 
-        return path
+        if self._options.browser_version:
+            args.append("--browser-version")
+            args.append(str(self._options.browser_version))
+
+        binary_location = getattr(self._options, "binary_location", None)
+        if binary_location:
+            args.append("--browser-path")
+            args.append(str(binary_location))
+
+        proxy = self._options.proxy
+        if proxy and (proxy.http_proxy or proxy.ssl_proxy):
+            args.append("--proxy")
+            value = proxy.ssl_proxy if proxy.ssl_proxy else proxy.http_proxy
+            args.append(value)
+
+        return args

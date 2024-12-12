@@ -17,9 +17,10 @@
 
 import base64
 import os
-import warnings
 from typing import BinaryIO
+from typing import Dict
 from typing import List
+from typing import Optional
 from typing import Union
 
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
@@ -31,51 +32,48 @@ class ChromiumOptions(ArgOptions):
 
     def __init__(self) -> None:
         super().__init__()
-        self._binary_location = ""
-        self._extension_files = []
-        self._extensions = []
-        self._experimental_options = {}
-        self._debugger_address = None
+        self._binary_location: str = ""
+        self._extension_files: List[str] = []
+        self._extensions: List[str] = []
+        self._experimental_options: Dict[str, Union[str, int, dict, List[str]]] = {}
+        self._debugger_address: Optional[str] = None
 
     @property
     def binary_location(self) -> str:
-        """
-        :Returns: The location of the binary, otherwise an empty string
-        """
+        """:Returns: The location of the binary, otherwise an empty string."""
         return self._binary_location
 
     @binary_location.setter
     def binary_location(self, value: str) -> None:
-        """
-        Allows you to set where the chromium binary lives
+        """Allows you to set where the chromium binary lives.
+
         :Args:
          - value: path to the Chromium binary
         """
+        if not isinstance(value, str):
+            raise TypeError(self.BINARY_LOCATION_ERROR)
         self._binary_location = value
 
     @property
-    def debugger_address(self) -> str:
-        """
-        :Returns: The address of the remote devtools instance
-        """
+    def debugger_address(self) -> Optional[str]:
+        """:Returns: The address of the remote devtools instance."""
         return self._debugger_address
 
     @debugger_address.setter
     def debugger_address(self, value: str) -> None:
-        """
-        Allows you to set the address of the remote devtools instance
-        that the ChromeDriver instance will try to connect to during an
-        active wait.
+        """Allows you to set the address of the remote devtools instance that
+        the ChromeDriver instance will try to connect to during an active wait.
+
         :Args:
          - value: address of remote devtools instance if any (hostname[:port])
         """
+        if not isinstance(value, str):
+            raise TypeError("Debugger Address must be a string")
         self._debugger_address = value
 
     @property
     def extensions(self) -> List[str]:
-        """
-        :Returns: A list of encoded extensions that will be loaded
-        """
+        """:Returns: A list of encoded extensions that will be loaded."""
 
         def _decode(file_data: BinaryIO) -> str:
             # Should not use base64.encodestring() which inserts newlines every
@@ -120,9 +118,7 @@ class ChromiumOptions(ArgOptions):
 
     @property
     def experimental_options(self) -> dict:
-        """
-        :Returns: A dictionary of experimental options for chromium
-        """
+        """:Returns: A dictionary of experimental options for chromium."""
         return self._experimental_options
 
     def add_experimental_option(self, name: str, value: Union[str, int, dict, List[str]]) -> None:
@@ -134,44 +130,9 @@ class ChromiumOptions(ArgOptions):
         """
         self._experimental_options[name] = value
 
-    @property
-    def headless(self) -> bool:
-        """
-        :Returns: True if the headless argument is set, else False
-        """
-        warnings.warn(
-            "headless property is deprecated, instead check for '--headless' in arguments",
-            DeprecationWarning,
-            stacklevel=2,
-        )
-        return "--headless" in self._arguments
-
-    @headless.setter
-    def headless(self, value: bool) -> None:
-        """Sets the headless argument Old headless uses a non-production
-        browser and is set with `--headless`
-
-        Native headless from v86 - v108 is set with `--headless=chrome`
-        Native headless from v109+ is set with `--headless=new`
-        :Args:
-          value: boolean value indicating to set the headless option
-        """
-        warnings.warn(
-            "headless property is deprecated, instead use add_argument('--headless') or add_argument('--headless=new')",
-            DeprecationWarning,
-            stacklevel=2,
-        )
-        args = {"--headless"}
-        if value is True:
-            self._arguments.extend(args)
-        else:
-            self._arguments = list(set(self._arguments) - args)
-
     def to_capabilities(self) -> dict:
-        """
-        Creates a capabilities with all the options that have been set
-        :Returns: A dictionary with everything
-        """
+        """Creates a capabilities with all the options that have been set
+        :Returns: A dictionary with everything."""
         caps = self._caps
         chrome_options = self.experimental_options.copy()
         if self.mobile_options:

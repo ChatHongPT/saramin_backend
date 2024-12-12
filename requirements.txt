@@ -6,5 +6,6 @@ Flasgger==0.9.5
 pymongo==4.4.0
 beautifulsoup4==4.12.2
 requests==2.30.0
-selenium==4.10.0
+selenium==4.27.1
 pydantic==2.0.0
+webdriver-manager=4.0.2
