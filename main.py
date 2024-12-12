@@ -26,6 +26,7 @@ def main():
 
     # Redis 캐싱 테스트
     print("Redis 캐싱 테스트 중...")
+    print("Job Data Before Caching:", job)  # 디버깅용 출력
     cache_job(str(job["_id"]), job)  # ObjectId를 문자열로 변환하여 전달
     cached_job = get_cached_job(str(job["_id"]))
     print("Cached Job:", cached_job)
