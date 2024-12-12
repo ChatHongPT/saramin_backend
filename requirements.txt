@@ -1,11 +1,4 @@
-Flask==2.2.5
-Flask-JWT-Extended==4.4.4
-Flask-Swagger-UI==3.36.0
-python-dotenv==1.0.0
-Flasgger==0.9.5
-pymongo==4.4.0
-beautifulsoup4==4.12.2
-requests==2.30.0
-selenium==4.27.1
-pydantic==2.0.0
-webdriver-manager=4.0.2
+pymongo
+redis
+beautifulsoup4
+requests

@@ -1,5 +1,7 @@
-# Redis 캐싱 모델import redis
+# Redis 캐싱 모델
+import redis
 import json
+
 
 # Redis 연결 설정
 redis_client = redis.StrictRedis(host="localhost", port=6379, db=0)
