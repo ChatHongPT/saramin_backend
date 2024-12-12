@@ -25,9 +25,9 @@ def cache_job(job_id, job_data):
     Redis에 채용 공고 데이터를 캐싱합니다.
     """
     print("Original Job Data:", job_data)  # 디버깅용 출력
-    serialized_data = serialize_job_data(job_data)  # ObjectId 변환 적용
-    print("Serialized Data:", serialized_data)  # 디버깅용 출력
+    serialized_data = serialize_job_data(job_data)  # ObjectId와 datetime 변환 적용
     redis_client.set(f"job:{job_id}", json.dumps(serialized_data), ex=3600)  # 1시간 TTL 설정
+
 
 # 채용 공고 캐싱된 데이터 가져오기
 def get_cached_job(job_id):
