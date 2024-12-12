@@ -1,27 +1,23 @@
-# Redis 캐싱 모델
 import redis
 import json
+from bson import ObjectId  # ObjectId 변환에 필요
 
-
-# Redis 연결 설정
+# Redis 클라이언트 설정
 redis_client = redis.StrictRedis(host="localhost", port=6379, db=0)
 
-# 채용 공고 캐싱
+# ObjectId를 직렬화 가능한 형태로 변환
+def serialize_job_data(job_data):
+    if "_id" in job_data and isinstance(job_data["_id"], ObjectId):
+        job_data["_id"] = str(job_data["_id"])
+    return job_data
+
+# 채용 공고 캐싱 함수
 def cache_job(job_id, job_data):
-    redis_client.set(f"job:{job_id}", json.dumps(job_data), ex=3600)  # 1시간 TTL 설정
+    serialized_data = serialize_job_data(job_data)  # 직렬화
+    redis_client.set(f"job:{job_id}", json.dumps(serialized_data), ex=3600)  # 1시간 TTL 설정
 
 def get_cached_job(job_id):
     job_data = redis_client.get(f"job:{job_id}")
     if job_data:
         return json.loads(job_data)
     return None
-
-# 사용자별 최근 조회 공고 캐싱
-def cache_recent_jobs(user_id, job_id_list):
-    redis_client.set(f"recent_jobs:{user_id}", json.dumps(job_id_list), ex=86400)  # 1일 TTL
-
-def get_recent_jobs(user_id):
-    job_id_list = redis_client.get(f"recent_jobs:{user_id}")
-    if job_id_list:
-        return json.loads(job_id_list)
-    return []
