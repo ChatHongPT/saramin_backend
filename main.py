@@ -24,13 +24,11 @@ def main():
     sector = create_job_sector("Software Development")
     print("MongoDB 데이터 생성 완료!")
 
-    # Redis 캐싱 예제
+    # Redis 캐싱 테스트
     print("Redis 캐싱 테스트 중...")
-    cache_job(job["_id"], job)
-    cached_job = get_cached_job(job["_id"])
-    cache_recent_jobs(user["_id"], [job["_id"]])
-    recent_jobs = get_recent_jobs(user["_id"])
-    print("Redis 캐싱 완료!")
+    cache_job(str(job["_id"]), job)  # ObjectId를 문자열로 변환하여 전달
+    cached_job = get_cached_job(str(job["_id"]))
+    print("Cached Job:", cached_job)
 
     # 크롤러 실행
     print("크롤링 시작...")
