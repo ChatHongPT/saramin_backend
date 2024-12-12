@@ -115,7 +115,7 @@ def crawl_saramin(pages=1):
             continue
 
 def main():
-    pages_to_crawl = 25  # 크롤링할 페이지 수
+    pages_to_crawl = 5  # 크롤링할 페이지 수
     crawl_saramin(pages=pages_to_crawl)
     print(f"크롤링 완료: 총 {collection.count_documents({})}개 공고 저장")
 
