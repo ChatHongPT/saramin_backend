@@ -1,7 +1,6 @@
-import { body, query, param } from 'express-validator';
-import { validateRequest } from '../utils/validateRequest.js';
+import { body } from 'express-validator';
+import { validateRequest } from '../../utils/validateRequest.js';
 
-// Auth validators
 export const validateRegistration = [
   body('email')
     .isEmail()
@@ -30,31 +29,29 @@ export const validateLogin = [
   validateRequest
 ];
 
-// Job validators
-export const validateJobSearch = [
-  query('page')
+export const validateProfileUpdate = [
+  body('name')
     .optional()
-    .isInt({ min: 1 })
-    .withMessage('페이지 번호는 1 이상의 정수여야 합니다.'),
-  query('limit')
+    .trim()
+    .isLength({ min: 2 })
+    .withMessage('이름은 최소 2자 이상이어야 합니다.'),
+  body('password')
     .optional()
-    .isInt({ min: 1, max: 100 })
-    .withMessage('한 페이지당 항목 수는 1-100 사이여야 합니다.'),
-  query('location')
+    .isLength({ min: 8 })
+    .withMessage('비밀번호는 최소 8자 이상이어야 합니다.')
+    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/)
+    .withMessage('비밀번호는 영문 대/소문자와 숫자를 포함해야 합니다.'),
+  body('profile.phone')
     .optional()
-    .isString()
+    .trim()
+    .matches(/^[0-9-+()]*$/)
+    .withMessage('올바른 전화번호 형식이 아닙니다.'),
+  body('profile.address')
+    .optional()
     .trim(),
-  query('experience')
+  body('profile.skills')
     .optional()
-    .isString()
-    .trim(),
-  query('skills')
-    .optional()
-    .isString()
-    .trim(),
-  query('type')
-    .optional()
-    .isIn(['full-time', 'part-time', 'contract', 'internship', 'temporary'])
-    .withMessage('올바른 고용 형태를 선택해주세요.'),
+    .isArray()
+    .withMessage('skills는 배열 형태여야 합니다.'),
   validateRequest
 ];

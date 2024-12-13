@@ -1,53 +1,107 @@
 export class JobParser {
   parse($, job) {
-    const companyName = job.find('.corp_name a').text().trim();
-    const title = job.find('.job_tit a').text().trim();
-    const link = 'https://www.saramin.co.kr' + job.find('.job_tit a').attr('href');
+    try {
+      const companyName = job.find('.corp_name a').text().trim();
+      const title = job.find('.job_tit a').text().trim();
+      const rawLink = job.find('.job_tit a').attr('href');
+      const link = rawLink ? 'https://www.saramin.co.kr' + rawLink : null;
 
-    if (!companyName || !title || !link) {
+      if (!companyName || !title || !link) {
+        console.log('필수 정보 누락:', { companyName, title, link });
+        return null;
+      }
+
+      const conditions = job.find('.job_condition span');
+      const location = conditions.eq(0).text().trim();
+      const experience = this.parseExperience(conditions.eq(1).text().trim());
+      const education = this.parseEducation(conditions.eq(2).text().trim());
+      const employmentType = this.parseEmploymentType(conditions.eq(3).text().trim());
+      
+      const jobData = {
+        companyName,
+        title,
+        link,
+        location,
+        type: employmentType,
+        experience,
+        education,
+        description: this.parseDescription(job),
+        salary: this.parseSalary(job),
+        skills: this.parseSkills($, job)
+      };
+
+      return jobData;
+    } catch (error) {
+      console.error('채용공고 파싱 실패:', error.message);
       return null;
     }
-
-    const conditions = job.find('.job_condition span');
-    const jobData = {
-      companyName,
-      title,
-      link,
-      location: conditions.eq(0).text().trim(),
-      experience: conditions.eq(1).text().trim(),
-      education: conditions.eq(2).text().trim(),
-      employmentType: conditions.eq(3).text().trim(),
-      deadline: job.find('.job_date .date').text().trim(),
-      sector: this.parseSector(job),
-      salary: this.parseSalary(job),
-      skills: this.parseSkills($, job)
-    };
-
-    return jobData;
   }
 
-  parseSector(job) {
-    // job_sector에서 등록일 텍스트를 제외한 실제 직무 분야만 추출
-    const sectorText = job.find('.job_sector').text().trim();
-    // "등록일" 이전의 텍스트만 추출
-    const sectorParts = sectorText.split('등록일');
-    return sectorParts[0].trim();
+  parseExperience(text) {
+    return {
+      required: text,
+      min: 0,
+      max: text.includes('무관') ? 99 : this.extractYears(text)
+    };
+  }
+
+  parseEducation(text) {
+    return {
+      level: text,
+      required: !text.includes('무관'),
+      field: ''
+    };
+  }
+
+  parseEmploymentType(text) {
+    const typeMap = {
+      '정규직': 'full-time',
+      '계약직': 'contract',
+      '인턴': 'internship',
+      '파견직': 'temporary',
+      '아르바이트': 'part-time'
+    };
+    
+    for (const [key, value] of Object.entries(typeMap)) {
+      if (text.includes(key)) return value;
+    }
+    return 'full-time';
+  }
+
+  parseDescription(job) {
+    const description = [];
+    
+    // 직무 내용
+    const sector = job.find('.job_sector').text().trim();
+    if (sector) {
+      description.push(sector.split('등록일')[0].trim());
+    }
+
+    // 기타 정보
+    const details = job.find('.job_summary').text().trim();
+    if (details) {
+      description.push(details);
+    }
+
+    return description.join('\n\n');
   }
 
   parseSalary(job) {
-    // 급여 정보는 area_job 클래스 내의 salary_info 클래스에서 찾음
-    const salaryText = job.find('.salary_info').text().trim();
-    if (salaryText) {
-      return salaryText;
-    }
-    // 백업: area_badge에서 찾기
-    return job.find('.area_badge .salary').text().trim() || '회사내규에 따름';
+    const salaryText = job.find('.salary_info').text().trim() || 
+                      job.find('.area_badge .salary').text().trim() || 
+                      '회사내규에 따름';
+    
+    return {
+      text: salaryText,
+      isNegotiable: salaryText.includes('회사내규') || salaryText.includes('협의'),
+      currency: 'KRW'
+    };
   }
 
   parseSkills($, job) {
-    const skills = new Set(); // 중복 제거를 위해 Set 사용
+    const skills = new Set();
     
-    // 기술스택 정보가 있는 요소들을 찾아서 처리
+    // 기술 스택 추출
     job.find('.job_sector span:not(.bar)').each((_, elem) => {
       const skill = $(elem).text().trim();
       if (skill && !skill.includes('등록일')) {
@@ -55,7 +109,6 @@ export class JobParser {
       }
     });
 
-    // 추가적인 기술스택 정보가 있을 수 있는 다른 요소들도 확인
     job.find('.job_sector a').each((_, elem) => {
       const skill = $(elem).text().trim();
       if (skill) {
@@ -63,6 +116,17 @@ export class JobParser {
       }
     });
 
-    return Array.from(skills);
+    return Array.from(skills)
+      .filter(skill => skill.length > 0)
+      .map(name => ({
+        name,
+        level: 'intermediate',
+        required: true
+      }));
+  }
+
+  extractYears(text) {
+    const match = text.match(/\d+/);
+    return match ? parseInt(match[0]) : 0;
   }
 }

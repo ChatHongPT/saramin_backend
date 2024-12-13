@@ -29,63 +29,68 @@ const jobSchema = new mongoose.Schema({
   type: {
     type: String,
     enum: ['full-time', 'part-time', 'contract', 'internship', 'temporary'],
-    required: true
+    default: 'full-time'
   },
   experience: {
-    min: Number,
-    max: Number,
-    required: String
+    required: String,
+    min: { type: Number, default: 0 },
+    max: { type: Number, default: 99 }
   },
   education: {
     level: String,
     field: String,
-    required: Boolean
+    required: { type: Boolean, default: false }
   },
   salary: {
+    text: String,
     min: Number,
     max: Number,
-    currency: String,
-    period: String,
-    isNegotiable: Boolean
+    currency: { type: String, default: 'KRW' },
+    isNegotiable: { type: Boolean, default: true }
   },
   skills: [{
-    name: String,
+    name: { type: String, required: true },
     level: {
       type: String,
-      enum: ['beginner', 'intermediate', 'advanced', 'expert']
+      enum: ['beginner', 'intermediate', 'advanced', 'expert'],
+      default: 'intermediate'
     },
-    required: Boolean
+    required: { type: Boolean, default: true }
   }],
-  benefits: [String],
   deadline: Date,
   status: {
     type: String,
     enum: ['active', 'closed', 'draft'],
     default: 'active'
   },
-  applicationCount: {
-    type: Number,
-    default: 0
-  },
   views: {
     type: Number,
     default: 0
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-    index: true
-  },
-  updatedAt: Date
+  }
 }, {
   timestamps: true
 });
 
-// Compound indexes for efficient querying
+// Indexes
 jobSchema.index({ company: 1, status: 1 });
 jobSchema.index({ skills: 1, status: 1 });
 jobSchema.index({ location: 1, status: 1 });
-// Text index for search
 jobSchema.index({ title: 'text', description: 'text' });
+
+// Methods
+jobSchema.methods.incrementViews = function() {
+  this.views += 1;
+  return this.save();
+};
+
+// Statics
+jobSchema.statics.findActive = function() {
+  return this.find({ status: 'active' });
+};
+
+jobSchema.statics.exists = async function(link) {
+  const count = await this.countDocuments({ link });
+  return count > 0;
+};
 
 export const Job = mongoose.model('Job', jobSchema);

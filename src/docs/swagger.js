@@ -1,100 +1,142 @@
 export const swaggerDocs = {
   openapi: '3.0.0',
   info: {
-    title: 'Saramin Crawler API',
+    title: 'Saramin API',
     version: '1.0.0',
-    description: '사람인 채용정보 크롤링 및 관리 API',
+    description: '사람인 채용정보 API 문서'
   },
   servers: [
     {
-      url: 'http://localhost:3000',
-      description: '개발 서버',
+      url: '/api',
+      description: 'API 서버'
+    }
+  ],
+  tags: [
+    {
+      name: 'Auth',
+      description: '인증 관련 API'
     },
+    {
+      name: 'Jobs',
+      description: '채용 공고 관련 API'
+    }
   ],
   components: {
     securitySchemes: {
       bearerAuth: {
         type: 'http',
         scheme: 'bearer',
-        bearerFormat: 'JWT',
-      },
+        bearerFormat: 'JWT'
+      }
     },
     schemas: {
-      User: {
+      // Auth 스키마
+      RegisterRequest: {
         type: 'object',
-        properties: {
-          email: {
-            type: 'string',
-            format: 'email',
-            description: '사용자 이메일',
-          },
-          name: {
-            type: 'string',
-            description: '사용자 이름',
-          },
-          password: {
-            type: 'string',
-            format: 'password',
-            description: '비밀번호 (최소 8자, 영문 대/소문자, 숫자 포함)',
-          },
-          role: {
-            type: 'string',
-            enum: ['user', 'admin'],
-            description: '사용자 권한',
-          },
-        },
         required: ['email', 'password', 'name'],
+        properties: {
+          email: { type: 'string', format: 'email' },
+          password: { type: 'string', minLength: 8 },
+          name: { type: 'string' }
+        }
       },
-      Profile: {
+      LoginRequest: {
+        type: 'object',
+        required: ['email', 'password'],
+        properties: {
+          email: { type: 'string', format: 'email' },
+          password: { type: 'string' }
+        }
+      },
+      ProfileUpdateRequest: {
         type: 'object',
         properties: {
-          phone: {
+          name: { type: 'string' },
+          password: { type: 'string' },
+          profile: {
+            type: 'object',
+            properties: {
+              phone: { type: 'string' },
+              address: { type: 'string' },
+              skills: { type: 'array', items: { type: 'string' } }
+            }
+          }
+        }
+      },
+      // Jobs 스키마
+      JobResponse: {
+        type: 'object',
+        properties: {
+          _id: { type: 'string' },
+          title: { type: 'string' },
+          company: { $ref: '#/components/schemas/Company' },
+          location: { type: 'string' },
+          type: {
             type: 'string',
-            description: '전화번호 (예: 010-1234-5678)',
+            enum: ['full-time', 'part-time', 'contract', 'internship', 'temporary']
           },
-          address: {
-            type: 'string',
-            description: '주소',
+          experience: {
+            type: 'object',
+            properties: {
+              required: { type: 'string' },
+              min: { type: 'number' },
+              max: { type: 'number' }
+            }
           },
           skills: {
             type: 'array',
             items: {
-              type: 'string',
-            },
-            description: '보유 기술',
+              type: 'object',
+              properties: {
+                name: { type: 'string' },
+                level: { type: 'string' },
+                required: { type: 'boolean' }
+              }
+            }
           },
-        },
+          salary: {
+            type: 'object',
+            properties: {
+              min: { type: 'number' },
+              max: { type: 'number' },
+              currency: { type: 'string' },
+              isNegotiable: { type: 'boolean' }
+            }
+          }
+        }
       },
-      Error: {
+      Company: {
         type: 'object',
         properties: {
-          message: {
-            type: 'string',
-            description: '에러 메시지',
-          },
-          status: {
-            type: 'string',
-            description: '에러 상태',
-          },
-        },
-      },
-    },
+          _id: { type: 'string' },
+          name: { type: 'string' },
+          location: {
+            type: 'object',
+            properties: {
+              address: { type: 'string' },
+              coordinates: {
+                type: 'array',
+                items: { type: 'number' }
+              }
+            }
+          }
+        }
+      }
+    }
   },
   paths: {
-    '/api/auth/register': {
+    // Auth 엔드포인트
+    '/auth/register': {
       post: {
         tags: ['Auth'],
         summary: '회원가입',
-        description: '새로운 사용자 계정을 생성합니다.',
         requestBody: {
           required: true,
           content: {
             'application/json': {
-              schema: {
-                $ref: '#/components/schemas/User',
-              },
-            },
-          },
+              schema: { $ref: '#/components/schemas/RegisterRequest' }
+            }
+          }
         },
         responses: {
           201: {
@@ -104,84 +146,38 @@ export const swaggerDocs = {
                 schema: {
                   type: 'object',
                   properties: {
-                    message: {
-                      type: 'string',
-                      example: '회원가입이 완료되었습니다.',
-                    },
+                    message: { type: 'string' },
                     user: {
                       type: 'object',
                       properties: {
-                        id: {
-                          type: 'string',
-                          example: '507f1f77bcf86cd799439011',
-                        },
-                        email: {
-                          type: 'string',
-                          example: 'user@example.com',
-                        },
-                        name: {
-                          type: 'string',
-                          example: '홍길동',
-                        },
-                      },
+                        id: { type: 'string' },
+                        email: { type: 'string' },
+                        name: { type: 'string' }
+                      }
                     },
-                    accessToken: {
-                      type: 'string',
-                      example: 'eyJhbGciOiJIUzI1NiIs...',
-                    },
-                  },
-                },
-              },
-            },
+                    accessToken: { type: 'string' }
+                  }
+                }
+              }
+            }
           },
           400: {
-            description: '잘못된 요청',
-            content: {
-              'application/json': {
-                schema: {
-                  $ref: '#/components/schemas/Error',
-                },
-              },
-            },
-          },
-          409: {
-            description: '이미 존재하는 이메일',
-            content: {
-              'application/json': {
-                schema: {
-                  $ref: '#/components/schemas/Error',
-                },
-              },
-            },
-          },
-        },
-      },
+            description: '유효하지 않은 입력'
+          }
+        }
+      }
     },
-    '/api/auth/login': {
+    '/auth/login': {
       post: {
         tags: ['Auth'],
         summary: '로그인',
-        description: '사용자 인증 및 토큰 발급',
         requestBody: {
           required: true,
           content: {
             'application/json': {
-              schema: {
-                type: 'object',
-                properties: {
-                  email: {
-                    type: 'string',
-                    format: 'email',
-                  },
-                  password: {
-                    type: 'string',
-                    format: 'password',
-                  },
-                },
-                required: ['email', 'password'],
-              },
-            },
-          },
+              schema: { $ref: '#/components/schemas/LoginRequest' }
+            }
+          }
         },
         responses: {
           200: {
@@ -191,102 +187,27 @@ export const swaggerDocs = {
                 schema: {
                   type: 'object',
                   properties: {
-                    message: {
-                      type: 'string',
-                      example: '로그인 성공',
-                    },
-                    user: {
-                      type: 'object',
-                      properties: {
-                        id: {
-                          type: 'string',
-                          example: '507f1f77bcf86cd799439011',
-                        },
-                        email: {
-                          type: 'string',
-                          example: 'user@example.com',
-                        },
-                        name: {
-                          type: 'string',
-                          example: '홍길동',
-                        },
-                      },
-                    },
-                    accessToken: {
-                      type: 'string',
-                      example: 'eyJhbGciOiJIUzI1NiIs...',
-                    },
-                  },
-                },
-              },
-            },
+                    message: { type: 'string' },
+                    accessToken: { type: 'string' }
+                  }
+                }
+              }
+            }
           },
           401: {
-            description: '인증 실패',
-            content: {
-              'application/json': {
-                schema: {
-                  $ref: '#/components/schemas/Error',
-                },
-              },
-            },
-          },
-        },
-      },
+            description: '인증 실패'
+          }
+        }
+      }
     },
-    '/api/auth/refresh': {
-      post: {
-        tags: ['Auth'],
-        summary: '토큰 갱신',
-        description: 'Refresh 토큰을 사용하여 새로운 Access 토큰 발급',
-        security: [
-          {
-            bearerAuth: [],
-          },
-        ],
-        responses: {
-          200: {
-            description: '토큰 갱신 성공',
-            content: {
-              'application/json': {
-                schema: {
-                  type: 'object',
-                  properties: {
-                    accessToken: {
-                      type: 'string',
-                      example: 'eyJhbGciOiJIUzI1NiIs...',
-                    },
-                  },
-                },
-              },
-            },
-          },
-          401: {
-            description: '유효하지 않은 토큰',
-            content: {
-              'application/json': {
-                schema: {
-                  $ref: '#/components/schemas/Error',
-                },
-              },
-            },
-          },
-        },
-      },
-    },
-    '/api/auth/profile': {
+    '/auth/profile': {
       get: {
         tags: ['Auth'],
         summary: '프로필 조회',
-        description: '현재 로그인한 사용자의 프로필 정보 조회',
-        security: [
-          {
-            bearerAuth: [],
-          },
-        ],
+        security: [{ bearerAuth: [] }],
         responses: {
           200: {
-            description: '프로필 조회 성공',
+            description: '프로필 정보',
             content: {
               'application/json': {
                 schema: {
@@ -295,167 +216,266 @@ export const swaggerDocs = {
                     user: {
                       type: 'object',
                       properties: {
-                        id: {
-                          type: 'string',
-                          example: '507f1f77bcf86cd799439011',
-                        },
-                        email: {
-                          type: 'string',
-                          example: 'user@example.com',
-                        },
-                        name: {
-                          type: 'string',
-                          example: '홍길동',
-                        },
+                        id: { type: 'string' },
+                        email: { type: 'string' },
+                        name: { type: 'string' },
                         profile: {
-                          $ref: '#/components/schemas/Profile',
-                        },
-                      },
-                    },
-                  },
-                },
-              },
-            },
+                          type: 'object',
+                          properties: {
+                            phone: { type: 'string' },
+                            address: { type: 'string' },
+                            skills: {
+                              type: 'array',
+                              items: { type: 'string' }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
           401: {
-            description: '인증되지 않은 사용자',
-            content: {
-              'application/json': {
-                schema: {
-                  $ref: '#/components/schemas/Error',
-                },
-              },
-            },
-          },
-        },
+            description: '인증되지 않은 사용자'
+          }
+        }
       },
       put: {
         tags: ['Auth'],
         summary: '프로필 수정',
-        description: '사용자 프로필 정보 수정',
-        security: [
-          {
-            bearerAuth: [],
-          },
-        ],
+        security: [{ bearerAuth: [] }],
         requestBody: {
           required: true,
           content: {
             'application/json': {
-              schema: {
-                type: 'object',
-                properties: {
-                  name: {
-                    type: 'string',
-                    description: '새로운 이름',
-                  },
-                  password: {
-                    type: 'string',
-                    format: 'password',
-                    description: '새로운 비밀번호',
-                  },
-                  profile: {
-                    $ref: '#/components/schemas/Profile',
-                  },
-                },
-              },
-            },
-          },
+              schema: { $ref: '#/components/schemas/ProfileUpdateRequest' }
+            }
+          }
         },
         responses: {
           200: {
-            description: '프로필 수정 성공',
-            content: {
-              'application/json': {
-                schema: {
-                  type: 'object',
-                  properties: {
-                    message: {
-                      type: 'string',
-                      example: '프로필이 업데이트되었습니다.',
-                    },
-                    user: {
-                      type: 'object',
-                      properties: {
-                        id: {
-                          type: 'string',
-                        },
-                        email: {
-                          type: 'string',
-                        },
-                        name: {
-                          type: 'string',
-                        },
-                        profile: {
-                          $ref: '#/components/schemas/Profile',
-                        },
-                      },
-                    },
-                  },
-                },
-              },
-            },
-          },
-          400: {
-            description: '잘못된 요청',
-            content: {
-              'application/json': {
-                schema: {
-                  $ref: '#/components/schemas/Error',
-                },
-              },
-            },
+            description: '프로필 수정 성공'
           },
           401: {
-            description: '인증되지 않은 사용자',
-            content: {
-              'application/json': {
-                schema: {
-                  $ref: '#/components/schemas/Error',
-                },
-              },
-            },
-          },
-        },
-      },
-      delete: {
-        tags: ['Auth'],
-        summary: '계정 삭제',
-        description: '사용자 계정 삭제',
-        security: [
+            description: '인증되지 않은 사용자'
+          }
+        }
+      }
+    },
+    // Jobs 엔드포인트
+    '/jobs': {
+      get: {
+        tags: ['Jobs'],
+        summary: '채용 공고 목록 조회',
+        parameters: [
           {
-            bearerAuth: [],
+            in: 'query',
+            name: 'page',
+            schema: { type: 'integer', default: 1 }
           },
+          {
+            in: 'query',
+            name: 'limit',
+            schema: { type: 'integer', default: 20 }
+          },
+          {
+            in: 'query',
+            name: 'location',
+            schema: { type: 'string' }
+          },
+          {
+            in: 'query',
+            name: 'experience',
+            schema: { type: 'string' }
+          },
+          {
+            in: 'query',
+            name: 'skills',
+            schema: { type: 'string' }
+          },
+          {
+            in: 'query',
+            name: 'type',
+            schema: {
+              type: 'string',
+              enum: ['full-time', 'part-time', 'contract', 'internship', 'temporary']
+            }
+          }
         ],
         responses: {
           200: {
-            description: '계정 삭제 성공',
+            description: '채용 공고 목록',
             content: {
               'application/json': {
                 schema: {
                   type: 'object',
                   properties: {
-                    message: {
-                      type: 'string',
-                      example: '계정이 삭제되었습니다.',
+                    status: { type: 'string' },
+                    data: {
+                      type: 'array',
+                      items: { $ref: '#/components/schemas/JobResponse' }
                     },
-                  },
-                },
-              },
-            },
+                    pagination: {
+                      type: 'object',
+                      properties: {
+                        total: { type: 'integer' },
+                        pages: { type: 'integer' },
+                        page: { type: 'integer' },
+                        limit: { type: 'integer' }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    '/jobs/search': {
+      get: {
+        tags: ['Jobs'],
+        summary: '채용 공고 검색',
+        parameters: [
+          {
+            in: 'query',
+            name: 'keyword',
+            required: true,
+            schema: { type: 'string' }
           },
-          401: {
-            description: '인증되지 않은 사용자',
+          {
+            in: 'query',
+            name: 'page',
+            schema: { type: 'integer', default: 1 }
+          },
+          {
+            in: 'query',
+            name: 'limit',
+            schema: { type: 'integer', default: 20 }
+          },
+          {
+            in: 'query',
+            name: 'location',
+            schema: { type: 'string' }
+          }
+        ],
+        responses: {
+          200: {
+            description: '검색 결과',
             content: {
               'application/json': {
                 schema: {
-                  $ref: '#/components/schemas/Error',
-                },
-              },
-            },
-          },
-        },
-      },
+                  type: 'object',
+                  properties: {
+                    status: { type: 'string' },
+                    data: {
+                      type: 'array',
+                      items: { $ref: '#/components/schemas/JobResponse' }
+                    },
+                    pagination: {
+                      type: 'object',
+                      properties: {
+                        total: { type: 'integer' },
+                        pages: { type: 'integer' },
+                        page: { type: 'integer' },
+                        limit: { type: 'integer' }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     },
-  },
+    '/jobs/{id}': {
+      get: {
+        tags: ['Jobs'],
+        summary: '채용 공고 상세 조회',
+        parameters: [
+          {
+            in: 'path',
+            name: 'id',
+            required: true,
+            schema: { type: 'string' }
+          }
+        ],
+        responses: {
+          200: {
+            description: '채용 공고 상세 정보',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    status: { type: 'string' },
+                    data: {
+                      type: 'object',
+                      properties: {
+                        job: { $ref: '#/components/schemas/JobResponse' },
+                        relatedJobs: {
+                          type: 'array',
+                          items: { $ref: '#/components/schemas/JobResponse' }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          404: {
+            description: '채용 공고를 찾을 수 없음'
+          }
+        }
+      }
+    },
+    '/jobs/bookmark/{id}': {
+      post: {
+        tags: ['Jobs'],
+        summary: '채용 공고 북마크',
+        security: [{ bearerAuth: [] }],
+        parameters: [
+          {
+            in: 'path',
+            name: 'id',
+            required: true,
+            schema: { type: 'string' }
+          }
+        ],
+        responses: {
+          200: {
+            description: '북마크 추가 성공'
+          },
+          401: {
+            description: '인증되지 않은 사용자'
+          }
+        }
+      },
+      delete: {
+        tags: ['Jobs'],
+        summary: '채용 공고 북마크 제거',
+        security: [{ bearerAuth: [] }],
+        parameters: [
+          {
+            in: 'path',
+            name: 'id',
+            required: true,
+            schema: { type: 'string' }
+          }
+        ],
+        responses: {
+          200: {
+            description: '북마크 제거 성공'
+          },
+          401: {
+            description: '인증되지 않은 사용자'
+          }
+        }
+      }
+    }
+  }
 };

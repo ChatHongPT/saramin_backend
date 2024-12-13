@@ -1,44 +1,39 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 
+// Import all models to ensure they are registered
+import '../models/index.js';
+
 dotenv.config();
 
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/saramin_crawler';
+const MONGO_URI = process.env.MONGO_URI;
 
-const connectDB = async () => {
+export const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(MONGO_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      serverSelectionTimeoutMS: 5000, // 서버 선택 타임아웃
-      socketTimeoutMS: 45000, // 소켓 타임아웃
-    });
-
+    const conn = await mongoose.connect(MONGO_URI);
     console.log(`MongoDB Connected: ${conn.connection.host}`);
     
-    // 연결 이벤트 리스너 추가
     mongoose.connection.on('error', err => {
-      console.error('MongoDB 연결 에러:', err);
+      console.error('MongoDB connection error:', err);
     });
 
     mongoose.connection.on('disconnected', () => {
-      console.log('MongoDB 연결이 끊어졌습니다. 재연결을 시도합니다.');
-      setTimeout(connectDB, 5000); // 5초 후 재연결 시도
+      console.log('MongoDB disconnected. Attempting to reconnect...');
+      setTimeout(connectDB, 5000);
     });
 
   } catch (error) {
-    console.error('MongoDB 연결 실패:', error.message);
-    process.exit(1);
+    console.error('MongoDB connection failed:', error.message);
+    console.log('Retrying connection in 5 seconds...');
+    setTimeout(connectDB, 5000);
   }
 };
 
-const disconnectDB = async () => {
+export const disconnectDB = async () => {
   try {
     await mongoose.disconnect();
-    console.log('MongoDB 연결이 종료되었습니다.');
+    console.log('MongoDB disconnected successfully');
   } catch (error) {
-    console.error('MongoDB 연결 종료 실패:', error.message);
+    console.error('Error disconnecting from MongoDB:', error.message);
   }
 };
-
-export { connectDB, disconnectDB };

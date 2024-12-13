@@ -19,12 +19,8 @@ const companySchema = new mongoose.Schema({
     city: String,
     country: String,
     coordinates: {
-      type: {
-        type: String,
-        enum: ['Point'],
-        default: 'Point'
-      },
-      coordinates: [Number] // [longitude, latitude]
+      type: [Number],  // [longitude, latitude]
+      default: [0, 0]
     }
   },
   website: String,
@@ -39,14 +35,6 @@ const companySchema = new mongoose.Schema({
   isVerified: {
     type: Boolean,
     default: false
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now
   }
 }, {
   timestamps: true
