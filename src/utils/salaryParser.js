@@ -1,27 +1,4 @@
-/**
- * 급여 정보 파싱 유틸리티
- */
 export class SalaryParser {
-  /**
-   * 급여 텍스트에서 숫자 추출
-   */
-  static extractNumbers(text) {
-    const numbers = text.match(/\d+(?:[,.]\d+)?/g);
-    return numbers ? numbers.map(n => parseFloat(n.replace(/,/g, ''))) : [];
-  }
-
-  /**
-   * 급여 단위 확인 (만원/연봉)
-   */
-  static getSalaryUnit(text) {
-    if (text.includes('연봉')) return 'yearly';
-    if (text.includes('월')) return 'monthly';
-    return 'unknown';
-  }
-
-  /**
-   * 급여 정보 파싱
-   */
   static parse(text) {
     // 기본값 설정
     const result = {
@@ -37,14 +14,10 @@ export class SalaryParser {
       return result;
     }
 
-    const numbers = this.extractNumbers(text);
-    const unit = this.getSalaryUnit(text);
+    const numbers = text.match(/\d+(?:[,.]\d+)?/g);
+    if (!numbers) return result;
 
-    if (numbers.length === 0) return result;
-
-    // 단위에 따른 변환
-    const multiplier = unit === 'monthly' ? 12 : 1;
-    const values = numbers.map(n => n * multiplier * 10000); // 만원 단위를 원 단위로 변환
+    const values = numbers.map(n => parseFloat(n.replace(/,/g, '')) * 10000);
 
     // 범위 설정
     if (values.length >= 2) {
@@ -65,9 +38,6 @@ export class SalaryParser {
     return result;
   }
 
-  /**
-   * 급여 정보 포맷팅
-   */
   static format(salary) {
     if (salary.isNegotiable) return '회사내규에 따름';
 
