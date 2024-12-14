@@ -1,6 +1,7 @@
 import { Job } from '../models/Job.js';
 import { ApiError } from '../utils/ApiError.js';
 import { createSearchFilters, createSortOption } from '../utils/jobUtils.js';
+import { parseSalaryText, formatSalary } from '../utils/salaryUtils.js';
 
 export class JobService {
   async getJobs(filters = {}, options = {}) {
@@ -19,7 +20,16 @@ export class JobService {
         Job.countDocuments(query)
       ]);
 
-      return { jobs, total };
+      // Format salary for each job
+      const formattedJobs = jobs.map(job => ({
+        ...job,
+        salary: {
+          ...job.salary,
+          formatted: formatSalary(job.salary)
+        }
+      }));
+
+      return { jobs: formattedJobs, total };
     } catch (error) {
       throw new ApiError(500, '채용공고 조회 중 오류가 발생했습니다.');
     }
@@ -35,12 +45,27 @@ export class JobService {
       // Increment view count
       await job.incrementViews();
 
-      const result = { job };
+      // Format salary
+      const formattedJob = {
+        ...job.toObject(),
+        salary: {
+          ...job.salary,
+          formatted: formatSalary(job.salary)
+        }
+      };
+
+      const result = { job: formattedJob };
 
       // Get recommended jobs if requested
       if (options.withRecommendations) {
         const recommendations = await this.getRecommendedJobs(job);
-        result.recommendations = recommendations;
+        result.recommendations = recommendations.map(rec => ({
+          ...rec,
+          salary: {
+            ...rec.salary,
+            formatted: formatSalary(rec.salary)
+          }
+        }));
       }
 
       return result;
