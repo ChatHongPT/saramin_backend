@@ -228,3 +228,19 @@
 2024-12-14 14:37:00:370 [35mhttp[39m: [35mGET /api/jobs?page=1&limit=20&sort=latest&keyword=%EC%9B%B9%20%EA%B0%9C%EB%B0%9C%EC%9E%90&location=%EC%84%9C%EC%9A%B8 304 48ms - ::1[39m
 2024-12-14 14:37:16:3716 [35mhttp[39m: [35mGET /api/search-history?page=1&limit=20 304 19ms - ::1[39m
 2024-12-14 14:37:51:3751 [35mhttp[39m: [35mPOST /api/reviews 201 81ms - ::1[39m
+2024-12-14 14:43:29:4329 [32minfo[39m: [32mServer is running on port 3000[39m
+2024-12-14 14:43:29:4329 [32minfo[39m: [32mAPI Documentation available at http://localhost:3000/api-docs[39m
+2024-12-14 14:43:30:4330 [32minfo[39m: [32mMongoDB Connected: cluster0-shard-00-00.vyeu8.mongodb.net[39m
+2024-12-14 14:43:31:4331 [35mhttp[39m: [35mGET /api-docs/ 304 6ms - ::1[39m
+2024-12-14 14:43:32:4332 [35mhttp[39m: [35mGET /api-docs/swagger-ui-init.js 304 2ms - ::1[39m
+2024-12-14 14:43:32:4332 [35mhttp[39m: [35mGET /api-docs/swagger-ui.css 200 19ms - ::1[39m
+2024-12-14 14:43:32:4332 [35mhttp[39m: [35mGET /api-docs/swagger-ui-standalone-preset.js 200 24ms - ::1[39m
+2024-12-14 14:43:32:4332 [35mhttp[39m: [35mGET /api-docs/swagger-ui-bundle.js 200 38ms - ::1[39m
+2024-12-14 14:43:51:4351 [35mhttp[39m: [35mPOST /api/auth/login 200 551ms - ::1[39m
+2024-12-14 14:44:24:4424 [35mhttp[39m: [35mGET /api/jobs?page=1&limit=20&sort=salary&keyword=%ED%95%9C%EA%B5%AD 200 45ms - ::1[39m
+2024-12-14 14:44:48:4448 [35mhttp[39m: [35mGET /api/search-history?page=1&limit=20 304 26ms - ::1[39m
+2024-12-14 14:45:12:4512 [35mhttp[39m: [35mGET /api/jobs/675c641fa8ceea393fc470ea?withRecommendations=false 200 78ms - ::1[39m
+2024-12-14 14:45:19:4519 [35mhttp[39m: [35mGET /api/search-history?page=1&limit=20 304 20ms - ::1[39m
+2024-12-14 14:45:20:4520 [35mhttp[39m: [35mGET /api/search-history?page=1&limit=20 304 18ms - ::1[39m
+2024-12-14 14:45:20:4520 [35mhttp[39m: [35mGET /api/search-history?page=1&limit=20 304 18ms - ::1[39m
+2024-12-14 14:45:20:4520 [35mhttp[39m: [35mGET /api/search-history?page=1&limit=20 304 18ms - ::1[39m
