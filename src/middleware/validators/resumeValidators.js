@@ -17,7 +17,7 @@ export const validateResume = [
   body('content.basicInfo.email')
     .optional()
     .isEmail()
-    .withMessage('유효한 이메일주소를 입력해주세요.'),
+    .withMessage('유효한 이메일 주소를 입력해주세요.'),
 
   body('content.basicInfo.phone')
     .optional()
