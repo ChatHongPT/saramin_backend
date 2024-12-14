@@ -1,8 +1,11 @@
-export const successResponse = (res, { statusCode = 200, message = 'Success', data = null }) => {
+export const successResponse = (
+  res,
+  { statusCode = 200, message = 'Success', data = null }
+) => {
   return res.status(statusCode).json({
     status: 'success',
     message,
-    data
+    data,
   });
 };
 
@@ -14,7 +17,7 @@ export const paginatedResponse = (res, { items, total, page, limit }) => {
       total,
       pages: Math.ceil(total / limit),
       currentPage: page,
-      limit
-    }
+      limit,
+    },
   });
 };

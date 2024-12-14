@@ -6,18 +6,18 @@ export const schemas = {
     properties: {
       email: { type: 'string', format: 'email' },
       password: { type: 'string', minLength: 8 },
-      name: { type: 'string', minLength: 2 }
-    }
+      name: { type: 'string', minLength: 2 },
+    },
   },
   LoginInput: {
     type: 'object',
     required: ['email', 'password'],
     properties: {
       email: { type: 'string', format: 'email' },
-      password: { type: 'string' }
-    }
+      password: { type: 'string' },
+    },
   },
-  
+
   // User schemas
   User: {
     type: 'object',
@@ -32,10 +32,10 @@ export const schemas = {
           address: { type: 'string' },
           skills: { type: 'array', items: { type: 'string' } },
           experience: { type: 'array', items: { type: 'string' } },
-          education: { type: 'array', items: { type: 'string' } }
-        }
-      }
-    }
+          education: { type: 'array', items: { type: 'string' } },
+        },
+      },
+    },
   },
 
   // Company schemas
@@ -46,19 +46,19 @@ export const schemas = {
       name: { type: 'string' },
       description: { type: 'string' },
       industry: { type: 'array', items: { type: 'string' } },
-      size: { 
+      size: {
         type: 'string',
-        enum: ['startup', 'small', 'medium', 'large', 'enterprise']
+        enum: ['startup', 'small', 'medium', 'large', 'enterprise'],
       },
       location: {
         type: 'object',
         properties: {
           address: { type: 'string' },
           city: { type: 'string' },
-          country: { type: 'string' }
-        }
-      }
-    }
+          country: { type: 'string' },
+        },
+      },
+    },
   },
 
   // Job schemas
@@ -70,17 +70,17 @@ export const schemas = {
       company: { $ref: '#/components/schemas/Company' },
       description: { type: 'string' },
       location: { type: 'string' },
-      type: { 
+      type: {
         type: 'string',
-        enum: ['full-time', 'part-time', 'contract', 'internship', 'temporary']
+        enum: ['full-time', 'part-time', 'contract', 'internship', 'temporary'],
       },
       experience: {
         type: 'object',
         properties: {
           required: { type: 'string' },
           min: { type: 'number' },
-          max: { type: 'number' }
-        }
+          max: { type: 'number' },
+        },
       },
       skills: {
         type: 'array',
@@ -88,23 +88,23 @@ export const schemas = {
           type: 'object',
           properties: {
             name: { type: 'string' },
-            level: { 
+            level: {
               type: 'string',
-              enum: ['beginner', 'intermediate', 'advanced', 'expert']
+              enum: ['beginner', 'intermediate', 'advanced', 'expert'],
             },
-            required: { type: 'boolean' }
-          }
-        }
+            required: { type: 'boolean' },
+          },
+        },
       },
       salary: {
         type: 'object',
         properties: {
           text: { type: 'string' },
           isNegotiable: { type: 'boolean' },
-          currency: { type: 'string' }
-        }
-      }
-    }
+          currency: { type: 'string' },
+        },
+      },
+    },
   },
 
   // Review schemas
@@ -120,14 +120,14 @@ export const schemas = {
           overall: { type: 'number', minimum: 1, maximum: 5 },
           workLifeBalance: { type: 'number', minimum: 1, maximum: 5 },
           compensation: { type: 'number', minimum: 1, maximum: 5 },
-          culture: { type: 'number', minimum: 1, maximum: 5 }
-        }
+          culture: { type: 'number', minimum: 1, maximum: 5 },
+        },
       },
       content: { type: 'string', maxLength: 2000 },
       pros: { type: 'string', maxLength: 1000 },
       cons: { type: 'string', maxLength: 1000 },
-      isAnonymous: { type: 'boolean' }
-    }
+      isAnonymous: { type: 'boolean' },
+    },
   },
   Review: {
     type: 'object',
@@ -142,21 +142,21 @@ export const schemas = {
           overall: { type: 'number' },
           workLifeBalance: { type: 'number' },
           compensation: { type: 'number' },
-          culture: { type: 'number' }
-        }
+          culture: { type: 'number' },
+        },
       },
       content: { type: 'string' },
       pros: { type: 'string' },
       cons: { type: 'string' },
       status: {
         type: 'string',
-        enum: ['pending', 'approved', 'rejected']
+        enum: ['pending', 'approved', 'rejected'],
       },
       isAnonymous: { type: 'boolean' },
       helpfulCount: { type: 'number' },
       createdAt: { type: 'string', format: 'date-time' },
-      updatedAt: { type: 'string', format: 'date-time' }
-    }
+      updatedAt: { type: 'string', format: 'date-time' },
+    },
   },
 
   // Application schemas
@@ -168,18 +168,18 @@ export const schemas = {
       user: { $ref: '#/components/schemas/User' },
       status: {
         type: 'string',
-        enum: ['pending', 'reviewed', 'shortlisted', 'rejected', 'accepted']
+        enum: ['pending', 'reviewed', 'shortlisted', 'rejected', 'accepted'],
       },
       resume: {
         type: 'object',
         properties: {
           url: { type: 'string' },
-          version: { type: 'number' }
-        }
+          version: { type: 'number' },
+        },
       },
       coverLetter: { type: 'string' },
-      createdAt: { type: 'string', format: 'date-time' }
-    }
+      createdAt: { type: 'string', format: 'date-time' },
+    },
   },
 
   // Resume schemas
@@ -197,8 +197,8 @@ export const schemas = {
               name: { type: 'string' },
               email: { type: 'string', format: 'email' },
               phone: { type: 'string' },
-              address: { type: 'string' }
-            }
+              address: { type: 'string' },
+            },
           },
           education: {
             type: 'array',
@@ -210,9 +210,9 @@ export const schemas = {
                 field: { type: 'string' },
                 startDate: { type: 'string', format: 'date' },
                 endDate: { type: 'string', format: 'date' },
-                description: { type: 'string' }
-              }
-            }
+                description: { type: 'string' },
+              },
+            },
           },
           experience: {
             type: 'array',
@@ -226,10 +226,10 @@ export const schemas = {
                 description: { type: 'string' },
                 achievements: {
                   type: 'array',
-                  items: { type: 'string' }
-                }
-              }
-            }
+                  items: { type: 'string' },
+                },
+              },
+            },
           },
           skills: {
             type: 'array',
@@ -239,17 +239,17 @@ export const schemas = {
                 category: { type: 'string' },
                 items: {
                   type: 'array',
-                  items: { type: 'string' }
-                }
-              }
-            }
-          }
-        }
+                  items: { type: 'string' },
+                },
+              },
+            },
+          },
+        },
       },
       status: {
         type: 'string',
-        enum: ['draft', 'active', 'archived']
-      }
-    }
-  }
+        enum: ['draft', 'active', 'archived'],
+      },
+    },
+  },
 };

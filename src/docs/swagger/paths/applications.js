@@ -9,9 +9,9 @@ export const applicationPaths = {
         required: true,
         content: {
           'application/json': {
-            schema: { $ref: '#/components/schemas/Application' }
-          }
-        }
+            schema: { $ref: '#/components/schemas/Application' },
+          },
+        },
       },
       responses: {
         201: {
@@ -22,15 +22,15 @@ export const applicationPaths = {
                 type: 'object',
                 properties: {
                   message: { type: 'string' },
-                  data: { $ref: '#/components/schemas/Application' }
-                }
-              }
-            }
-          }
+                  data: { $ref: '#/components/schemas/Application' },
+                },
+              },
+            },
+          },
         },
         400: { description: '잘못된 요청 또는 이미 지원한 공고' },
-        401: { description: '인증되지 않은 사용자' }
-      }
+        401: { description: '인증되지 않은 사용자' },
+      },
     },
     get: {
       tags: ['Applications'],
@@ -41,21 +41,27 @@ export const applicationPaths = {
         {
           name: 'page',
           in: 'query',
-          schema: { type: 'integer', minimum: 1, default: 1 }
+          schema: { type: 'integer', minimum: 1, default: 1 },
         },
         {
           name: 'limit',
           in: 'query',
-          schema: { type: 'integer', minimum: 1, maximum: 100, default: 20 }
+          schema: { type: 'integer', minimum: 1, maximum: 100, default: 20 },
         },
         {
           name: 'status',
           in: 'query',
           schema: {
             type: 'string',
-            enum: ['pending', 'reviewed', 'shortlisted', 'rejected', 'accepted']
-          }
-        }
+            enum: [
+              'pending',
+              'reviewed',
+              'shortlisted',
+              'rejected',
+              'accepted',
+            ],
+          },
+        },
       ],
       responses: {
         200: {
@@ -67,7 +73,7 @@ export const applicationPaths = {
                 properties: {
                   data: {
                     type: 'array',
-                    items: { $ref: '#/components/schemas/Application' }
+                    items: { $ref: '#/components/schemas/Application' },
                   },
                   pagination: {
                     type: 'object',
@@ -75,16 +81,16 @@ export const applicationPaths = {
                       total: { type: 'integer' },
                       pages: { type: 'integer' },
                       page: { type: 'integer' },
-                      limit: { type: 'integer' }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
+                      limit: { type: 'integer' },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
   },
   '/applications/{id}': {
     get: {
@@ -98,8 +104,8 @@ export const applicationPaths = {
           in: 'path',
           required: true,
           description: '지원 내역 ID',
-          schema: { type: 'string' }
-        }
+          schema: { type: 'string' },
+        },
       ],
       responses: {
         200: {
@@ -110,20 +116,21 @@ export const applicationPaths = {
                 type: 'object',
                 properties: {
                   status: { type: 'string' },
-                  data: { $ref: '#/components/schemas/Application' }
-                }
-              }
-            }
-          }
+                  data: { $ref: '#/components/schemas/Application' },
+                },
+              },
+            },
+          },
         },
         401: { description: '인증되지 않은 사용자' },
-        404: { description: '지원 내역을 찾을 수 없음' }
-      }
+        404: { description: '지원 내역을 찾을 수 없음' },
+      },
     },
     delete: {
       tags: ['Applications'],
       summary: '지원 취소',
-      description: '지원을 취소합니다. pending 상태인 지원만 취소할 수 있습니다.',
+      description:
+        '지원을 취소합니다. pending 상태인 지원만 취소할 수 있습니다.',
       security: [{ bearerAuth: [] }],
       parameters: [
         {
@@ -131,8 +138,8 @@ export const applicationPaths = {
           in: 'path',
           required: true,
           description: '취소할 지원 내역 ID',
-          schema: { type: 'string' }
-        }
+          schema: { type: 'string' },
+        },
       ],
       responses: {
         200: {
@@ -143,16 +150,16 @@ export const applicationPaths = {
                 type: 'object',
                 properties: {
                   status: { type: 'string' },
-                  message: { type: 'string' }
-                }
-              }
-            }
-          }
+                  message: { type: 'string' },
+                },
+              },
+            },
+          },
         },
         400: { description: '이미 처리된 지원은 취소할 수 없음' },
         401: { description: '인증되지 않은 사용자' },
-        404: { description: '지원 내역을 찾을 수 없음' }
-      }
-    }
-  }
+        404: { description: '지원 내역을 찾을 수 없음' },
+      },
+    },
+  },
 };

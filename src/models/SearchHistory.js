@@ -5,11 +5,11 @@ const searchHistorySchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true,
-    index: true
+    index: true,
   },
   query: {
     type: String,
-    required: true
+    required: true,
   },
   filters: {
     location: String,
@@ -17,23 +17,26 @@ const searchHistorySchema = new mongoose.Schema({
     experience: String,
     salary: {
       min: Number,
-      max: Number
+      max: Number,
     },
     jobType: [String],
-    company: String
+    company: String,
   },
   results: {
     count: Number,
-    relevance: Number
+    relevance: Number,
   },
   createdAt: {
     type: Date,
     default: Date.now,
-    index: true
-  }
+    index: true,
+  },
 });
 
 // Compound index for user's recent searches
 searchHistorySchema.index({ user: 1, createdAt: -1 });
 
-export const SearchHistory = mongoose.model('SearchHistory', searchHistorySchema);
+export const SearchHistory = mongoose.model(
+  'SearchHistory',
+  searchHistorySchema
+);

@@ -7,5 +7,5 @@ export const DB_CONFIG = {
     useUnifiedTopology: true,
     serverSelectionTimeoutMS: 10000,
     socketTimeoutMS: 45000,
-  }
+  },
 };

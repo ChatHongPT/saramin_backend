@@ -5,38 +5,44 @@ const notificationSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true,
-    index: true
+    index: true,
   },
   type: {
     type: String,
-    enum: ['application_status', 'job_alert', 'interview_scheduled', 'reminder', 'system'],
-    required: true
+    enum: [
+      'application_status',
+      'job_alert',
+      'interview_scheduled',
+      'reminder',
+      'system',
+    ],
+    required: true,
   },
   title: {
     type: String,
-    required: true
+    required: true,
   },
   message: {
     type: String,
-    required: true
+    required: true,
   },
   reference: {
     model: {
       type: String,
-      enum: ['Job', 'Application', 'Interview', 'Company']
+      enum: ['Job', 'Application', 'Interview', 'Company'],
     },
-    id: mongoose.Schema.Types.ObjectId
+    id: mongoose.Schema.Types.ObjectId,
   },
   isRead: {
     type: Boolean,
-    default: false
+    default: false,
   },
   createdAt: {
     type: Date,
     default: Date.now,
-    index: true
+    index: true,
   },
-  expiresAt: Date
+  expiresAt: Date,
 });
 
 // Compound indexes for efficient querying

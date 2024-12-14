@@ -7,7 +7,12 @@ export const router = express.Router();
 const applicationController = new ApplicationController();
 
 // Protected routes (require authentication)
-router.post('/', authenticate, validateApplication, applicationController.apply);
+router.post(
+  '/',
+  authenticate,
+  validateApplication,
+  applicationController.apply
+);
 router.get('/', authenticate, applicationController.getMyApplications);
 router.get('/:id', authenticate, applicationController.getApplicationById);
 router.delete('/:id', authenticate, applicationController.cancelApplication);

@@ -16,5 +16,5 @@ export {
   Bookmark,
   Skill,
   SearchHistory,
-  Notification
+  Notification,
 };

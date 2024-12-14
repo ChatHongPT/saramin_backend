@@ -8,9 +8,9 @@ export const authPaths = {
         required: true,
         content: {
           'application/json': {
-            schema: { $ref: '#/components/schemas/RegisterInput' }
-          }
-        }
+            schema: { $ref: '#/components/schemas/RegisterInput' },
+          },
+        },
       },
       responses: {
         201: {
@@ -26,19 +26,19 @@ export const authPaths = {
                     properties: {
                       id: { type: 'string' },
                       email: { type: 'string' },
-                      name: { type: 'string' }
-                    }
+                      name: { type: 'string' },
+                    },
                   },
-                  accessToken: { type: 'string' }
-                }
-              }
-            }
-          }
+                  accessToken: { type: 'string' },
+                },
+              },
+            },
+          },
         },
         400: { description: '잘못된 입력' },
-        409: { description: '이미 존재하는 이메일' }
-      }
-    }
+        409: { description: '이미 존재하는 이메일' },
+      },
+    },
   },
   '/auth/login': {
     post: {
@@ -49,9 +49,9 @@ export const authPaths = {
         required: true,
         content: {
           'application/json': {
-            schema: { $ref: '#/components/schemas/LoginInput' }
-          }
-        }
+            schema: { $ref: '#/components/schemas/LoginInput' },
+          },
+        },
       },
       responses: {
         200: {
@@ -67,17 +67,17 @@ export const authPaths = {
                     properties: {
                       id: { type: 'string' },
                       email: { type: 'string' },
-                      name: { type: 'string' }
-                    }
-                  }
-                }
-              }
-            }
-          }
+                      name: { type: 'string' },
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
-        401: { description: '인증 실패' }
-      }
-    }
+        401: { description: '인증 실패' },
+      },
+    },
   },
   '/auth/refresh': {
     post: {
@@ -93,15 +93,15 @@ export const authPaths = {
               schema: {
                 type: 'object',
                 properties: {
-                  accessToken: { type: 'string' }
-                }
-              }
-            }
-          }
+                  accessToken: { type: 'string' },
+                },
+              },
+            },
+          },
         },
-        401: { description: '토큰 만료 또는 유효하지 않음' }
-      }
-    }
+        401: { description: '토큰 만료 또는 유효하지 않음' },
+      },
+    },
   },
   '/auth/profile': {
     put: {
@@ -113,9 +113,9 @@ export const authPaths = {
         required: true,
         content: {
           'application/json': {
-            schema: { $ref: '#/components/schemas/ProfileUpdate' }
-          }
-        }
+            schema: { $ref: '#/components/schemas/ProfileUpdate' },
+          },
+        },
       },
       responses: {
         200: {
@@ -126,14 +126,14 @@ export const authPaths = {
                 type: 'object',
                 properties: {
                   message: { type: 'string' },
-                  user: { $ref: '#/components/schemas/ProfileUpdate' }
-                }
-              }
-            }
-          }
+                  user: { $ref: '#/components/schemas/ProfileUpdate' },
+                },
+              },
+            },
+          },
         },
-        401: { description: '인증되지 않은 사용자' }
-      }
-    }
-  }
+        401: { description: '인증되지 않은 사용자' },
+      },
+    },
+  },
 };

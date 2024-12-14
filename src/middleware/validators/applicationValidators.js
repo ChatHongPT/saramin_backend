@@ -2,9 +2,7 @@ import { body } from 'express-validator';
 import { validateRequest } from '../../utils/validateRequest.js';
 
 export const validateApplication = [
-  body('job')
-    .isMongoId()
-    .withMessage('올바른 채용공고 ID가 아닙니다.'),
+  body('job').isMongoId().withMessage('올바른 채용공고 ID가 아닙니다.'),
   body('coverLetter')
     .optional()
     .trim()
@@ -28,5 +26,5 @@ export const validateApplication = [
     .trim()
     .notEmpty()
     .withMessage('답변을 입력해주세요.'),
-  validateRequest
+  validateRequest,
 ];

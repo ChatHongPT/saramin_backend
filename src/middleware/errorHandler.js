@@ -1,5 +1,8 @@
 import Logger from '../utils/logger.js';
-import { formatErrorResponse, handleDatabaseError } from '../utils/errorUtils.js';
+import {
+  formatErrorResponse,
+  handleDatabaseError,
+} from '../utils/errorUtils.js';
 import mongoose from 'mongoose';
 
 export const errorHandler = (err, req, res, next) => {
@@ -8,11 +11,11 @@ export const errorHandler = (err, req, res, next) => {
 
   // Handle Mongoose Validation Errors
   if (err instanceof mongoose.Error.ValidationError) {
-    const errors = Object.values(err.errors).map(error => error.message);
+    const errors = Object.values(err.errors).map((error) => error.message);
     return res.status(400).json({
       status: 'fail',
       message: 'Validation Error',
-      errors
+      errors,
     });
   }
 
@@ -20,7 +23,7 @@ export const errorHandler = (err, req, res, next) => {
   if (err instanceof mongoose.Error.CastError) {
     return res.status(400).json({
       status: 'fail',
-      message: '잘못된 데이터 형식입니다.'
+      message: '잘못된 데이터 형식입니다.',
     });
   }
 
@@ -34,14 +37,14 @@ export const errorHandler = (err, req, res, next) => {
   if (err.name === 'JsonWebTokenError') {
     return res.status(401).json({
       status: 'fail',
-      message: '유효하지 않은 토큰입니다.'
+      message: '유효하지 않은 토큰입니다.',
     });
   }
 
   if (err.name === 'TokenExpiredError') {
     return res.status(401).json({
       status: 'fail',
-      message: '토큰이 만료되었습니다.'
+      message: '토큰이 만료되었습니다.',
     });
   }
 
@@ -54,7 +57,7 @@ export const errorHandler = (err, req, res, next) => {
   if (process.env.NODE_ENV === 'production') {
     return res.status(500).json({
       status: 'error',
-      message: '서버 오류가 발생했습니다.'
+      message: '서버 오류가 발생했습니다.',
     });
   }
 

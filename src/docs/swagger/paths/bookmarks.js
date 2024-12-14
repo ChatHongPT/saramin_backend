@@ -13,23 +13,23 @@ export const bookmarkPaths = {
               type: 'object',
               required: ['jobId'],
               properties: {
-                jobId: { 
+                jobId: {
                   type: 'string',
-                  description: '북마크할 채용 공고 ID'
+                  description: '북마크할 채용 공고 ID',
                 },
                 notes: {
                   type: 'string',
-                  description: '북마크에 대한 메모'
+                  description: '북마크에 대한 메모',
                 },
                 tags: {
                   type: 'array',
                   items: { type: 'string' },
-                  description: '북마크 태그'
-                }
-              }
-            }
-          }
-        }
+                  description: '북마크 태그',
+                },
+              },
+            },
+          },
+        },
       },
       responses: {
         200: {
@@ -50,19 +50,19 @@ export const bookmarkPaths = {
                       notes: { type: 'string' },
                       tags: {
                         type: 'array',
-                        items: { type: 'string' }
+                        items: { type: 'string' },
                       },
-                      createdAt: { type: 'string', format: 'date-time' }
-                    }
-                  }
-                }
-              }
-            }
-          }
+                      createdAt: { type: 'string', format: 'date-time' },
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
         401: { description: '인증되지 않은 사용자' },
-        404: { description: '채용 공고를 찾을 수 없음' }
-      }
+        404: { description: '채용 공고를 찾을 수 없음' },
+      },
     },
     get: {
       tags: ['Bookmarks'],
@@ -74,20 +74,20 @@ export const bookmarkPaths = {
           name: 'page',
           in: 'query',
           description: '페이지 번호',
-          schema: { type: 'integer', minimum: 1, default: 1 }
+          schema: { type: 'integer', minimum: 1, default: 1 },
         },
         {
           name: 'limit',
           in: 'query',
           description: '페이지당 항목 수',
-          schema: { type: 'integer', minimum: 1, maximum: 100, default: 20 }
+          schema: { type: 'integer', minimum: 1, maximum: 100, default: 20 },
         },
         {
           name: 'sort',
           in: 'query',
           description: '정렬 기준 (createdAt: 생성일, -createdAt: 생성일 역순)',
-          schema: { type: 'string', default: '-createdAt' }
-        }
+          schema: { type: 'string', default: '-createdAt' },
+        },
       ],
       responses: {
         200: {
@@ -108,11 +108,11 @@ export const bookmarkPaths = {
                         notes: { type: 'string' },
                         tags: {
                           type: 'array',
-                          items: { type: 'string' }
+                          items: { type: 'string' },
                         },
-                        createdAt: { type: 'string', format: 'date-time' }
-                      }
-                    }
+                        createdAt: { type: 'string', format: 'date-time' },
+                      },
+                    },
                   },
                   pagination: {
                     type: 'object',
@@ -120,16 +120,16 @@ export const bookmarkPaths = {
                       total: { type: 'integer' },
                       pages: { type: 'integer' },
                       page: { type: 'integer' },
-                      limit: { type: 'integer' }
-                    }
-                  }
-                }
-              }
-            }
-          }
+                      limit: { type: 'integer' },
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
-        401: { description: '인증되지 않은 사용자' }
-      }
-    }
-  }
+        401: { description: '인증되지 않은 사용자' },
+      },
+    },
+  },
 };

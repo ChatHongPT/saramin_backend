@@ -11,7 +11,10 @@ export class BookmarkService {
     }
 
     // 이미 북마크한 경우 체크
-    const existingBookmark = await Bookmark.findOne({ user: userId, job: jobId });
+    const existingBookmark = await Bookmark.findOne({
+      user: userId,
+      job: jobId,
+    });
     if (existingBookmark) {
       throw new ApiError(400, '이미 북마크한 채용공고입니다.');
     }
@@ -19,7 +22,7 @@ export class BookmarkService {
     // 북마크 생성
     const bookmark = await Bookmark.create({
       user: userId,
-      job: jobId
+      job: jobId,
     });
 
     return bookmark;
@@ -28,7 +31,7 @@ export class BookmarkService {
   async removeBookmark(userId, jobId) {
     const result = await Bookmark.findOneAndDelete({
       user: userId,
-      job: jobId
+      job: jobId,
     });
 
     if (!result) {
@@ -53,8 +56,8 @@ export class BookmarkService {
         total,
         pages: Math.ceil(total / limit),
         page,
-        limit
-      }
+        limit,
+      },
     };
   }
 }

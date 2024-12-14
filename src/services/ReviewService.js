@@ -12,7 +12,7 @@ export class ReviewService {
     // 이미 리뷰를 작성했는지 확인
     const existingReview = await Review.findOne({
       user: userId,
-      job: reviewData.job
+      job: reviewData.job,
     });
 
     if (existingReview) {
@@ -22,7 +22,7 @@ export class ReviewService {
     const review = await Review.create({
       ...reviewData,
       user: userId,
-      company: job.company._id
+      company: job.company._id,
     });
 
     return review.populate(['user', 'job', 'company']);
@@ -38,16 +38,19 @@ export class ReviewService {
         .sort(sort)
         .skip((page - 1) * limit)
         .limit(limit),
-      Review.countDocuments(query)
+      Review.countDocuments(query),
     ]);
 
     return { reviews, total };
   }
 
   async getReviewById(id) {
-    const review = await Review.findById(id)
-      .populate(['user', 'job', 'company']);
-    
+    const review = await Review.findById(id).populate([
+      'user',
+      'job',
+      'company',
+    ]);
+
     if (!review) {
       throw new NotFoundError('리뷰');
     }

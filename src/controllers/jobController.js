@@ -10,33 +10,41 @@ export class JobController {
   }
 
   getJobs = async (req, res) => {
-    const { page = 1, limit = 20, sort = '-createdAt', location, experience, skills, type } = req.query;
+    const {
+      page = 1,
+      limit = 20,
+      sort = '-createdAt',
+      location,
+      experience,
+      skills,
+      type,
+    } = req.query;
 
     const filters = {
       location,
       experience,
       skills: skills?.split(','),
-      type
+      type,
     };
 
     const { jobs, total } = await this.jobService.getJobs(filters, {
       page: parseInt(page),
       limit: parseInt(limit),
-      sort
+      sort,
     });
 
     return paginatedResponse(res, {
       items: jobs,
       total,
       page: parseInt(page),
-      limit: parseInt(limit)
+      limit: parseInt(limit),
     });
   };
 
   getJobById = async (req, res) => {
     const { id } = req.params;
     const job = await this.jobService.getJobById(id);
-    
+
     if (!job) {
       throw new NotFoundError('채용공고');
     }
@@ -51,18 +59,18 @@ export class JobController {
     return successResponse(res, {
       statusCode: 201,
       message: '채용공고가 등록되었습니다.',
-      data: job
+      data: job,
     });
   };
 
   updateJob = async (req, res) => {
     const { id } = req.params;
     const updateData = req.body;
-    
+
     const job = await this.jobService.update(id, updateData);
     return successResponse(res, {
       message: '채용공고가 수정되었습니다.',
-      data: job
+      data: job,
     });
   };
 
@@ -70,12 +78,20 @@ export class JobController {
     const { id } = req.params;
     await this.jobService.delete(id);
     return successResponse(res, {
-      message: '채용공고가 삭제되었습니다.'
+      message: '채용공고가 삭제되었습니다.',
     });
   };
 
   searchJobs = async (req, res) => {
-    const { keyword, page = 1, limit = 20, location, experience, skills, type } = req.query;
+    const {
+      keyword,
+      page = 1,
+      limit = 20,
+      location,
+      experience,
+      skills,
+      type,
+    } = req.query;
 
     if (!keyword) {
       throw new BusinessError('검색어를 입력해주세요.');
@@ -85,19 +101,19 @@ export class JobController {
       location,
       experience,
       skills: skills?.split(','),
-      type
+      type,
     };
 
     const { jobs, total } = await this.jobService.searchJobs(keyword, filters, {
       page: parseInt(page),
-      limit: parseInt(limit)
+      limit: parseInt(limit),
     });
 
     return paginatedResponse(res, {
       items: jobs,
       total,
       page: parseInt(page),
-      limit: parseInt(limit)
+      limit: parseInt(limit),
     });
   };
 
@@ -108,7 +124,7 @@ export class JobController {
     const bookmark = await this.bookmarkService.addBookmark(userId, id);
     return successResponse(res, {
       message: '북마크가 추가되었습니다.',
-      data: bookmark
+      data: bookmark,
     });
   };
 
@@ -118,7 +134,7 @@ export class JobController {
 
     await this.bookmarkService.removeBookmark(userId, id);
     return successResponse(res, {
-      message: '북마크가 제거되었습니다.'
+      message: '북마크가 제거되었습니다.',
     });
   };
 
@@ -126,14 +142,15 @@ export class JobController {
     const userId = req.user.id;
     const { page = 1, limit = 20 } = req.query;
 
-    const { bookmarks, pagination } = await this.bookmarkService.getUserBookmarks(userId, {
-      page: parseInt(page),
-      limit: parseInt(limit)
-    });
+    const { bookmarks, pagination } =
+      await this.bookmarkService.getUserBookmarks(userId, {
+        page: parseInt(page),
+        limit: parseInt(limit),
+      });
 
     return successResponse(res, {
       data: bookmarks,
-      pagination
+      pagination,
     });
   };
 }

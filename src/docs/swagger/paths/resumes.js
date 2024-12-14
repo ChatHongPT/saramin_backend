@@ -9,9 +9,9 @@ export const resumePaths = {
         required: true,
         content: {
           'application/json': {
-            schema: { $ref: '#/components/schemas/ResumeInput' }
-          }
-        }
+            schema: { $ref: '#/components/schemas/ResumeInput' },
+          },
+        },
       },
       responses: {
         201: {
@@ -23,15 +23,15 @@ export const resumePaths = {
                 properties: {
                   status: { type: 'string' },
                   message: { type: 'string' },
-                  data: { $ref: '#/components/schemas/Resume' }
-                }
-              }
-            }
-          }
+                  data: { $ref: '#/components/schemas/Resume' },
+                },
+              },
+            },
+          },
         },
         400: { description: '잘못된 입력' },
-        401: { description: '인증되지 않은 사용자' }
-      }
+        401: { description: '인증되지 않은 사용자' },
+      },
     },
     get: {
       tags: ['Resumes'],
@@ -43,13 +43,13 @@ export const resumePaths = {
           name: 'page',
           in: 'query',
           description: '페이지 번호',
-          schema: { type: 'integer', minimum: 1, default: 1 }
+          schema: { type: 'integer', minimum: 1, default: 1 },
         },
         {
           name: 'limit',
           in: 'query',
           description: '페이지당 항목 수',
-          schema: { type: 'integer', minimum: 1, maximum: 100, default: 10 }
+          schema: { type: 'integer', minimum: 1, maximum: 100, default: 10 },
         },
         {
           name: 'status',
@@ -57,9 +57,9 @@ export const resumePaths = {
           description: '이력서 상태',
           schema: {
             type: 'string',
-            enum: ['draft', 'active', 'archived']
-          }
-        }
+            enum: ['draft', 'active', 'archived'],
+          },
+        },
       ],
       responses: {
         200: {
@@ -72,7 +72,7 @@ export const resumePaths = {
                   status: { type: 'string' },
                   data: {
                     type: 'array',
-                    items: { $ref: '#/components/schemas/Resume' }
+                    items: { $ref: '#/components/schemas/Resume' },
                   },
                   pagination: {
                     type: 'object',
@@ -80,16 +80,16 @@ export const resumePaths = {
                       total: { type: 'integer' },
                       pages: { type: 'integer' },
                       currentPage: { type: 'integer' },
-                      limit: { type: 'integer' }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
+                      limit: { type: 'integer' },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
   },
   '/resumes/{id}': {
     get: {
@@ -103,20 +103,20 @@ export const resumePaths = {
           in: 'path',
           required: true,
           description: '이력서 ID',
-          schema: { type: 'string' }
-        }
+          schema: { type: 'string' },
+        },
       ],
       responses: {
         200: {
           description: '이력서 조회 성공',
           content: {
             'application/json': {
-              schema: { $ref: '#/components/schemas/Resume' }
-            }
-          }
+              schema: { $ref: '#/components/schemas/Resume' },
+            },
+          },
         },
-        404: { description: '이력서를 찾을 수 없음' }
-      }
+        404: { description: '이력서를 찾을 수 없음' },
+      },
     },
     put: {
       tags: ['Resumes'],
@@ -129,27 +129,27 @@ export const resumePaths = {
           in: 'path',
           required: true,
           description: '이력서 ID',
-          schema: { type: 'string' }
-        }
+          schema: { type: 'string' },
+        },
       ],
       requestBody: {
         required: true,
         content: {
           'application/json': {
-            schema: { $ref: '#/components/schemas/ResumeInput' }
-          }
-        }
+            schema: { $ref: '#/components/schemas/ResumeInput' },
+          },
+        },
       },
       responses: {
         200: {
           description: '이력서 수정 성공',
           content: {
             'application/json': {
-              schema: { $ref: '#/components/schemas/Resume' }
-            }
-          }
-        }
-      }
+              schema: { $ref: '#/components/schemas/Resume' },
+            },
+          },
+        },
+      },
     },
     delete: {
       tags: ['Resumes'],
@@ -162,8 +162,8 @@ export const resumePaths = {
           in: 'path',
           required: true,
           description: '이력서 ID',
-          schema: { type: 'string' }
-        }
+          schema: { type: 'string' },
+        },
       ],
       responses: {
         200: {
@@ -174,14 +174,14 @@ export const resumePaths = {
                 type: 'object',
                 properties: {
                   status: { type: 'string' },
-                  message: { type: 'string' }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
+                  message: { type: 'string' },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
   },
   '/resumes/{id}/default': {
     put: {
@@ -195,20 +195,20 @@ export const resumePaths = {
           in: 'path',
           required: true,
           description: '이력서 ID',
-          schema: { type: 'string' }
-        }
+          schema: { type: 'string' },
+        },
       ],
       responses: {
         200: {
           description: '기본 이력서 설정 성공',
           content: {
             'application/json': {
-              schema: { $ref: '#/components/schemas/Resume' }
-            }
-          }
-        }
-      }
-    }
+              schema: { $ref: '#/components/schemas/Resume' },
+            },
+          },
+        },
+      },
+    },
   },
   '/resumes/{id}/versions': {
     post: {
@@ -222,19 +222,19 @@ export const resumePaths = {
           in: 'path',
           required: true,
           description: '이력서 ID',
-          schema: { type: 'string' }
-        }
+          schema: { type: 'string' },
+        },
       ],
       responses: {
         201: {
           description: '새 버전 생성 성공',
           content: {
             'application/json': {
-              schema: { $ref: '#/components/schemas/Resume' }
-            }
-          }
-        }
-      }
-    }
-  }
+              schema: { $ref: '#/components/schemas/Resume' },
+            },
+          },
+        },
+      },
+    },
+  },
 };

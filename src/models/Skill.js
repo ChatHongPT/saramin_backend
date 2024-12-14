@@ -1,41 +1,53 @@
 import mongoose from 'mongoose';
 
-const skillSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    unique: true,
-    trim: true
-  },
-  category: {
-    type: String,
-    required: true,
-    enum: ['programming', 'framework', 'database', 'tool', 'soft-skill', 'other']
-  },
-  description: String,
-  aliases: [String],
-  popularity: {
-    type: Number,
-    default: 0
-  },
-  relatedSkills: [{
-    skill: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Skill'
-    },
-    relationship: {
+const skillSchema = new mongoose.Schema(
+  {
+    name: {
       type: String,
-      enum: ['prerequisite', 'similar', 'complementary']
-    }
-  }],
-  createdAt: {
-    type: Date,
-    default: Date.now
+      required: true,
+      unique: true,
+      trim: true,
+    },
+    category: {
+      type: String,
+      required: true,
+      enum: [
+        'programming',
+        'framework',
+        'database',
+        'tool',
+        'soft-skill',
+        'other',
+      ],
+    },
+    description: String,
+    aliases: [String],
+    popularity: {
+      type: Number,
+      default: 0,
+    },
+    relatedSkills: [
+      {
+        skill: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Skill',
+        },
+        relationship: {
+          type: String,
+          enum: ['prerequisite', 'similar', 'complementary'],
+        },
+      },
+    ],
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
+    updatedAt: Date,
   },
-  updatedAt: Date
-}, {
-  timestamps: true
-});
+  {
+    timestamps: true,
+  }
+);
 
 // Text index for search
 skillSchema.index({ name: 'text', description: 'text' });

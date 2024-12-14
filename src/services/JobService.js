@@ -27,7 +27,7 @@ export class JobService {
         .skip((page - 1) * limit)
         .limit(limit)
         .lean(),
-      Job.countDocuments(query)
+      Job.countDocuments(query),
     ]);
 
     return { jobs, total };
@@ -47,8 +47,8 @@ export class JobService {
       status: 'active',
       $or: [
         { title: new RegExp(keyword, 'i') },
-        { description: new RegExp(keyword, 'i') }
-      ]
+        { description: new RegExp(keyword, 'i') },
+      ],
     };
 
     // Apply additional filters
@@ -72,7 +72,7 @@ export class JobService {
         .skip((page - 1) * limit)
         .limit(limit)
         .lean(),
-      Job.countDocuments(query)
+      Job.countDocuments(query),
     ]);
 
     return { jobs, total };

@@ -2,9 +2,7 @@ import { body } from 'express-validator';
 import { validateRequest } from './common/validateRequest.js';
 
 export const validateReview = [
-  body('job')
-    .isMongoId()
-    .withMessage('올바른 채용공고 ID가 아닙니다.'),
+  body('job').isMongoId().withMessage('올바른 채용공고 ID가 아닙니다.'),
 
   body('rating.overall')
     .isInt({ min: 1, max: 5 })
@@ -46,5 +44,5 @@ export const validateReview = [
     .isBoolean()
     .withMessage('익명 여부는 boolean 값이어야 합니다.'),
 
-  validateRequest
+  validateRequest,
 ];

@@ -6,7 +6,7 @@ export const getPaginationOptions = (query) => {
   return {
     page,
     limit,
-    skip
+    skip,
   };
 };
 
@@ -17,7 +17,7 @@ export const createPaginationResult = (items, total, options) => {
       total,
       pages: Math.ceil(total / options.limit),
       currentPage: options.page,
-      limit: options.limit
-    }
+      limit: options.limit,
+    },
   };
 };

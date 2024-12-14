@@ -9,9 +9,9 @@ export const reviewPaths = {
         required: true,
         content: {
           'application/json': {
-            schema: { $ref: '#/components/schemas/ReviewInput' }
-          }
-        }
+            schema: { $ref: '#/components/schemas/ReviewInput' },
+          },
+        },
       },
       responses: {
         201: {
@@ -23,13 +23,13 @@ export const reviewPaths = {
                 properties: {
                   status: { type: 'string' },
                   message: { type: 'string' },
-                  data: { $ref: '#/components/schemas/Review' }
-                }
-              }
-            }
-          }
-        }
-      }
+                  data: { $ref: '#/components/schemas/Review' },
+                },
+              },
+            },
+          },
+        },
+      },
     },
     get: {
       tags: ['Reviews'],
@@ -39,25 +39,25 @@ export const reviewPaths = {
         {
           name: 'page',
           in: 'query',
-          schema: { type: 'integer', minimum: 1, default: 1 }
+          schema: { type: 'integer', minimum: 1, default: 1 },
         },
         {
           name: 'limit',
           in: 'query',
-          schema: { type: 'integer', minimum: 1, maximum: 100, default: 20 }
+          schema: { type: 'integer', minimum: 1, maximum: 100, default: 20 },
         },
         {
           name: 'company',
           in: 'query',
           schema: { type: 'string' },
-          description: '회사 ID'
+          description: '회사 ID',
         },
         {
           name: 'job',
           in: 'query',
           schema: { type: 'string' },
-          description: '채용공고 ID'
-        }
+          description: '채용공고 ID',
+        },
       ],
       responses: {
         200: {
@@ -70,7 +70,7 @@ export const reviewPaths = {
                   status: { type: 'string' },
                   data: {
                     type: 'array',
-                    items: { $ref: '#/components/schemas/Review' }
+                    items: { $ref: '#/components/schemas/Review' },
                   },
                   pagination: {
                     type: 'object',
@@ -78,16 +78,16 @@ export const reviewPaths = {
                       total: { type: 'integer' },
                       pages: { type: 'integer' },
                       currentPage: { type: 'integer' },
-                      limit: { type: 'integer' }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
+                      limit: { type: 'integer' },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
   },
   '/reviews/{id}': {
     get: {
@@ -98,19 +98,19 @@ export const reviewPaths = {
           name: 'id',
           in: 'path',
           required: true,
-          schema: { type: 'string' }
-        }
+          schema: { type: 'string' },
+        },
       ],
       responses: {
         200: {
           description: '리뷰 조회 성공',
           content: {
             'application/json': {
-              schema: { $ref: '#/components/schemas/Review' }
-            }
-          }
-        }
-      }
+              schema: { $ref: '#/components/schemas/Review' },
+            },
+          },
+        },
+      },
     },
     put: {
       tags: ['Reviews'],
@@ -121,27 +121,27 @@ export const reviewPaths = {
           name: 'id',
           in: 'path',
           required: true,
-          schema: { type: 'string' }
-        }
+          schema: { type: 'string' },
+        },
       ],
       requestBody: {
         required: true,
         content: {
           'application/json': {
-            schema: { $ref: '#/components/schemas/ReviewInput' }
-          }
-        }
+            schema: { $ref: '#/components/schemas/ReviewInput' },
+          },
+        },
       },
       responses: {
         200: {
           description: '리뷰 수정 성공',
           content: {
             'application/json': {
-              schema: { $ref: '#/components/schemas/Review' }
-            }
-          }
-        }
-      }
+              schema: { $ref: '#/components/schemas/Review' },
+            },
+          },
+        },
+      },
     },
     delete: {
       tags: ['Reviews'],
@@ -152,8 +152,8 @@ export const reviewPaths = {
           name: 'id',
           in: 'path',
           required: true,
-          schema: { type: 'string' }
-        }
+          schema: { type: 'string' },
+        },
       ],
       responses: {
         200: {
@@ -164,14 +164,14 @@ export const reviewPaths = {
                 type: 'object',
                 properties: {
                   status: { type: 'string' },
-                  message: { type: 'string' }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
+                  message: { type: 'string' },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
   },
   '/reviews/{id}/helpful': {
     post: {
@@ -183,19 +183,19 @@ export const reviewPaths = {
           name: 'id',
           in: 'path',
           required: true,
-          schema: { type: 'string' }
-        }
+          schema: { type: 'string' },
+        },
       ],
       responses: {
         200: {
           description: '도움됨 표시 성공',
           content: {
             'application/json': {
-              schema: { $ref: '#/components/schemas/Review' }
-            }
-          }
-        }
-      }
+              schema: { $ref: '#/components/schemas/Review' },
+            },
+          },
+        },
+      },
     },
     delete: {
       tags: ['Reviews'],
@@ -206,19 +206,19 @@ export const reviewPaths = {
           name: 'id',
           in: 'path',
           required: true,
-          schema: { type: 'string' }
-        }
+          schema: { type: 'string' },
+        },
       ],
       responses: {
         200: {
           description: '도움됨 표시 취소 성공',
           content: {
             'application/json': {
-              schema: { $ref: '#/components/schemas/Review' }
-            }
-          }
-        }
-      }
-    }
-  }
+              schema: { $ref: '#/components/schemas/Review' },
+            },
+          },
+        },
+      },
+    },
+  },
 };

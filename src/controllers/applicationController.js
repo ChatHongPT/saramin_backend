@@ -11,15 +11,17 @@ export class ApplicationController {
       const userId = req.user.id;
       const applicationData = {
         ...req.body,
-        user: userId
+        user: userId,
       };
 
-      const application = await this.applicationService.createApplication(applicationData);
+      const application = await this.applicationService.createApplication(
+        applicationData
+      );
 
       res.status(201).json({
         status: 'success',
         message: '지원이 완료되었습니다.',
-        data: application
+        data: application,
       });
     } catch (error) {
       next(error);
@@ -31,16 +33,17 @@ export class ApplicationController {
       const userId = req.user.id;
       const { page = 1, limit = 20, status } = req.query;
 
-      const { applications, pagination } = await this.applicationService.getUserApplications(
-        userId,
-        { page: parseInt(page), limit: parseInt(limit) },
-        status
-      );
+      const { applications, pagination } =
+        await this.applicationService.getUserApplications(
+          userId,
+          { page: parseInt(page), limit: parseInt(limit) },
+          status
+        );
 
       res.json({
         status: 'success',
         data: applications,
-        pagination
+        pagination,
       });
     } catch (error) {
       next(error);
@@ -52,11 +55,14 @@ export class ApplicationController {
       const { id } = req.params;
       const userId = req.user.id;
 
-      const application = await this.applicationService.getApplicationById(id, userId);
+      const application = await this.applicationService.getApplicationById(
+        id,
+        userId
+      );
 
       res.json({
         status: 'success',
-        data: application
+        data: application,
       });
     } catch (error) {
       next(error);
@@ -72,7 +78,7 @@ export class ApplicationController {
 
       res.json({
         status: 'success',
-        message: '지원이 취소되었습니다.'
+        message: '지원이 취소되었습니다.',
       });
     } catch (error) {
       next(error);

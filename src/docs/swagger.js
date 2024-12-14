@@ -11,39 +11,39 @@ export const swaggerDocs = {
   info: {
     title: 'Saramin API',
     version: '1.0.0',
-    description: '사람인 채용정보 API 문서'
+    description: '사람인 채용정보 API 문서',
   },
   servers: [
     {
       url: '/api',
-      description: 'API 서버'
-    }
+      description: 'API 서버',
+    },
   ],
   tags: [
     {
       name: 'Auth',
-      description: '인증 관련 API'
+      description: '인증 관련 API',
     },
     {
       name: 'Jobs',
-      description: '채용 공고 관련 API'
+      description: '채용 공고 관련 API',
     },
     {
       name: 'Applications',
-      description: '지원 관련 API'
+      description: '지원 관련 API',
     },
     {
       name: 'Bookmarks',
-      description: '북마크 관련 API'
+      description: '북마크 관련 API',
     },
     {
       name: 'Resumes',
-      description: '이력서 관련 API'
+      description: '이력서 관련 API',
     },
     {
       name: 'Reviews',
-      description: '리뷰 관련 API'
-    }
+      description: '리뷰 관련 API',
+    },
   ],
   components: {
     schemas,
@@ -51,9 +51,9 @@ export const swaggerDocs = {
       bearerAuth: {
         type: 'http',
         scheme: 'bearer',
-        bearerFormat: 'JWT'
-      }
-    }
+        bearerFormat: 'JWT',
+      },
+    },
   },
   paths: {
     ...authPaths,
@@ -61,6 +61,6 @@ export const swaggerDocs = {
     ...applicationPaths,
     ...bookmarkPaths,
     ...resumePaths,
-    ...reviewPaths
-  }
+    ...reviewPaths,
+  },
 };

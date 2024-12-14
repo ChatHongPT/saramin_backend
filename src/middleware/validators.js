@@ -16,7 +16,7 @@ export const validateRegistration = [
     .trim()
     .isLength({ min: 2 })
     .withMessage('이름은 최소 2자 이상이어야 합니다.'),
-  validateRequest
+  validateRequest,
 ];
 
 export const validateLogin = [
@@ -24,10 +24,8 @@ export const validateLogin = [
     .isEmail()
     .withMessage('유효한 이메일 주소를 입력해주세요.')
     .normalizeEmail(),
-  body('password')
-    .notEmpty()
-    .withMessage('비밀번호를 입력해주세요.'),
-  validateRequest
+  body('password').notEmpty().withMessage('비밀번호를 입력해주세요.'),
+  validateRequest,
 ];
 
 // Job validators
@@ -40,21 +38,12 @@ export const validateJobSearch = [
     .optional()
     .isInt({ min: 1, max: 100 })
     .withMessage('한 페이지당 항목 수는 1-100 사이여야 합니다.'),
-  query('location')
-    .optional()
-    .isString()
-    .trim(),
-  query('experience')
-    .optional()
-    .isString()
-    .trim(),
-  query('skills')
-    .optional()
-    .isString()
-    .trim(),
+  query('location').optional().isString().trim(),
+  query('experience').optional().isString().trim(),
+  query('skills').optional().isString().trim(),
   query('type')
     .optional()
     .isIn(['full-time', 'part-time', 'contract', 'internship', 'temporary'])
     .withMessage('올바른 고용 형태를 선택해주세요.'),
-  validateRequest
+  validateRequest,
 ];

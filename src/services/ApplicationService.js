@@ -13,7 +13,7 @@ export class ApplicationService {
     // 이미 지원한 경우 체크
     const existingApplication = await Application.findOne({
       user: applicationData.user,
-      job: applicationData.job
+      job: applicationData.job,
     });
 
     if (existingApplication) {
@@ -43,7 +43,7 @@ export class ApplicationService {
         .sort('-createdAt')
         .skip((page - 1) * limit)
         .limit(limit),
-      Application.countDocuments(query)
+      Application.countDocuments(query),
     ]);
 
     return {
@@ -52,15 +52,15 @@ export class ApplicationService {
         total,
         pages: Math.ceil(total / limit),
         page,
-        limit
-      }
+        limit,
+      },
     };
   }
 
   async getApplicationById(id, userId) {
     const application = await Application.findOne({
       _id: id,
-      user: userId
+      user: userId,
     }).populate(['job', 'user']);
 
     if (!application) {
@@ -73,7 +73,7 @@ export class ApplicationService {
   async cancelApplication(id, userId) {
     const application = await Application.findOne({
       _id: id,
-      user: userId
+      user: userId,
     });
 
     if (!application) {

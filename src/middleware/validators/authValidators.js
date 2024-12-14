@@ -15,7 +15,7 @@ export const validateRegistration = [
     .trim()
     .isLength({ min: 2 })
     .withMessage('이름은 최소 2자 이상이어야 합니다.'),
-  validateRequest
+  validateRequest,
 ];
 
 export const validateLogin = [
@@ -23,10 +23,8 @@ export const validateLogin = [
     .isEmail()
     .withMessage('유효한 이메일 주소를 입력해주세요.')
     .normalizeEmail(),
-  body('password')
-    .notEmpty()
-    .withMessage('비밀번호를 입력해주세요.'),
-  validateRequest
+  body('password').notEmpty().withMessage('비밀번호를 입력해주세요.'),
+  validateRequest,
 ];
 
 export const validateProfileUpdate = [
@@ -46,12 +44,10 @@ export const validateProfileUpdate = [
     .trim()
     .matches(/^[0-9-+()]*$/)
     .withMessage('올바른 전화번호 형식이 아닙니다.'),
-  body('profile.address')
-    .optional()
-    .trim(),
+  body('profile.address').optional().trim(),
   body('profile.skills')
     .optional()
     .isArray()
     .withMessage('skills는 배열 형태여야 합니다.'),
-  validateRequest
+  validateRequest,
 ];

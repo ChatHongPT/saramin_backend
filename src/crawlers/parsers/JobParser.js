@@ -15,8 +15,10 @@ export class JobParser {
       const location = conditions.eq(0).text().trim();
       const experience = this.parseExperience(conditions.eq(1).text().trim());
       const education = this.parseEducation(conditions.eq(2).text().trim());
-      const employmentType = this.parseEmploymentType(conditions.eq(3).text().trim());
-      
+      const employmentType = this.parseEmploymentType(
+        conditions.eq(3).text().trim()
+      );
+
       const jobData = {
         companyName,
         title,
@@ -27,7 +29,7 @@ export class JobParser {
         education,
         description: this.parseDescription(job),
         salary: this.parseSalary(job),
-        skills: this.parseSkills($, job)
+        skills: this.parseSkills($, job),
       };
 
       return jobData;
@@ -41,7 +43,7 @@ export class JobParser {
     return {
       required: text,
       min: 0,
-      max: text.includes('무관') ? 99 : this.extractYears(text)
+      max: text.includes('무관') ? 99 : this.extractYears(text),
     };
   }
 
@@ -49,19 +51,19 @@ export class JobParser {
     return {
       level: text,
       required: !text.includes('무관'),
-      field: ''
+      field: '',
     };
   }
 
   parseEmploymentType(text) {
     const typeMap = {
-      '정규직': 'full-time',
-      '계약직': 'contract',
-      '인턴': 'internship',
-      '파견직': 'temporary',
-      '아르바이트': 'part-time'
+      정규직: 'full-time',
+      계약직: 'contract',
+      인턴: 'internship',
+      파견직: 'temporary',
+      아르바이트: 'part-time',
     };
-    
+
     for (const [key, value] of Object.entries(typeMap)) {
       if (text.includes(key)) return value;
     }
@@ -70,7 +72,7 @@ export class JobParser {
 
   parseDescription(job) {
     const description = [];
-    
+
     // 직무 내용
     const sector = job.find('.job_sector').text().trim();
     if (sector) {
@@ -87,20 +89,22 @@ export class JobParser {
   }
 
   parseSalary(job) {
-    const salaryText = job.find('.salary_info').text().trim() || 
-                      job.find('.area_badge .salary').text().trim() || 
-                      '회사내규에 따름';
-    
+    const salaryText =
+      job.find('.salary_info').text().trim() ||
+      job.find('.area_badge .salary').text().trim() ||
+      '회사내규에 따름';
+
     return {
       text: salaryText,
-      isNegotiable: salaryText.includes('회사내규') || salaryText.includes('협의'),
-      currency: 'KRW'
+      isNegotiable:
+        salaryText.includes('회사내규') || salaryText.includes('협의'),
+      currency: 'KRW',
     };
   }
 
   parseSkills($, job) {
     const skills = new Set();
-    
+
     // 기술 스택 추출
     job.find('.job_sector span:not(.bar)').each((_, elem) => {
       const skill = $(elem).text().trim();
@@ -117,11 +121,11 @@ export class JobParser {
     });
 
     return Array.from(skills)
-      .filter(skill => skill.length > 0)
-      .map(name => ({
+      .filter((skill) => skill.length > 0)
+      .map((name) => ({
         name,
         level: 'intermediate',
-        required: true
+        required: true,
       }));
   }
 

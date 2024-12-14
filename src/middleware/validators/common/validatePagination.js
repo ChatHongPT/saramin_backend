@@ -10,5 +10,5 @@ export const validatePagination = [
     .optional()
     .isInt({ min: 1, max: 100 })
     .withMessage('한 페이지당 항목 수는 1-100 사이여야 합니다.'),
-  validateRequest
+  validateRequest,
 ];

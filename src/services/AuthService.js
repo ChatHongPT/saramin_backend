@@ -48,7 +48,7 @@ export class AuthService {
     try {
       const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
       const user = await User.findById(decoded.id);
-      
+
       if (!user) {
         throw new ApiError(401, '유효하지 않은 토큰입니다.');
       }
@@ -75,7 +75,7 @@ export class AuthService {
     if (updateData.profile) {
       user.profile = {
         ...user.profile,
-        ...updateData.profile
+        ...updateData.profile,
       };
     }
 

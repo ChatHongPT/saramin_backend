@@ -15,7 +15,7 @@ export const validateJobSearch = [
     .isString()
     .matches(/^(-)?[a-zA-Z]+$/)
     .withMessage('정렬 기준이 올바르지 않습니다.'),
-  validateRequest
+  validateRequest,
 ];
 
 export const validateJobCreate = [
@@ -29,20 +29,15 @@ export const validateJobCreate = [
     .trim()
     .notEmpty()
     .withMessage('채용 공고 내용을 입력해주세요.'),
-  body('location')
-    .trim()
-    .notEmpty()
-    .withMessage('근무 지역을 입력해주세요.'),
+  body('location').trim().notEmpty().withMessage('근무 지역을 입력해주세요.'),
   body('type')
     .isIn(['full-time', 'part-time', 'contract', 'internship', 'temporary'])
     .withMessage('올바른 고용 형태를 선택해주세요.'),
-  validateRequest
+  validateRequest,
 ];
 
 export const validateJobUpdate = [
-  param('id')
-    .isMongoId()
-    .withMessage('올바른 채용 공고 ID가 아닙니다.'),
+  param('id').isMongoId().withMessage('올바른 채용 공고 ID가 아닙니다.'),
   body('title')
     .optional()
     .trim()
@@ -50,5 +45,5 @@ export const validateJobUpdate = [
     .withMessage('채용 공고 제목을 입력해주세요.')
     .isLength({ max: 200 })
     .withMessage('제목은 200자를 초과할 수 없습니다.'),
-  validateRequest
+  validateRequest,
 ];

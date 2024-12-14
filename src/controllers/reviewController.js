@@ -9,12 +9,12 @@ export class ReviewController {
   createReview = async (req, res) => {
     const userId = req.user.id;
     const reviewData = req.body;
-    
+
     const review = await this.reviewService.createReview(userId, reviewData);
     return successResponse(res, {
       statusCode: 201,
       message: '리뷰가 작성되었습니다.',
-      data: review
+      data: review,
     });
   };
 
@@ -27,14 +27,14 @@ export class ReviewController {
 
     const { reviews, total } = await this.reviewService.getReviews(filters, {
       page: parseInt(page),
-      limit: parseInt(limit)
+      limit: parseInt(limit),
     });
 
     return paginatedResponse(res, {
       items: reviews,
       total,
       page: parseInt(page),
-      limit: parseInt(limit)
+      limit: parseInt(limit),
     });
   };
 
@@ -49,10 +49,14 @@ export class ReviewController {
     const userId = req.user.id;
     const updateData = req.body;
 
-    const review = await this.reviewService.updateReview(id, userId, updateData);
+    const review = await this.reviewService.updateReview(
+      id,
+      userId,
+      updateData
+    );
     return successResponse(res, {
       message: '리뷰가 수정되었습니다.',
-      data: review
+      data: review,
     });
   };
 
@@ -62,7 +66,7 @@ export class ReviewController {
 
     await this.reviewService.deleteReview(id, userId);
     return successResponse(res, {
-      message: '리뷰가 삭제되었습니다.'
+      message: '리뷰가 삭제되었습니다.',
     });
   };
 
@@ -73,7 +77,7 @@ export class ReviewController {
     const review = await this.reviewService.markHelpful(id, userId);
     return successResponse(res, {
       message: '리뷰가 도움됨으로 표시되었습니다.',
-      data: review
+      data: review,
     });
   };
 
@@ -84,7 +88,7 @@ export class ReviewController {
     const review = await this.reviewService.unmarkHelpful(id, userId);
     return successResponse(res, {
       message: '리뷰의 도움됨 표시가 취소되었습니다.',
-      data: review
+      data: review,
     });
   };
 }

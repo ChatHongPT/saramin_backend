@@ -2,7 +2,10 @@ import express from 'express';
 import { ReviewController } from '../controllers/reviewController.js';
 import { authenticate } from '../middleware/auth.js';
 import { validateReview } from '../middleware/validators/reviewValidators.js';
-import { validateId, validatePagination } from '../middleware/validators/common/index.js';
+import {
+  validateId,
+  validatePagination,
+} from '../middleware/validators/common/index.js';
 import { asyncWrapper } from '../middleware/asyncWrapper.js';
 
 export const router = express.Router();

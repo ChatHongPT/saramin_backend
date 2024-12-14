@@ -8,13 +8,13 @@ import swaggerUi from 'swagger-ui-express';
 import { router as apiRouter } from './routes/api.js';
 import { swaggerDocs } from './docs/swagger.js';
 import { connectDB } from './config/database.js';
-import { 
-  limiter, 
-  apiLimiter, 
-  authLimiter, 
-  sanitizeData, 
-  preventXSS, 
-  preventParamPollution 
+import {
+  limiter,
+  apiLimiter,
+  authLimiter,
+  sanitizeData,
+  preventXSS,
+  preventParamPollution,
 } from './middleware/security.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import { requestLogger } from './middleware/requestLogger.js';
@@ -67,7 +67,9 @@ app.use((req, res) => {
 // Start server
 const server = app.listen(PORT, () => {
   Logger.info(`Server is running on port ${PORT}`);
-  Logger.info(`API Documentation available at http://localhost:${PORT}/api-docs`);
+  Logger.info(
+    `API Documentation available at http://localhost:${PORT}/api-docs`
+  );
 });
 
 // Handle unhandled promise rejections

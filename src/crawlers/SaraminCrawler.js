@@ -24,7 +24,7 @@ export class SaraminCrawler {
       try {
         console.log(`${page}페이지 크롤링 중...`);
         const jobs = await this.crawlPage(keyword, page);
-        
+
         for (const jobData of jobs) {
           try {
             // 중복 체크
@@ -35,14 +35,16 @@ export class SaraminCrawler {
             }
 
             // 회사 정보 처리
-            const company = await this.companyService.findOrCreate(jobData.companyName);
-            
+            const company = await this.companyService.findOrCreate(
+              jobData.companyName
+            );
+
             // 새 채용공고 저장
             const job = await this.jobService.create({
               ...jobData,
-              company: company._id
+              company: company._id,
             });
-            
+
             successCount++;
             console.log('채용공고 저장 성공:', job.title);
           } catch (error) {
@@ -53,7 +55,7 @@ export class SaraminCrawler {
 
         totalJobs += jobs.length;
         console.log(`${page}페이지 완료: ${jobs.length}개 채용공고 처리`);
-        
+
         if (page < pages) {
           await delay(2000 + Math.random() * 3000);
         }
@@ -89,6 +91,8 @@ export class SaraminCrawler {
   }
 
   buildSearchUrl(keyword, page) {
-    return `https://www.saramin.co.kr/zf_user/search/recruit?searchType=search&searchword=${encodeURIComponent(keyword)}&recruitPage=${page}`;
+    return `https://www.saramin.co.kr/zf_user/search/recruit?searchType=search&searchword=${encodeURIComponent(
+      keyword
+    )}&recruitPage=${page}`;
   }
 }

@@ -6,7 +6,7 @@ const levels = {
   warn: 1,
   info: 2,
   http: 3,
-  debug: 4
+  debug: 4,
 };
 
 const level = () => {
@@ -19,7 +19,7 @@ const colors = {
   warn: 'yellow',
   info: 'green',
   http: 'magenta',
-  debug: 'white'
+  debug: 'white',
 };
 
 winston.addColors(colors);
@@ -39,21 +39,21 @@ const transports = [
     datePattern: 'YYYY-MM-DD',
     level: 'error',
     maxSize: '20m',
-    maxFiles: '14d'
+    maxFiles: '14d',
   }),
   new winston.transports.DailyRotateFile({
     filename: 'logs/all-%DATE%.log',
     datePattern: 'YYYY-MM-DD',
     maxSize: '20m',
-    maxFiles: '14d'
-  })
+    maxFiles: '14d',
+  }),
 ];
 
 const Logger = winston.createLogger({
   level: level(),
   levels,
   format,
-  transports
+  transports,
 });
 
 export default Logger;

@@ -2,7 +2,7 @@ import { ApiError } from '../utils/ApiError.js';
 
 export const roles = {
   USER: 'user',
-  ADMIN: 'admin'
+  ADMIN: 'admin',
 };
 
 export const checkRole = (...allowedRoles) => {

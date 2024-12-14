@@ -12,12 +12,12 @@ export class AuthController {
     try {
       const userData = req.body;
       const { user, tokens } = await this.authService.register(userData);
-      
+
       res.cookie('refreshToken', tokens.refreshToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'strict',
-        maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       });
 
       res.status(201).json({
@@ -25,9 +25,9 @@ export class AuthController {
         user: {
           id: user._id,
           email: user.email,
-          name: user.name
+          name: user.name,
         },
-        accessToken: tokens.accessToken
+        accessToken: tokens.accessToken,
       });
     } catch (error) {
       next(error);
@@ -43,7 +43,7 @@ export class AuthController {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'strict',
-        maxAge: 7 * 24 * 60 * 60 * 1000
+        maxAge: 7 * 24 * 60 * 60 * 1000,
       });
 
       res.json({
@@ -51,9 +51,9 @@ export class AuthController {
         user: {
           id: user._id,
           email: user.email,
-          name: user.name
+          name: user.name,
         },
-        accessToken: tokens.accessToken
+        accessToken: tokens.accessToken,
       });
     } catch (error) {
       next(error);
@@ -68,16 +68,16 @@ export class AuthController {
       }
 
       const tokens = await this.authService.refreshTokens(refreshToken);
-      
+
       res.cookie('refreshToken', tokens.refreshToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'strict',
-        maxAge: 7 * 24 * 60 * 60 * 1000
+        maxAge: 7 * 24 * 60 * 60 * 1000,
       });
 
       res.json({
-        accessToken: tokens.accessToken
+        accessToken: tokens.accessToken,
       });
     } catch (error) {
       next(error);
@@ -88,7 +88,10 @@ export class AuthController {
     try {
       const userId = req.user.id;
       const updateData = req.body;
-      const updatedUser = await this.authService.updateProfile(userId, updateData);
+      const updatedUser = await this.authService.updateProfile(
+        userId,
+        updateData
+      );
 
       res.json({
         message: '프로필이 업데이트되었습니다.',
@@ -96,8 +99,8 @@ export class AuthController {
           id: updatedUser._id,
           email: updatedUser.email,
           name: updatedUser.name,
-          profile: updatedUser.profile
-        }
+          profile: updatedUser.profile,
+        },
       });
     } catch (error) {
       next(error);
@@ -114,8 +117,8 @@ export class AuthController {
           id: user._id,
           email: user.email,
           name: user.name,
-          profile: user.profile
-        }
+          profile: user.profile,
+        },
       });
     } catch (error) {
       next(error);
@@ -129,7 +132,7 @@ export class AuthController {
 
       res.clearCookie('refreshToken');
       res.json({
-        message: '계정이 삭제되었습니다.'
+        message: '계정이 삭제되었습니다.',
       });
     } catch (error) {
       next(error);
