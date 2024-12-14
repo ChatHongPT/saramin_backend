@@ -37,4 +37,4 @@ export const searchHistorySchemas = {
         createdAt: { type: 'string', format: 'date-time' }
       }
     }
-  };.
+  };
