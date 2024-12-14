@@ -211,12 +211,28 @@
 2024-12-14 17:32:53:3253 [32minfo[39m: [32mAPI Documentation available at http://localhost:3000/api-docs[39m
 2024-12-14 17:32:53:3253 [35mhttp[39m: [35mGET / 200 7ms - undefined[39m
 2024-12-14 17:32:58:3258 [35mhttp[39m: [35mGET / 200 1ms - undefined[39m
-2024-12-14 17:33:31:3331 [32minfo[39m: [32mServer is running on port 3000[39m
-2024-12-14 17:33:31:3331 [32minfo[39m: [32mAPI Documentation available at http://localhost:3000/api-docs[39m
-2024-12-14 17:33:31:3331 [35mhttp[39m: [35mGET / 200 8ms - undefined[39m
-2024-12-14 17:33:34:3334 [35mhttp[39m: [35mGET / 200 3ms - undefined[39m
-2024-12-14 17:42:24:4224 [35mhttp[39m: [35mGET / 200 5ms - undefined[39m
-2024-12-14 17:46:49:4649 [32minfo[39m: [32mServer is running on port 3000[39m
-2024-12-14 17:46:49:4649 [32minfo[39m: [32mAPI Documentation available at http://localhost:3000/api-docs[39m
-2024-12-14 17:46:49:4649 [35mhttp[39m: [35mGET / 200 5ms - undefined[39m
-2024-12-14 17:46:52:4652 [35mhttp[39m: [35mGET / 200 10ms - undefined[39m
+2024-12-14 21:28:32:2832 [32minfo[39m: [32mServer is running on port 3000[39m
+2024-12-14 21:28:32:2832 [32minfo[39m: [32mAPI Documentation available at http://localhost:3000/api-docs[39m
+2024-12-14 21:28:32:2832 [35mhttp[39m: [35mGET / 200 11ms - undefined[39m
+2024-12-14 21:32:31:3231 [32minfo[39m: [32mServer is running on port 3000[39m
+2024-12-14 21:32:31:3231 [32minfo[39m: [32mAPI Documentation available at http://localhost:3000/api-docs[39m
+2024-12-14 21:32:31:3231 [35mhttp[39m: [35mGET / 200 4ms - undefined[39m
+2024-12-14 21:37:18:3718 [32minfo[39m: [32mServer is running on port 3000[39m
+2024-12-14 21:37:18:3718 [32minfo[39m: [32mAPI Documentation available at http://localhost:3000/api-docs[39m
+2024-12-14 21:37:18:3718 [35mhttp[39m: [35mGET / 200 5ms - undefined[39m
+2024-12-14 21:38:01:381 [32minfo[39m: [32mServer is running on port 3000[39m
+2024-12-14 21:38:01:381 [32minfo[39m: [32mAPI Documentation available at http://localhost:3000/api-docs[39m
+2024-12-14 21:38:01:381 [32minfo[39m: [32mMongoDB Connected: cluster0-shard-00-02.vyeu8.mongodb.net[39m
+2024-12-14 21:38:03:383 [35mhttp[39m: [35mGET /api-docs/ 304 4ms - ::1[39m
+2024-12-14 21:38:03:383 [35mhttp[39m: [35mGET /api-docs/swagger-ui.css 304 2ms - ::1[39m
+2024-12-14 21:38:03:383 [35mhttp[39m: [35mGET /api-docs/swagger-ui-init.js 304 2ms - ::1[39m
+2024-12-14 21:38:03:383 [35mhttp[39m: [35mGET /api-docs/swagger-ui-bundle.js 304 4ms - ::1[39m
+2024-12-14 21:38:03:383 [35mhttp[39m: [35mGET /api-docs/swagger-ui-standalone-preset.js 304 7ms - ::1[39m
+2024-12-14 21:52:42:5242 [32minfo[39m: [32mServer is running on port 3000[39m
+2024-12-14 21:52:42:5242 [32minfo[39m: [32mAPI Documentation available at http://localhost:3000/api-docs[39m
+2024-12-14 21:52:42:5242 [32minfo[39m: [32mMongoDB Connected: cluster0-shard-00-01.vyeu8.mongodb.net[39m
+2024-12-14 21:52:45:5245 [35mhttp[39m: [35mGET /api-docs/ 304 4ms - ::1[39m
+2024-12-14 21:52:45:5245 [35mhttp[39m: [35mGET /api-docs/swagger-ui.css 304 2ms - ::1[39m
+2024-12-14 21:52:45:5245 [35mhttp[39m: [35mGET /api-docs/swagger-ui-bundle.js 304 3ms - ::1[39m
+2024-12-14 21:52:45:5245 [35mhttp[39m: [35mGET /api-docs/swagger-ui-init.js 200 5ms - ::1[39m
+2024-12-14 21:52:45:5245 [35mhttp[39m: [35mGET /api-docs/swagger-ui-standalone-preset.js 304 8ms - ::1[39m

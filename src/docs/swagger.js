@@ -16,8 +16,12 @@ export const swaggerDocs = {
   },
   servers: [
     {
-      url: '/api',
-      description: 'API 서버',
+      url: 'http://113.198.66.75:13085',
+      description: 'Production server (Cloud)',
+    },
+    {
+      url: 'http://localhost:3000',
+      description: 'Development server (Local)',
     },
   ],
   tags: [
