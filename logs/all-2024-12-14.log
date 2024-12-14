@@ -182,16 +182,5 @@
 2024-12-14 14:19:17:1917 [35mhttp[39m: [35mGET / 200 2ms - undefined[39m
 2024-12-14 14:55:56:5556 [35mhttp[39m: [35mGET / 200 9ms - undefined[39m
 2024-12-14 14:59:59:5959 [35mhttp[39m: [35mGET / 200 6ms - undefined[39m
-2024-12-14 15:05:09:59 [32minfo[39m: [32mServer is running on port 3000[39m
-2024-12-14 15:05:09:59 [32minfo[39m: [32mAPI Documentation available at http://localhost:3000/api-docs[39m
-2024-12-14 15:05:10:510 [32minfo[39m: [32mMongoDB Connected: cluster0-shard-00-00.vyeu8.mongodb.net[39m
-2024-12-14 15:05:12:512 [35mhttp[39m: [35mGET /api-docs/ 304 4ms - ::1[39m
-2024-12-14 15:05:12:512 [35mhttp[39m: [35mGET /api-docs/swagger-ui-init.js 304 1ms - ::1[39m
-2024-12-14 15:05:12:512 [35mhttp[39m: [35mGET /api-docs/swagger-ui.css 200 10ms - ::1[39m
-2024-12-14 15:05:12:512 [35mhttp[39m: [35mGET /api-docs/swagger-ui-standalone-preset.js 200 11ms - ::1[39m
-2024-12-14 15:05:12:512 [35mhttp[39m: [35mGET /api-docs/swagger-ui-bundle.js 200 18ms - ::1[39m
-2024-12-14 15:05:30:530 [35mhttp[39m: [35mGET /api/jobs?page=1&limit=20&sort=latest&keyword=%ED%95%9C%EA%B5%AD 200 54ms - ::1[39m
-2024-12-14 15:05:46:546 [35mhttp[39m: [35mGET /api/jobs?page=1&limit=20&sort=latest 200 74ms - ::1[39m
-2024-12-14 15:06:45:645 [35mhttp[39m: [35mGET /api/jobs?page=1&limit=20&sort=latest 304 65ms - ::1[39m
-2024-12-14 15:06:56:656 [35mhttp[39m: [35mGET /api/jobs?page=1&limit=20&sort=latest&location=%EC%84%9C%EC%9A%B8&skills=Python 200 51ms - ::1[39m
-2024-12-14 15:07:13:713 [35mhttp[39m: [35mGET /api/search-history?page=1&limit=20 304 36ms - ::1[39m
+2024-12-14 15:03:34:334 [35mhttp[39m: [35mGET / 200 3ms - undefined[39m
+2024-12-14 15:08:19:819 [35mhttp[39m: [35mGET / 200 7ms - undefined[39m

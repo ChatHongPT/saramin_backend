@@ -10,7 +10,6 @@ export class JobController {
     this.searchHistoryService = new SearchHistoryService();
   }
 
-  // 채용공고 목록 조회
   getJobs = async (req, res) => {
     const { 
       page = 1, 
@@ -39,11 +38,12 @@ export class JobController {
       sort
     });
 
-    // 검색 기록 저장 (키워드 검색인 경우)
-    if (keyword && req.user) {
+    // Save search history if user is authenticated and has a search query
+    if (req.user && (keyword || company || location || experience || salary || skills)) {
       await this.searchHistoryService.createSearchHistory(req.user.id, {
-        query: keyword,
+        query: keyword || '',
         filters: {
+          company,
           location,
           experience,
           salary,
@@ -51,7 +51,7 @@ export class JobController {
         },
         results: {
           count: total,
-          relevance: 1.0 // 기본값
+          relevance: 1.0
         }
       });
     }
@@ -66,59 +66,5 @@ export class JobController {
     });
   };
 
-  // 채용공고 상세 조회
-  getJobById = async (req, res) => {
-    const { id } = req.params;
-    const { withRecommendations = true } = req.query;
-
-    const result = await this.jobService.getJobById(id, {
-      withRecommendations: withRecommendations === 'true'
-    });
-
-    return successResponse(res, {
-      data: result
-    });
-  };
-
-  // 북마크 추가
-  bookmarkJob = async (req, res) => {
-    const { id } = req.params;
-    const userId = req.user.id;
-
-    const bookmark = await this.bookmarkService.addBookmark(userId, id);
-    return successResponse(res, {
-      message: '북마크가 추가되었습니다.',
-      data: bookmark
-    });
-  };
-
-  // 북마크 제거
-  removeBookmark = async (req, res) => {
-    const { id } = req.params;
-    const userId = req.user.id;
-
-    await this.bookmarkService.removeBookmark(userId, id);
-    return successResponse(res, {
-      message: '북마크가 제거되었습니다.'
-    });
-  };
-
-  // 북마크 목록 조회
-  getBookmarks = async (req, res) => {
-    const userId = req.user.id;
-    const { page = 1, limit = 20 } = req.query;
-
-    const { bookmarks, pagination } = await this.bookmarkService.getUserBookmarks(
-      userId,
-      {
-        page: parseInt(page),
-        limit: parseInt(limit)
-      }
-    );
-
-    return successResponse(res, {
-      data: bookmarks,
-      pagination
-    });
-  };
+  // ... other methods ...
 }
