@@ -100,4 +100,4 @@ export class JobService {
     }
     return await Job.exists({ link });
   }
-}
+}.
