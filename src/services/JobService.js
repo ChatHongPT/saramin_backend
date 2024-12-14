@@ -1,6 +1,7 @@
 import { Job } from '../models/Job.js';
 import { ApiError } from '../utils/ApiError.js';
-import { createSearchFilters, createSortOption } from '../utils/jobUtils.js';
+import { createSearchFilters } from '../utils/filters.js';
+import { SalaryParser } from '../utils/salaryParser.js';
 
 export class JobService {
   async getJobs(filters = {}, options = {}) {
@@ -25,17 +26,22 @@ export class JobService {
       const searchFilters = createSearchFilters(filters);
       Object.assign(query, searchFilters);
 
-      const sortOption = createSortOption(sort);
-
       const [jobs, total] = await Promise.all([
         Job.find(query)
           .populate('company')
-          .sort(sortOption)
+          .sort(sort)
           .skip((page - 1) * limit)
           .limit(limit)
           .lean(),
         Job.countDocuments(query)
       ]);
+
+      // Parse salary information
+      jobs.forEach(job => {
+        if (job.salary) {
+          job.salary = SalaryParser.parse(job.salary.text);
+        }
+      });
 
       return { jobs, total };
     } catch (error) {
@@ -43,7 +49,7 @@ export class JobService {
     }
   }
 
-  async getJobById(id, options = {}) {
+  async getJobById(id) {
     try {
       const job = await Job.findById(id).populate('company');
       if (!job) {
@@ -51,18 +57,15 @@ export class JobService {
       }
 
       // Increment view count
-      job.views += 1;
-      await job.save();
+      await job.incrementViews();
 
-      const result = { job };
+      // Get recommended jobs
+      const recommendations = await this.getRecommendedJobs(job);
 
-      // Get recommended jobs if requested
-      if (options.withRecommendations) {
-        const recommendations = await this.getRecommendedJobs(job);
-        result.recommendations = recommendations;
-      }
-
-      return result;
+      return {
+        job,
+        recommendations
+      };
     } catch (error) {
       if (error instanceof ApiError) throw error;
       throw new ApiError(500, '채용공고 조회 중 오류가 발생했습니다.');
@@ -89,5 +92,12 @@ export class JobService {
       .populate('company')
       .limit(limit)
       .lean();
+  }
+
+  async exists(link) {
+    if (!link || typeof link !== 'string') {
+      throw new ApiError(400, '유효하지 않은 링크입니다.');
+    }
+    return await Job.exists({ link });
   }
 }
