@@ -2,23 +2,13 @@ import { body } from 'express-validator';
 import { validateRequest } from './common/validateRequest.js';
 
 export const validateReview = [
-  body('job').isMongoId().withMessage('올바른 채용공고 ID가 아닙니다.'),
+  body('company')
+    .isMongoId()
+    .withMessage('올바른 회사 ID가 아닙니다.'),
 
-  body('rating.overall')
+  body('rating')
     .isInt({ min: 1, max: 5 })
-    .withMessage('전체 평점은 1-5 사이의 숫자여야 합니다.'),
-
-  body('rating.workLifeBalance')
-    .isInt({ min: 1, max: 5 })
-    .withMessage('워라밸 평점은 1-5 사이의 숫자여야 합니다.'),
-
-  body('rating.compensation')
-    .isInt({ min: 1, max: 5 })
-    .withMessage('보상 평점은 1-5 사이의 숫자여야 합니다.'),
-
-  body('rating.culture')
-    .isInt({ min: 1, max: 5 })
-    .withMessage('문화 평점은 1-5 사이의 숫자여야 합니다.'),
+    .withMessage('평점은 1-5 사이의 숫자여야 합니다.'),
 
   body('content')
     .trim()

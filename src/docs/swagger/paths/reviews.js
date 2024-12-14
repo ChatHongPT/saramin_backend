@@ -3,13 +3,23 @@ export const reviewPaths = {
     post: {
       tags: ['Reviews'],
       summary: '리뷰 작성',
-      description: '채용공고에 대한 리뷰를 작성합니다.',
       security: [{ bearerAuth: [] }],
       requestBody: {
         required: true,
         content: {
           'application/json': {
-            schema: { $ref: '#/components/schemas/ReviewInput' },
+            schema: {
+              type: 'object',
+              required: ['company', 'rating', 'content'],
+              properties: {
+                company: { type: 'string', description: '회사 ID' },
+                rating: { type: 'number', minimum: 1, maximum: 5 },
+                content: { type: 'string', maxLength: 2000 },
+                pros: { type: 'string', maxLength: 1000 },
+                cons: { type: 'string', maxLength: 1000 },
+                isAnonymous: { type: 'boolean' },
+              },
+            },
           },
         },
       },
@@ -21,7 +31,6 @@ export const reviewPaths = {
               schema: {
                 type: 'object',
                 properties: {
-                  status: { type: 'string' },
                   message: { type: 'string' },
                   data: { $ref: '#/components/schemas/Review' },
                 },
@@ -34,7 +43,6 @@ export const reviewPaths = {
     get: {
       tags: ['Reviews'],
       summary: '리뷰 목록 조회',
-      description: '채용공고 또는 회사의 리뷰 목록을 조회합니다.',
       parameters: [
         {
           name: 'page',
@@ -52,12 +60,6 @@ export const reviewPaths = {
           schema: { type: 'string' },
           description: '회사 ID',
         },
-        {
-          name: 'job',
-          in: 'query',
-          schema: { type: 'string' },
-          description: '채용공고 ID',
-        },
       ],
       responses: {
         200: {
@@ -67,7 +69,6 @@ export const reviewPaths = {
               schema: {
                 type: 'object',
                 properties: {
-                  status: { type: 'string' },
                   data: {
                     type: 'array',
                     items: { $ref: '#/components/schemas/Review' },
@@ -76,8 +77,7 @@ export const reviewPaths = {
                     type: 'object',
                     properties: {
                       total: { type: 'integer' },
-                      pages: { type: 'integer' },
-                      currentPage: { type: 'integer' },
+                      page: { type: 'integer' },
                       limit: { type: 'integer' },
                     },
                   },
@@ -90,28 +90,6 @@ export const reviewPaths = {
     },
   },
   '/reviews/{id}': {
-    get: {
-      tags: ['Reviews'],
-      summary: '리뷰 상세 조회',
-      parameters: [
-        {
-          name: 'id',
-          in: 'path',
-          required: true,
-          schema: { type: 'string' },
-        },
-      ],
-      responses: {
-        200: {
-          description: '리뷰 조회 성공',
-          content: {
-            'application/json': {
-              schema: { $ref: '#/components/schemas/Review' },
-            },
-          },
-        },
-      },
-    },
     put: {
       tags: ['Reviews'],
       summary: '리뷰 수정',
@@ -128,7 +106,9 @@ export const reviewPaths = {
         required: true,
         content: {
           'application/json': {
-            schema: { $ref: '#/components/schemas/ReviewInput' },
+            schema: {
+              $ref: '#/components/schemas/Review',
+            },
           },
         },
       },
@@ -137,7 +117,13 @@ export const reviewPaths = {
           description: '리뷰 수정 성공',
           content: {
             'application/json': {
-              schema: { $ref: '#/components/schemas/Review' },
+              schema: {
+                type: 'object',
+                properties: {
+                  message: { type: 'string' },
+                  data: { $ref: '#/components/schemas/Review' },
+                },
+              },
             },
           },
         },
@@ -163,58 +149,9 @@ export const reviewPaths = {
               schema: {
                 type: 'object',
                 properties: {
-                  status: { type: 'string' },
                   message: { type: 'string' },
                 },
               },
-            },
-          },
-        },
-      },
-    },
-  },
-  '/reviews/{id}/helpful': {
-    post: {
-      tags: ['Reviews'],
-      summary: '리뷰 도움됨 표시',
-      security: [{ bearerAuth: [] }],
-      parameters: [
-        {
-          name: 'id',
-          in: 'path',
-          required: true,
-          schema: { type: 'string' },
-        },
-      ],
-      responses: {
-        200: {
-          description: '도움됨 표시 성공',
-          content: {
-            'application/json': {
-              schema: { $ref: '#/components/schemas/Review' },
-            },
-          },
-        },
-      },
-    },
-    delete: {
-      tags: ['Reviews'],
-      summary: '리뷰 도움됨 표시 취소',
-      security: [{ bearerAuth: [] }],
-      parameters: [
-        {
-          name: 'id',
-          in: 'path',
-          required: true,
-          schema: { type: 'string' },
-        },
-      ],
-      responses: {
-        200: {
-          description: '도움됨 표시 취소 성공',
-          content: {
-            'application/json': {
-              schema: { $ref: '#/components/schemas/Review' },
             },
           },
         },
