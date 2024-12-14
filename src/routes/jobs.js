@@ -4,7 +4,7 @@ import { authenticate } from '../middleware/auth.js';
 import { validateJobSearch } from '../middleware/validators/jobValidators.js';
 import { asyncWrapper } from '../middleware/asyncWrapper.js';
 
-export const router = express.Router();
+const router = express.Router();
 const jobController = new JobController();
 
 // Public routes
@@ -17,4 +17,4 @@ router.post('/:id/bookmark', asyncWrapper(jobController.bookmarkJob));
 router.delete('/:id/bookmark', asyncWrapper(jobController.removeBookmark));
 router.get('/bookmarks/list', asyncWrapper(jobController.getBookmarks));
 
-export default router;
+export { router };
