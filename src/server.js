@@ -4,9 +4,9 @@ import helmet from 'helmet';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import swaggerUi from 'swagger-ui-express';
+import { swaggerDocs } from './docs/swagger.js'; // Swagger 설정 파일
+import { connectDB } from './config/database.js'; // MongoDB 연결 함수
 import { router as apiRouter } from './routes/api.js';
-import { swaggerDocs } from './docs/swagger.js';
-import { connectDB } from './config/database.js';
 import {
   limiter,
   apiLimiter,
@@ -26,7 +26,7 @@ dotenv.config();
 connectDB();
 
 const app = express();
-const PORT = process.env.PORT || 3000; // 기본 포트를 로컬용으로 설정
+const PORT = process.env.PORT || 13085;
 
 // Security middleware
 app.use(helmet());
@@ -64,25 +64,21 @@ app.use((req, res) => {
 });
 
 // Start server
-const server = app.listen(PORT, () => {
-  Logger.info(`Server is running on port ${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  Logger.info(`Server is running on http://0.0.0.0:${PORT}`);
   Logger.info(
-    `API Documentation available at ${
-      process.env.PORT === '13085'
-        ? `http://113.198.66.75:${PORT}/api-docs`
-        : `http://localhost:${PORT}/api-docs`
-    }`
+    `API Documentation available at http://113.198.66.75:${PORT}/api-docs`
   );
 });
 
 // Handle unhandled promise rejections
 process.on('unhandledRejection', (err) => {
   Logger.error('Unhandled Promise Rejection:', err);
-  server.close(() => process.exit(1));
+  process.exit(1);
 });
 
 // Handle uncaught exceptions
 process.on('uncaughtException', (err) => {
   Logger.error('Uncaught Exception:', err);
-  server.close(() => process.exit(1));
+  process.exit(1);
 });

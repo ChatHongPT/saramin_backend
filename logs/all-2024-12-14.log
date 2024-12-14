@@ -236,3 +236,6 @@
 2024-12-14 21:52:45:5245 [35mhttp[39m: [35mGET /api-docs/swagger-ui-bundle.js 304 3ms - ::1[39m
 2024-12-14 21:52:45:5245 [35mhttp[39m: [35mGET /api-docs/swagger-ui-init.js 200 5ms - ::1[39m
 2024-12-14 21:52:45:5245 [35mhttp[39m: [35mGET /api-docs/swagger-ui-standalone-preset.js 304 8ms - ::1[39m
+2024-12-14 22:05:42:542 [32minfo[39m: [32mServer is running on http://0.0.0.0:3000[39m
+2024-12-14 22:05:42:542 [32minfo[39m: [32mAPI Documentation available at http://113.198.66.75:3000/api-docs[39m
+2024-12-14 22:05:42:542 [32minfo[39m: [32mMongoDB Connected: cluster0-shard-00-02.vyeu8.mongodb.net[39m
