@@ -1,21 +1,26 @@
-import { parseSalaryText } from '../../utils/salaryUtils.js';
+import { SalaryParser } from '../../utils/salaryParser.js';
 
 export class JobParser {
-  // ... other methods ...
+  parse($, job) {
+    try {
+      // ... other parsing logic ...
 
-  parseSalary(job) {
-    const salaryText = job.find('.salary_info').text().trim() ||
-                      job.find('.area_badge .salary').text().trim() ||
-                      '회사내규에 따름';
+      const salaryText = job.find('.salary_info').text().trim() ||
+                        job.find('.area_badge .salary').text().trim();
+      
+      const salary = SalaryParser.parse(salaryText);
 
-    const { min, max, isNegotiable } = parseSalaryText(salaryText);
+      const jobData = {
+        // ... other fields ...
+        salary,
+      };
 
-    return {
-      text: salaryText,
-      min,
-      max,
-      isNegotiable,
-      currency: 'KRW'
-    };
+      return jobData;
+    } catch (error) {
+      console.error('채용공고 파싱 실패:', error.message);
+      return null;
+    }
   }
+
+  // ... other methods ...
 }
