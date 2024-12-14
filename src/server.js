@@ -26,7 +26,9 @@ dotenv.config();
 connectDB();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+
+// 환경에 따라 다른 포트 설정
+const PORT = process.env.PORT || (process.env.NODE_ENV === 'production' ? 13085 : 3000);
 
 // Security middleware
 app.use(helmet());

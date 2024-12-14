@@ -242,3 +242,6 @@
 2024-12-14 22:14:32:1432 [32minfo[39m: [32mServer is running on http://0.0.0.0:3000[39m
 2024-12-14 22:14:32:1432 [32minfo[39m: [32mAPI Documentation available at http://localhost:3000/api-docs[39m
 2024-12-14 22:14:33:1433 [32minfo[39m: [32mMongoDB Connected: cluster0-shard-00-00.vyeu8.mongodb.net[39m
+2024-12-14 22:28:40:2840 [32minfo[39m: [32mServer is running on http://0.0.0.0:3000[39m
+2024-12-14 22:28:40:2840 [32minfo[39m: [32mAPI Documentation available at http://localhost:3000/api-docs[39m
+2024-12-14 22:28:40:2840 [32minfo[39m: [32mMongoDB Connected: cluster0-shard-00-01.vyeu8.mongodb.net[39m
