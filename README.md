@@ -181,8 +181,6 @@ git clone https://github.com/ChatHongPT/saramin_backend.git
 # 의존성 설치
 npm install
 
-# 환경변수 설정
-cp .env.example .env
 ```
 
 ### 환경변수 구성
