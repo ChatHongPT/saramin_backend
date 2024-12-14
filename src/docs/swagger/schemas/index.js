@@ -3,7 +3,7 @@ import { jobSchemas } from './job.js';
 import { resumeSchemas } from './resume.js';
 import { reviewSchemas } from './review.js';
 import { applicationSchemas } from './application.js';
-import { searchHistorySchemas } from './searchHistory.js';
+import { bookmarkSchemas } from './bookmark.js';
 
 export const schemas = {
   ...authSchemas,
@@ -11,5 +11,5 @@ export const schemas = {
   ...resumeSchemas,
   ...reviewSchemas,
   ...applicationSchemas,
-  ...searchHistorySchemas,
+  ...bookmarkSchemas,
 };

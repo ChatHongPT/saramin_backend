@@ -1,46 +1,10 @@
 import { commonResponses } from '../common/responses.js';
 
-export const bookmarkPaths = {
-  '/bookmarks': {
-    post: {
-      tags: ['Bookmarks'],
-      summary: '북마크 추가',
-      security: [{ bearerAuth: [] }],
-      requestBody: {
-        required: true,
-        content: {
-          'application/json': {
-            schema: {
-              type: 'object',
-              required: ['jobId'],
-              properties: {
-                jobId: { type: 'string', description: '채용공고 ID' }
-              }
-            }
-          }
-        }
-      },
-      responses: {
-        201: {
-          description: '북마크 추가 성공',
-          content: {
-            'application/json': {
-              schema: {
-                type: 'object',
-                properties: {
-                  message: { type: 'string' },
-                  data: { $ref: '#/components/schemas/Bookmark' }
-                }
-              }
-            }
-          }
-        },
-        ...commonResponses
-      }
-    },
+export const notificationPaths = {
+  '/notifications': {
     get: {
-      tags: ['Bookmarks'],
-      summary: '북마크 목록 조회',
+      tags: ['Notifications'],
+      summary: '알림 목록 조회',
       security: [{ bearerAuth: [] }],
       parameters: [
         {
@@ -56,7 +20,7 @@ export const bookmarkPaths = {
       ],
       responses: {
         200: {
-          description: '북마크 목록 조회 성공',
+          description: '알림 목록 조회 성공',
           content: {
             'application/json': {
               schema: {
@@ -64,7 +28,7 @@ export const bookmarkPaths = {
                 properties: {
                   data: {
                     type: 'array',
-                    items: { $ref: '#/components/schemas/Bookmark' }
+                    items: { $ref: '#/components/schemas/Notification' }
                   },
                   pagination: {
                     type: 'object',
@@ -83,14 +47,14 @@ export const bookmarkPaths = {
       }
     }
   },
-  '/bookmarks/{jobId}': {
+  '/notifications/{id}': {
     delete: {
-      tags: ['Bookmarks'],
-      summary: '북마크 제거',
+      tags: ['Notifications'],
+      summary: '알림 삭제',
       security: [{ bearerAuth: [] }],
       parameters: [
         {
-          name: 'jobId',
+          name: 'id',
           in: 'path',
           required: true,
           schema: { type: 'string' }
@@ -98,7 +62,7 @@ export const bookmarkPaths = {
       ],
       responses: {
         200: {
-          description: '북마크 제거 성공',
+          description: '알림 삭제 성공',
           content: {
             'application/json': {
               schema: {

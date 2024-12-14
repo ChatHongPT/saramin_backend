@@ -3,9 +3,10 @@ import { router as userRouter } from './users.js';
 import { router as authRouter } from './auth.js';
 import { router as jobRouter } from './jobs.js';
 import { router as applicationRouter } from './applications.js';
+import { router as bookmarkRouter } from './bookmarks.js';
 import { router as resumeRouter } from './resumes.js';
 import { router as reviewRouter } from './reviews.js';
-import { router as searchHistoryRouter } from './searchHistory.js';
+import { router as notificationRouter } from './notifications.js';
 
 export const router = express.Router();
 
@@ -19,6 +20,7 @@ router.use('/auth', authRouter);
 router.use('/users', userRouter);
 router.use('/jobs', jobRouter);
 router.use('/applications', applicationRouter);
+router.use('/bookmarks', bookmarkRouter);
 router.use('/resumes', resumeRouter);
 router.use('/reviews', reviewRouter);
-router.use('/search-history', searchHistoryRouter);
+router.use('/notifications', notificationRouter);
