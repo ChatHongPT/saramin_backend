@@ -1,7 +1,6 @@
 import { body, query, param } from 'express-validator';
 import { validateRequest } from '../../utils/validateRequest.js';
 
-// 채용 공고 검색 유효성 검사
 export const validateJobSearch = [
   query('page')
     .optional()
@@ -19,7 +18,6 @@ export const validateJobSearch = [
   validateRequest
 ];
 
-// 채용 공고 생성 유효성 검사
 export const validateJobCreate = [
   body('title')
     .trim()
@@ -35,10 +33,12 @@ export const validateJobCreate = [
     .trim()
     .notEmpty()
     .withMessage('근무 지역을 입력해주세요.'),
+  body('type')
+    .isIn(['full-time', 'part-time', 'contract', 'internship', 'temporary'])
+    .withMessage('올바른 고용 형태를 선택해주세요.'),
   validateRequest
 ];
 
-// 채용 공고 수정 유효성 검사
 export const validateJobUpdate = [
   param('id')
     .isMongoId()

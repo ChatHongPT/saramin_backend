@@ -16,6 +16,9 @@ import {
   preventXSS, 
   preventParamPollution 
 } from './middleware/security.js';
+import { errorHandler } from './middleware/errorHandler.js';
+import { requestLogger } from './middleware/requestLogger.js';
+import Logger from './utils/logger.js';
 
 // Load environment variables
 dotenv.config();
@@ -27,20 +30,20 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Security middleware
-app.use(helmet()); // Security headers
-app.use(cors()); // Enable CORS
-app.use(limiter); // Rate limiting
-app.use('/api/', apiLimiter); // API rate limiting
-app.use('/api/auth/', authLimiter); // Auth rate limiting
-app.use(sanitizeData); // NoSQL injection prevention
-app.use(preventXSS); // XSS prevention
-app.use(preventParamPollution); // Parameter pollution prevention
+app.use(helmet());
+app.use(cors());
+app.use(limiter);
+app.use('/api/', apiLimiter);
+app.use('/api/auth/', authLimiter);
+app.use(sanitizeData);
+app.use(preventXSS);
+app.use(preventParamPollution);
 
 // Basic middleware
-app.use(morgan('dev')); // Request logging
-app.use(express.json()); // Parse JSON bodies
-app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
-app.use(cookieParser()); // Parse cookies
+app.use(requestLogger); // Add request logging
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 // Swagger documentation
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
@@ -54,17 +57,7 @@ app.get('/', (req, res) => {
 });
 
 // Error handling middleware
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  const statusCode = err.statusCode || 500;
-  const message = err.message || 'Internal Server Error';
-  
-  res.status(statusCode).json({
-    status: err.status || 'error',
-    message,
-    ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
-  });
-});
+app.use(errorHandler);
 
 // 404 handler
 app.use((req, res) => {
@@ -72,14 +65,19 @@ app.use((req, res) => {
 });
 
 // Start server
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-  console.log(`API Documentation available at http://localhost:${PORT}/api-docs`);
+const server = app.listen(PORT, () => {
+  Logger.info(`Server is running on port ${PORT}`);
+  Logger.info(`API Documentation available at http://localhost:${PORT}/api-docs`);
 });
 
 // Handle unhandled promise rejections
 process.on('unhandledRejection', (err) => {
-  console.error('Unhandled Promise Rejection:', err);
-  // Close server & exit process
+  Logger.error('Unhandled Promise Rejection:', err);
+  server.close(() => process.exit(1));
+});
+
+// Handle uncaught exceptions
+process.on('uncaughtException', (err) => {
+  Logger.error('Uncaught Exception:', err);
   server.close(() => process.exit(1));
 });
