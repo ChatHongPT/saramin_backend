@@ -5,26 +5,8 @@ import { createSearchFilters, createSortOption } from '../utils/jobUtils.js';
 export class JobService {
   async getJobs(filters = {}, options = {}) {
     try {
-      const { page = 1, limit = 20, sort = '-createdAt' } = options;
-      const query = { status: 'active' };
-
-      // Apply search filters
-      if (filters.keyword) {
-        query.$or = [
-          { title: new RegExp(filters.keyword, 'i') },
-          { description: new RegExp(filters.keyword, 'i') }
-        ];
-      }
-
-      // Apply company filter
-      if (filters.company) {
-        query['company.name'] = new RegExp(filters.company, 'i');
-      }
-
-      // Apply other filters
-      const searchFilters = createSearchFilters(filters);
-      Object.assign(query, searchFilters);
-
+      const { page = 1, limit = 20, sort = 'latest' } = options;
+      const query = createSearchFilters(filters);
       const sortOption = createSortOption(sort);
 
       const [jobs, total] = await Promise.all([
@@ -51,8 +33,7 @@ export class JobService {
       }
 
       // Increment view count
-      job.views += 1;
-      await job.save();
+      await job.incrementViews();
 
       const result = { job };
 
@@ -70,16 +51,15 @@ export class JobService {
   }
 
   async getRecommendedJobs(job, limit = 5) {
-    // Find jobs with similar attributes
     const query = {
       _id: { $ne: job._id },
       status: 'active',
       $or: [
-        { 'company._id': job.company._id }, // Same company
+        { 'company._id': job.company._id },
         { 
           $and: [
-            { location: job.location }, // Same location
-            { 'skills.name': { $in: job.skills.map(s => s.name) } } // Similar skills
+            { location: job.location },
+            { 'skills.name': { $in: job.skills.map(s => s.name) } }
           ]
         }
       ]
