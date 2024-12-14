@@ -1,0 +1,115 @@
+2024-12-15 00:09:43:943 [32minfo[39m: [32mServer is running on port 3000[39m
+2024-12-15 00:09:43:943 [32minfo[39m: [32mAPI Documentation available at http://localhost:3000/api-docs[39m
+2024-12-15 00:09:43:943 [35mhttp[39m: [35mGET / 200 5ms - undefined[39m
+2024-12-15 00:10:05:105 [32minfo[39m: [32mServer is running on port 3000[39m
+2024-12-15 00:10:05:105 [32minfo[39m: [32mAPI Documentation available at http://localhost:3000/api-docs[39m
+2024-12-15 00:10:05:105 [35mhttp[39m: [35mGET / 200 7ms - undefined[39m
+2024-12-15 00:10:16:1016 [32minfo[39m: [32mServer is running on port 3000[39m
+2024-12-15 00:10:16:1016 [32minfo[39m: [32mAPI Documentation available at http://localhost:3000/api-docs[39m
+2024-12-15 00:10:16:1016 [35mhttp[39m: [35mGET / 200 6ms - undefined[39m
+2024-12-15 00:10:22:1022 [35mhttp[39m: [35mGET / 200 6ms - undefined[39m
+2024-12-15 00:14:07:147 [32minfo[39m: [32mServer is running on port 3000[39m
+2024-12-15 00:14:07:147 [32minfo[39m: [32mAPI Documentation available at http://localhost:3000/api-docs[39m
+2024-12-15 00:14:07:147 [35mhttp[39m: [35mGET / 200 16ms - undefined[39m
+2024-12-15 00:14:30:1430 [35mhttp[39m: [35mGET / 200 8ms - undefined[39m
+2024-12-15 00:14:31:1431 [32minfo[39m: [32mServer is running on port 3000[39m
+2024-12-15 00:14:31:1431 [32minfo[39m: [32mAPI Documentation available at http://localhost:3000/api-docs[39m
+2024-12-15 00:14:31:1431 [35mhttp[39m: [35mGET / 200 4ms - undefined[39m
+2024-12-15 00:15:42:1542 [32minfo[39m: [32mServer is running on port 3000[39m
+2024-12-15 00:15:42:1542 [32minfo[39m: [32mAPI Documentation available at http://localhost:3000/api-docs[39m
+2024-12-15 00:15:42:1542 [35mhttp[39m: [35mGET / 200 9ms - undefined[39m
+2024-12-15 00:15:50:1550 [32minfo[39m: [32mServer is running on port 3000[39m
+2024-12-15 00:15:50:1550 [32minfo[39m: [32mAPI Documentation available at http://localhost:3000/api-docs[39m
+2024-12-15 00:15:50:1550 [35mhttp[39m: [35mGET / 200 6ms - undefined[39m
+2024-12-15 00:16:06:166 [32minfo[39m: [32mServer is running on port 3000[39m
+2024-12-15 00:16:06:166 [32minfo[39m: [32mAPI Documentation available at http://localhost:3000/api-docs[39m
+2024-12-15 00:16:06:166 [35mhttp[39m: [35mGET / 200 5ms - undefined[39m
+2024-12-15 00:16:11:1611 [35mhttp[39m: [35mGET / 200 4ms - undefined[39m
+2024-12-15 00:17:15:1715 [32minfo[39m: [32mServer is running on port 3000[39m
+2024-12-15 00:17:15:1715 [32minfo[39m: [32mAPI Documentation available at http://localhost:3000/api-docs[39m
+2024-12-15 00:17:15:1715 [35mhttp[39m: [35mGET / 200 10ms - undefined[39m
+2024-12-15 00:17:32:1732 [32minfo[39m: [32mServer is running on port 3000[39m
+2024-12-15 00:17:32:1732 [32minfo[39m: [32mAPI Documentation available at http://localhost:3000/api-docs[39m
+2024-12-15 00:17:32:1732 [35mhttp[39m: [35mGET / 200 7ms - undefined[39m
+2024-12-15 00:17:38:1738 [35mhttp[39m: [35mGET / 200 9ms - undefined[39m
+2024-12-15 00:19:03:193 [32minfo[39m: [32mServer is running on port 3000[39m
+2024-12-15 00:19:03:193 [32minfo[39m: [32mAPI Documentation available at http://localhost:3000/api-docs[39m
+2024-12-15 00:19:04:194 [35mhttp[39m: [35mGET / 200 6ms - undefined[39m
+2024-12-15 00:19:06:196 [32minfo[39m: [32mServer is running on port 3000[39m
+2024-12-15 00:19:06:196 [32minfo[39m: [32mAPI Documentation available at http://localhost:3000/api-docs[39m
+2024-12-15 00:19:06:196 [35mhttp[39m: [35mGET / 200 5ms - undefined[39m
+2024-12-15 00:19:09:199 [32minfo[39m: [32mServer is running on port 3000[39m
+2024-12-15 00:19:09:199 [32minfo[39m: [32mAPI Documentation available at http://localhost:3000/api-docs[39m
+2024-12-15 00:19:09:199 [35mhttp[39m: [35mGET / 200 6ms - undefined[39m
+2024-12-15 00:19:11:1911 [32minfo[39m: [32mServer is running on port 3000[39m
+2024-12-15 00:19:11:1911 [32minfo[39m: [32mAPI Documentation available at http://localhost:3000/api-docs[39m
+2024-12-15 00:19:11:1911 [35mhttp[39m: [35mGET / 200 10ms - undefined[39m
+2024-12-15 00:19:13:1913 [32minfo[39m: [32mServer is running on port 3000[39m
+2024-12-15 00:19:13:1913 [32minfo[39m: [32mAPI Documentation available at http://localhost:3000/api-docs[39m
+2024-12-15 00:19:13:1913 [35mhttp[39m: [35mGET / 200 6ms - undefined[39m
+2024-12-15 00:19:22:1922 [32minfo[39m: [32mServer is running on port 3000[39m
+2024-12-15 00:19:22:1922 [32minfo[39m: [32mAPI Documentation available at http://localhost:3000/api-docs[39m
+2024-12-15 00:19:22:1922 [35mhttp[39m: [35mGET / 200 6ms - undefined[39m
+2024-12-15 00:19:38:1938 [32minfo[39m: [32mServer is running on port 3000[39m
+2024-12-15 00:19:38:1938 [32minfo[39m: [32mAPI Documentation available at http://localhost:3000/api-docs[39m
+2024-12-15 00:19:38:1938 [35mhttp[39m: [35mGET / 200 5ms - undefined[39m
+2024-12-15 00:19:44:1944 [35mhttp[39m: [35mGET / 200 11ms - undefined[39m
+2024-12-15 00:21:45:2145 [32minfo[39m: [32mServer is running on port 3000[39m
+2024-12-15 00:21:45:2145 [32minfo[39m: [32mAPI Documentation available at http://localhost:3000/api-docs[39m
+2024-12-15 00:21:45:2145 [35mhttp[39m: [35mGET / 200 10ms - undefined[39m
+2024-12-15 00:21:59:2159 [32minfo[39m: [32mServer is running on port 3000[39m
+2024-12-15 00:21:59:2159 [32minfo[39m: [32mAPI Documentation available at http://localhost:3000/api-docs[39m
+2024-12-15 00:21:59:2159 [35mhttp[39m: [35mGET / 200 5ms - undefined[39m
+2024-12-15 00:22:08:228 [32minfo[39m: [32mServer is running on port 3000[39m
+2024-12-15 00:22:08:228 [32minfo[39m: [32mAPI Documentation available at http://localhost:3000/api-docs[39m
+2024-12-15 00:22:08:228 [35mhttp[39m: [35mGET / 200 5ms - undefined[39m
+2024-12-15 00:22:14:2214 [35mhttp[39m: [35mGET / 200 4ms - undefined[39m
+2024-12-15 00:22:49:2249 [32minfo[39m: [32mServer is running on port 3000[39m
+2024-12-15 00:22:49:2249 [32minfo[39m: [32mAPI Documentation available at http://localhost:3000/api-docs[39m
+2024-12-15 00:22:50:2250 [35mhttp[39m: [35mGET / 200 6ms - undefined[39m
+2024-12-15 00:23:02:232 [32minfo[39m: [32mServer is running on port 3000[39m
+2024-12-15 00:23:02:232 [32minfo[39m: [32mAPI Documentation available at http://localhost:3000/api-docs[39m
+2024-12-15 00:23:02:232 [35mhttp[39m: [35mGET / 200 6ms - undefined[39m
+2024-12-15 00:23:06:236 [32minfo[39m: [32mServer is running on port 3000[39m
+2024-12-15 00:23:06:236 [32minfo[39m: [32mAPI Documentation available at http://localhost:3000/api-docs[39m
+2024-12-15 00:23:06:236 [35mhttp[39m: [35mGET / 200 5ms - undefined[39m
+2024-12-15 00:23:28:2328 [32minfo[39m: [32mMongoDB Connected: cluster0-shard-00-01.vyeu8.mongodb.net[39m
+2024-12-15 00:24:11:2411 [33mwarn[39m: [33mMongoDB disconnected. Attempting to reconnect...[39m
+2024-12-15 00:24:11:2411 [32minfo[39m: [32mMongoDB disconnected successfully[39m
+2024-12-15 00:24:17:2417 [32minfo[39m: [32mMongoDB Connected: cluster0-shard-00-02.vyeu8.mongodb.net[39m
+2024-12-15 00:24:34:2434 [32minfo[39m: [32mServer is running on port 3000[39m
+2024-12-15 00:24:34:2434 [32minfo[39m: [32mAPI Documentation available at http://localhost:3000/api-docs[39m
+2024-12-15 00:24:35:2435 [32minfo[39m: [32mMongoDB Connected: cluster0-shard-00-02.vyeu8.mongodb.net[39m
+2024-12-15 00:24:36:2436 [35mhttp[39m: [35mGET /api-docs/ 304 4ms - 127.0.0.1[39m
+2024-12-15 00:24:36:2436 [35mhttp[39m: [35mGET /api-docs/swagger-ui-init.js 304 1ms - 127.0.0.1[39m
+2024-12-15 00:24:36:2436 [35mhttp[39m: [35mGET /api-docs/swagger-ui.css 200 10ms - 127.0.0.1[39m
+2024-12-15 00:24:36:2436 [35mhttp[39m: [35mGET /api-docs/swagger-ui-standalone-preset.js 200 14ms - 127.0.0.1[39m
+2024-12-15 00:24:36:2436 [35mhttp[39m: [35mGET /api-docs/swagger-ui-bundle.js 200 20ms - 127.0.0.1[39m
+2024-12-15 00:24:37:2437 [35mhttp[39m: [35mGET /api/swagger.json 304 1ms - 127.0.0.1[39m
+2024-12-15 00:25:00:250 [31merror[39m: [31mError: 비밀번호는 영문 대/소문자와 숫자를 포함해야 합니다.[39m
+2024-12-15 00:25:00:250 [31merror[39m: [31mStack: Error: 비밀번호는 영문 대/소문자와 숫자를 포함해야 합니다.[39m
+[31m    at validateRequest (file:///Users/hongttochi/Desktop/saramin_backend/src/utils/validateRequest.js:8:11)[39m
+[31m    at Layer.handle [as handle_request] (/Users/hongttochi/Desktop/saramin_backend/node_modules/express/lib/router/layer.js:95:5)[39m
+[31m    at next (/Users/hongttochi/Desktop/saramin_backend/node_modules/express/lib/router/route.js:149:13)[39m
+[31m    at middleware (/Users/hongttochi/Desktop/saramin_backend/node_modules/express-validator/lib/middlewares/check.js:16:13)[39m
+[31m    at processTicksAndRejections (node:internal/process/task_queues:96:5)[39m
+2024-12-15 00:25:00:250 [35mhttp[39m: [35mPOST /api/auth/register 400 27ms - 127.0.0.1[39m
+2024-12-15 00:25:01:251 [31merror[39m: [31mError: 비밀번호는 영문 대/소문자와 숫자를 포함해야 합니다.[39m
+2024-12-15 00:25:01:251 [31merror[39m: [31mStack: Error: 비밀번호는 영문 대/소문자와 숫자를 포함해야 합니다.[39m
+[31m    at validateRequest (file:///Users/hongttochi/Desktop/saramin_backend/src/utils/validateRequest.js:8:11)[39m
+[31m    at Layer.handle [as handle_request] (/Users/hongttochi/Desktop/saramin_backend/node_modules/express/lib/router/layer.js:95:5)[39m
+[31m    at next (/Users/hongttochi/Desktop/saramin_backend/node_modules/express/lib/router/route.js:149:13)[39m
+[31m    at middleware (/Users/hongttochi/Desktop/saramin_backend/node_modules/express-validator/lib/middlewares/check.js:16:13)[39m
+[31m    at processTicksAndRejections (node:internal/process/task_queues:96:5)[39m
+2024-12-15 00:25:01:251 [35mhttp[39m: [35mPOST /api/auth/register 400 13ms - 127.0.0.1[39m
+2024-12-15 00:25:12:2512 [35mhttp[39m: [35mPOST /api/auth/register 201 542ms - 127.0.0.1[39m
+2024-12-15 00:25:32:2532 [35mhttp[39m: [35mGET /api/jobs?page=1&limit=20&sort=latest 304 53ms - 127.0.0.1[39m
+2024-12-15 00:27:13:2713 [32minfo[39m: [32mServer is running on port 3000[39m
+2024-12-15 00:27:13:2713 [32minfo[39m: [32mAPI Documentation available at http://localhost:3000/api-docs[39m
+2024-12-15 00:27:13:2713 [32minfo[39m: [32mMongoDB Connected: cluster0-shard-00-02.vyeu8.mongodb.net[39m
+2024-12-15 00:27:14:2714 [35mhttp[39m: [35mGET /api-docs/ 304 5ms - 127.0.0.1[39m
+2024-12-15 00:27:14:2714 [35mhttp[39m: [35mGET /api-docs/swagger-ui.css 304 2ms - 127.0.0.1[39m
+2024-12-15 00:27:14:2714 [35mhttp[39m: [35mGET /api-docs/swagger-ui-bundle.js 304 3ms - 127.0.0.1[39m
+2024-12-15 00:27:14:2714 [35mhttp[39m: [35mGET /api-docs/swagger-ui-init.js 304 2ms - 127.0.0.1[39m
+2024-12-15 00:27:15:2715 [35mhttp[39m: [35mGET /api-docs/swagger-ui-standalone-preset.js 304 7ms - 127.0.0.1[39m
+2024-12-15 00:27:15:2715 [35mhttp[39m: [35mGET /api/swagger.json 304 1ms - 127.0.0.1[39m

@@ -1,0 +1,14 @@
+2024-12-15 00:25:00:250 [31merror[39m: [31mError: 비밀번호는 영문 대/소문자와 숫자를 포함해야 합니다.[39m
+2024-12-15 00:25:00:250 [31merror[39m: [31mStack: Error: 비밀번호는 영문 대/소문자와 숫자를 포함해야 합니다.[39m
+[31m    at validateRequest (file:///Users/hongttochi/Desktop/saramin_backend/src/utils/validateRequest.js:8:11)[39m
+[31m    at Layer.handle [as handle_request] (/Users/hongttochi/Desktop/saramin_backend/node_modules/express/lib/router/layer.js:95:5)[39m
+[31m    at next (/Users/hongttochi/Desktop/saramin_backend/node_modules/express/lib/router/route.js:149:13)[39m
+[31m    at middleware (/Users/hongttochi/Desktop/saramin_backend/node_modules/express-validator/lib/middlewares/check.js:16:13)[39m
+[31m    at processTicksAndRejections (node:internal/process/task_queues:96:5)[39m
+2024-12-15 00:25:01:251 [31merror[39m: [31mError: 비밀번호는 영문 대/소문자와 숫자를 포함해야 합니다.[39m
+2024-12-15 00:25:01:251 [31merror[39m: [31mStack: Error: 비밀번호는 영문 대/소문자와 숫자를 포함해야 합니다.[39m
+[31m    at validateRequest (file:///Users/hongttochi/Desktop/saramin_backend/src/utils/validateRequest.js:8:11)[39m
+[31m    at Layer.handle [as handle_request] (/Users/hongttochi/Desktop/saramin_backend/node_modules/express/lib/router/layer.js:95:5)[39m
+[31m    at next (/Users/hongttochi/Desktop/saramin_backend/node_modules/express/lib/router/route.js:149:13)[39m
+[31m    at middleware (/Users/hongttochi/Desktop/saramin_backend/node_modules/express-validator/lib/middlewares/check.js:16:13)[39m
+[31m    at processTicksAndRejections (node:internal/process/task_queues:96:5)[39m
