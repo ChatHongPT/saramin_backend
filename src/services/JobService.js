@@ -1,14 +1,28 @@
 import { Job } from '../models/Job.js';
 import { ApiError } from '../utils/ApiError.js';
-import { createSearchFilters } from '../utils/filters.js';
-import { parseSkills, parseSalary } from '../utils/jobUtils.js';
+import { parseSkills, parseExperience, parseSalary, createSortOption } from '../utils/jobUtils.js';
 
 export class JobService {
-  // ... existing methods ...
+  async getJobs(options = {}) {
+    const { page = 1, limit = 20 } = options;
+    const query = { status: 'active' };
+
+    const [jobs, total] = await Promise.all([
+      Job.find(query)
+        .populate('company')
+        .sort('-createdAt')
+        .skip((page - 1) * limit)
+        .limit(limit)
+        .lean(),
+      Job.countDocuments(query)
+    ]);
+
+    return { jobs, total };
+  }
 
   async filterJobs(filters = {}, options = {}) {
     try {
-      const { page = 1, limit = 20, sort = '-createdAt' } = options;
+      const { page = 1, limit = 20, sort = 'latest' } = options;
       const query = { status: 'active' };
 
       // Location filter
@@ -18,16 +32,20 @@ export class JobService {
 
       // Experience filter
       if (filters.experience) {
-        const [min, max] = filters.experience.split('-').map(Number);
-        if (!isNaN(min)) query['experience.min'] = { $gte: min };
-        if (!isNaN(max)) query['experience.max'] = { $lte: max };
+        const exp = parseExperience(filters.experience);
+        if (exp) {
+          query['experience.min'] = { $gte: exp.min };
+          if (exp.max) query['experience.max'] = { $lte: exp.max };
+        }
       }
 
       // Salary filter
       if (filters.salary) {
-        const [min, max] = filters.salary.split('-').map(Number);
-        if (!isNaN(min)) query['salary.min'] = { $gte: min };
-        if (!isNaN(max)) query['salary.max'] = { $lte: max };
+        const sal = parseSalary(filters.salary);
+        if (sal) {
+          query['salary.min'] = { $gte: sal.min };
+          if (sal.max) query['salary.max'] = { $lte: sal.max };
+        }
       }
 
       // Skills filter
@@ -38,18 +56,7 @@ export class JobService {
         }
       }
 
-      // Sort options
-      let sortOption = {};
-      switch (sort) {
-        case 'salary':
-          sortOption = { 'salary.min': -1 };
-          break;
-        case 'views':
-          sortOption = { views: -1 };
-          break;
-        default:
-          sortOption = { createdAt: -1 };
-      }
+      const sortOption = createSortOption(sort);
 
       const [jobs, total] = await Promise.all([
         Job.find(query)
@@ -66,4 +73,29 @@ export class JobService {
       throw new ApiError(500, '채용공고 필터링 중 오류가 발생했습니다.');
     }
   }
+
+  async searchJobs(keyword, options = {}) {
+    const { page = 1, limit = 20 } = options;
+    const query = {
+      status: 'active',
+      $or: [
+        { title: new RegExp(keyword, 'i') },
+        { description: new RegExp(keyword, 'i') }
+      ]
+    };
+
+    const [jobs, total] = await Promise.all([
+      Job.find(query)
+        .populate('company')
+        .sort('-createdAt')
+        .skip((page - 1) * limit)
+        .limit(limit)
+        .lean(),
+      Job.countDocuments(query)
+    ]);
+
+    return { jobs, total };
+  }
+
+  // ... other methods ...
 }
