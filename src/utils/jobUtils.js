@@ -1,7 +1,8 @@
-import { parseSalaryText } from './salaryUtils.js';
-
+/**
+ * 검색 필터 생성
+ */
 export const createSearchFilters = (filters) => {
-  const query = { status: 'active' };
+  const query = {};
 
   // Keyword search
   if (filters.keyword) {
@@ -34,9 +35,13 @@ export const createSearchFilters = (filters) => {
 
   // Salary filter
   if (filters.salary) {
-    const { min, max } = parseSalaryText(filters.salary);
-    if (min) query['salary.min'] = { $gte: min };
-    if (max) query['salary.max'] = { $lte: max };
+    const [min, max] = filters.salary.split('-').map(Number);
+    if (!isNaN(min)) {
+      query['salary.min'] = { $gte: min };
+      if (!isNaN(max)) {
+        query['salary.max'] = { $lte: max };
+      }
+    }
   }
 
   // Skills filter
@@ -50,6 +55,9 @@ export const createSearchFilters = (filters) => {
   return query;
 };
 
+/**
+ * 정렬 옵션 생성
+ */
 export const createSortOption = (sort) => {
   switch (sort) {
     case 'salary':

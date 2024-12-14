@@ -3,7 +3,7 @@ import { SearchHistoryController } from '../controllers/searchHistoryController.
 import { authenticate } from '../middleware/auth.js';
 import { validatePagination } from '../middleware/validators/common/index.js';
 
-const router = express.Router();
+export const router = express.Router();
 const searchHistoryController = new SearchHistoryController();
 
 // All routes require authentication
@@ -15,4 +15,4 @@ router.get('/', validatePagination, searchHistoryController.getSearchHistory);
 // Clear search history
 router.delete('/', searchHistoryController.clearSearchHistory);
 
-export { router };
+export default router;

@@ -7,7 +7,7 @@ import { router as resumeRouter } from './resumes.js';
 import { router as reviewRouter } from './reviews.js';
 import { router as searchHistoryRouter } from './searchHistory.js';
 
-const router = express.Router();
+export const router = express.Router();
 
 // Health check endpoint
 router.get('/health', (req, res) => {
@@ -22,5 +22,3 @@ router.use('/applications', applicationRouter);
 router.use('/resumes', resumeRouter);
 router.use('/reviews', reviewRouter);
 router.use('/search-history', searchHistoryRouter);
-
-export { router };

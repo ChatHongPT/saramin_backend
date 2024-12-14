@@ -1,13 +1,30 @@
 import { Job } from '../models/Job.js';
 import { ApiError } from '../utils/ApiError.js';
 import { createSearchFilters, createSortOption } from '../utils/jobUtils.js';
-import { parseSalaryText, formatSalary } from '../utils/salaryUtils.js';
 
 export class JobService {
   async getJobs(filters = {}, options = {}) {
     try {
-      const { page = 1, limit = 20, sort = 'latest' } = options;
-      const query = createSearchFilters(filters);
+      const { page = 1, limit = 20, sort = '-createdAt' } = options;
+      const query = { status: 'active' };
+
+      // Apply search filters
+      if (filters.keyword) {
+        query.$or = [
+          { title: new RegExp(filters.keyword, 'i') },
+          { description: new RegExp(filters.keyword, 'i') }
+        ];
+      }
+
+      // Apply company filter
+      if (filters.company) {
+        query['company.name'] = new RegExp(filters.company, 'i');
+      }
+
+      // Apply other filters
+      const searchFilters = createSearchFilters(filters);
+      Object.assign(query, searchFilters);
+
       const sortOption = createSortOption(sort);
 
       const [jobs, total] = await Promise.all([
@@ -20,16 +37,7 @@ export class JobService {
         Job.countDocuments(query)
       ]);
 
-      // Format salary for each job
-      const formattedJobs = jobs.map(job => ({
-        ...job,
-        salary: {
-          ...job.salary,
-          formatted: formatSalary(job.salary)
-        }
-      }));
-
-      return { jobs: formattedJobs, total };
+      return { jobs, total };
     } catch (error) {
       throw new ApiError(500, '채용공고 조회 중 오류가 발생했습니다.');
     }
@@ -43,29 +51,15 @@ export class JobService {
       }
 
       // Increment view count
-      await job.incrementViews();
+      job.views += 1;
+      await job.save();
 
-      // Format salary
-      const formattedJob = {
-        ...job.toObject(),
-        salary: {
-          ...job.salary,
-          formatted: formatSalary(job.salary)
-        }
-      };
-
-      const result = { job: formattedJob };
+      const result = { job };
 
       // Get recommended jobs if requested
       if (options.withRecommendations) {
         const recommendations = await this.getRecommendedJobs(job);
-        result.recommendations = recommendations.map(rec => ({
-          ...rec,
-          salary: {
-            ...rec.salary,
-            formatted: formatSalary(rec.salary)
-          }
-        }));
+        result.recommendations = recommendations;
       }
 
       return result;
@@ -76,15 +70,16 @@ export class JobService {
   }
 
   async getRecommendedJobs(job, limit = 5) {
+    // Find jobs with similar attributes
     const query = {
       _id: { $ne: job._id },
       status: 'active',
       $or: [
-        { 'company._id': job.company._id },
+        { 'company._id': job.company._id }, // Same company
         { 
           $and: [
-            { location: job.location },
-            { 'skills.name': { $in: job.skills.map(s => s.name) } }
+            { location: job.location }, // Same location
+            { 'skills.name': { $in: job.skills.map(s => s.name) } } // Similar skills
           ]
         }
       ]

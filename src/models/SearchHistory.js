@@ -19,11 +19,12 @@ const searchHistorySchema = new mongoose.Schema({
       min: Number,
       max: Number,
     },
-    jobType: String,
+    jobType: [String],
     company: String,
   },
   results: {
     count: Number,
+    relevance: Number,
   },
   createdAt: {
     type: Date,
@@ -35,5 +36,7 @@ const searchHistorySchema = new mongoose.Schema({
 // Compound index for user's recent searches
 searchHistorySchema.index({ user: 1, createdAt: -1 });
 
-const SearchHistory = mongoose.model('SearchHistory', searchHistorySchema);
-export { SearchHistory };
+export const SearchHistory = mongoose.model(
+  'SearchHistory',
+  searchHistorySchema
+);
