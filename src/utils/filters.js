@@ -14,12 +14,18 @@ export const createSearchFilters = (params) => {
   }
 
   if (params.skills) {
-    const skillsList = Array.isArray(params.skills)
-      ? params.skills
-      : params.skills.split(',').map((s) => s.trim());
-
+    const skillsList = params.skills.split(',').map(s => s.trim());
     if (skillsList.length > 0) {
       filters['skills.name'] = { $in: skillsList };
+    }
+  }
+
+  if (params.salary) {
+    const [min, max] = params.salary.split('-').map(Number);
+    if (!isNaN(min) || !isNaN(max)) {
+      filters.salary = {};
+      if (!isNaN(min)) filters.salary.$gte = min;
+      if (!isNaN(max)) filters.salary.$lte = max;
     }
   }
 

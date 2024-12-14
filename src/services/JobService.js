@@ -1,9 +1,56 @@
 import { Job } from '../models/Job.js';
 import { ApiError } from '../utils/ApiError.js';
-import { parseSkills, parseSalary } from '../utils/jobUtils.js';
+import { createSearchFilters } from '../utils/filters.js';
 
 export class JobService {
-  // ... existing methods ...
+  async getJobs(params = {}, options = {}) {
+    try {
+      const { page = 1, limit = 20, sort = '-createdAt' } = options;
+      const filters = createSearchFilters(params);
+      filters.status = 'active';
+
+      const [jobs, total] = await Promise.all([
+        Job.find(filters)
+          .populate('company')
+          .sort(sort)
+          .skip((page - 1) * limit)
+          .limit(limit)
+          .lean(),
+        Job.countDocuments(filters),
+      ]);
+
+      return { jobs, total };
+    } catch (error) {
+      throw new ApiError(500, '채용공고 목록 조회 중 오류가 발생했습니다.');
+    }
+  }
+
+  async searchJobs(keyword, params = {}, options = {}) {
+    try {
+      const { page = 1, limit = 20 } = options;
+      const filters = createSearchFilters(params);
+      filters.status = 'active';
+      filters.$or = [
+        { title: new RegExp(keyword, 'i') },
+        { description: new RegExp(keyword, 'i') },
+        { 'company.name': new RegExp(keyword, 'i') },
+      ];
+
+      const [jobs, total] = await Promise.all([
+        Job.find(filters)
+          .populate('company')
+          .sort('-createdAt')
+          .skip((page - 1) * limit)
+          .limit(limit)
+          .lean(),
+        Job.countDocuments(filters),
+      ]);
+
+      return { jobs, total };
+    } catch (error) {
+      throw new ApiError(500, '채용공고 검색 중 오류가 발생했습니다.');
+    }
+  }
 
   async getJobById(id) {
     try {
