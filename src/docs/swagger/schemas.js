@@ -107,6 +107,58 @@ export const schemas = {
     }
   },
 
+  // Review schemas
+  ReviewInput: {
+    type: 'object',
+    required: ['job', 'rating', 'content'],
+    properties: {
+      job: { type: 'string' },
+      rating: {
+        type: 'object',
+        required: ['overall', 'workLifeBalance', 'compensation', 'culture'],
+        properties: {
+          overall: { type: 'number', minimum: 1, maximum: 5 },
+          workLifeBalance: { type: 'number', minimum: 1, maximum: 5 },
+          compensation: { type: 'number', minimum: 1, maximum: 5 },
+          culture: { type: 'number', minimum: 1, maximum: 5 }
+        }
+      },
+      content: { type: 'string', maxLength: 2000 },
+      pros: { type: 'string', maxLength: 1000 },
+      cons: { type: 'string', maxLength: 1000 },
+      isAnonymous: { type: 'boolean' }
+    }
+  },
+  Review: {
+    type: 'object',
+    properties: {
+      id: { type: 'string' },
+      user: { $ref: '#/components/schemas/User' },
+      job: { $ref: '#/components/schemas/Job' },
+      company: { $ref: '#/components/schemas/Company' },
+      rating: {
+        type: 'object',
+        properties: {
+          overall: { type: 'number' },
+          workLifeBalance: { type: 'number' },
+          compensation: { type: 'number' },
+          culture: { type: 'number' }
+        }
+      },
+      content: { type: 'string' },
+      pros: { type: 'string' },
+      cons: { type: 'string' },
+      status: {
+        type: 'string',
+        enum: ['pending', 'approved', 'rejected']
+      },
+      isAnonymous: { type: 'boolean' },
+      helpfulCount: { type: 'number' },
+      createdAt: { type: 'string', format: 'date-time' },
+      updatedAt: { type: 'string', format: 'date-time' }
+    }
+  },
+
   // Application schemas
   Application: {
     type: 'object',
@@ -198,20 +250,6 @@ export const schemas = {
         type: 'string',
         enum: ['draft', 'active', 'archived']
       }
-    }
-  },
-  Resume: {
-    type: 'object',
-    properties: {
-      id: { type: 'string' },
-      title: { type: 'string' },
-      user: { type: 'string' },
-      isDefault: { type: 'boolean' },
-      version: { type: 'integer' },
-      content: { $ref: '#/components/schemas/ResumeInput/properties/content' },
-      status: { $ref: '#/components/schemas/ResumeInput/properties/status' },
-      createdAt: { type: 'string', format: 'date-time' },
-      updatedAt: { type: 'string', format: 'date-time' }
     }
   }
 };
