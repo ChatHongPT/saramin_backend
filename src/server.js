@@ -30,7 +30,9 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Security middleware
-app.use(helmet());
+app.use(helmet({
+  contentSecurityPolicy: false // Allow Swagger UI to load
+}));
 app.use(cors());
 app.use(limiter);
 app.use('/api/', apiLimiter);
@@ -40,13 +42,21 @@ app.use(preventXSS);
 app.use(preventParamPollution);
 
 // Basic middleware
-app.use(requestLogger); // Add request logging
+app.use(requestLogger);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // Swagger documentation
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+const swaggerOptions = {
+  customCss: '.swagger-ui .topbar { display: none }',
+  customSiteTitle: "Saramin API Documentation",
+  swaggerOptions: {
+    persistAuthorization: true
+  }
+};
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs, swaggerOptions));
 
 // Routes
 app.use('/api', apiRouter);
@@ -67,9 +77,7 @@ app.use((req, res) => {
 // Start server
 const server = app.listen(PORT, () => {
   Logger.info(`Server is running on port ${PORT}`);
-  Logger.info(
-    `API Documentation available at http://localhost:${PORT}/api-docs`
-  );
+  Logger.info(`API Documentation available at http://localhost:${PORT}/api-docs`);
 });
 
 // Handle unhandled promise rejections
