@@ -4,6 +4,7 @@ import { jobPaths } from './swagger/paths/jobs.js';
 import { applicationPaths } from './swagger/paths/applications.js';
 import { resumePaths } from './swagger/paths/resumes.js';
 import { reviewPaths } from './swagger/paths/reviews.js';
+import { searchHistoryPaths } from './swagger/paths/searchHistory.js';
 
 export const swaggerDocs = {
   openapi: '3.0.0',
@@ -24,6 +25,7 @@ export const swaggerDocs = {
     { name: 'Applications', description: '지원 관련 API' },
     { name: 'Resumes', description: '이력서 관련 API' },
     { name: 'Reviews', description: '리뷰 관련 API' },
+    { name: 'Search History', description: '검색 기록 관련 API' },
   ],
   components: {
     schemas,
@@ -41,5 +43,6 @@ export const swaggerDocs = {
     ...applicationPaths,
     ...resumePaths,
     ...reviewPaths,
+    ...searchHistoryPaths,
   },
 };
