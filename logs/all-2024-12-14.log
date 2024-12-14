@@ -205,3 +205,9 @@
 2024-12-14 17:00:23:023 [32minfo[39m: [32mAPI Documentation available at http://localhost:3000/api-docs[39m
 2024-12-14 17:00:23:023 [35mhttp[39m: [35mGET / 200 6ms - undefined[39m
 2024-12-14 17:00:27:027 [35mhttp[39m: [35mGET / 200 11ms - undefined[39m
+2024-12-14 17:02:50:250 [32minfo[39m: [32mServer is running on port 3000[39m
+2024-12-14 17:02:50:250 [32minfo[39m: [32mAPI Documentation available at http://localhost:3000/api-docs[39m
+2024-12-14 17:02:50:250 [35mhttp[39m: [35mGET / 200 6ms - undefined[39m
+2024-12-14 17:02:52:252 [35mhttp[39m: [35mGET / 200 6ms - undefined[39m
+2024-12-14 17:03:07:37 [32minfo[39m: [32mServer is running on port 17085[39m
+2024-12-14 17:03:07:37 [32minfo[39m: [32mAPI Documentation available at http://localhost:17085/api-docs[39m
