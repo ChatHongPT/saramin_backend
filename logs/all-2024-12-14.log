@@ -254,3 +254,20 @@
 2024-12-14 23:05:54:554 [35mhttp[39m: [35mGET /api-docs/swagger-ui-init.js 200 6ms - 127.0.0.1[39m
 2024-12-14 23:05:54:554 [35mhttp[39m: [35mGET /api-docs/swagger-ui-standalone-preset.js 304 9ms - 127.0.0.1[39m
 2024-12-14 23:05:54:554 [35mhttp[39m: [35mGET /api/swagger.json 200 1ms - 127.0.0.1[39m
+2024-12-14 23:09:13:913 [32minfo[39m: [32mServer is running on port 3000[39m
+2024-12-14 23:09:13:913 [32minfo[39m: [32mAPI Documentation available at http://localhost:3000/api-docs[39m
+2024-12-14 23:09:13:913 [32minfo[39m: [32mMongoDB Connected: cluster0-shard-00-02.vyeu8.mongodb.net[39m
+2024-12-14 23:12:02:122 [35mhttp[39m: [35mGET /api-docs/ 304 4ms - 127.0.0.1[39m
+2024-12-14 23:12:02:122 [35mhttp[39m: [35mGET /api-docs/swagger-ui.css 304 2ms - 127.0.0.1[39m
+2024-12-14 23:12:02:122 [35mhttp[39m: [35mGET /api-docs/swagger-ui-bundle.js 304 3ms - 127.0.0.1[39m
+2024-12-14 23:12:02:122 [35mhttp[39m: [35mGET /api-docs/swagger-ui-init.js 200 4ms - 127.0.0.1[39m
+2024-12-14 23:12:02:122 [35mhttp[39m: [35mGET /api-docs/swagger-ui-standalone-preset.js 304 5ms - 127.0.0.1[39m
+2024-12-14 23:12:02:122 [35mhttp[39m: [35mGET /api/swagger.json 304 1ms - 127.0.0.1[39m
+2024-12-14 23:12:02:122 [35mhttp[39m: [35mGET /api-docs/favicon-32x32.png 304 2ms - 127.0.0.1[39m
+2024-12-14 23:30:57:3057 [35mhttp[39m: [35mGET /api-docs/ 304 2ms - 127.0.0.1[39m
+2024-12-14 23:30:57:3057 [35mhttp[39m: [35mGET /api-docs/swagger-ui.css 304 2ms - 127.0.0.1[39m
+2024-12-14 23:30:57:3057 [35mhttp[39m: [35mGET /api-docs/swagger-ui-bundle.js 304 3ms - 127.0.0.1[39m
+2024-12-14 23:30:57:3057 [35mhttp[39m: [35mGET /api-docs/swagger-ui-init.js 304 2ms - 127.0.0.1[39m
+2024-12-14 23:30:57:3057 [35mhttp[39m: [35mGET /api-docs/swagger-ui-standalone-preset.js 304 4ms - 127.0.0.1[39m
+2024-12-14 23:30:57:3057 [35mhttp[39m: [35mGET /api/swagger.json 304 2ms - 127.0.0.1[39m
+2024-12-14 23:30:57:3057 [35mhttp[39m: [35mGET /api-docs/favicon-32x32.png 304 4ms - 127.0.0.1[39m
