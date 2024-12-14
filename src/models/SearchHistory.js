@@ -36,4 +36,4 @@ const searchHistorySchema = new mongoose.Schema({
 searchHistorySchema.index({ user: 1, createdAt: -1 });
 
 const SearchHistory = mongoose.model('SearchHistory', searchHistorySchema);
-export { SearchHistory };
+export { SearchHistory };.
