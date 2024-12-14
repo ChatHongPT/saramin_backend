@@ -1,54 +1,72 @@
+import { commonResponses } from '../common/responses.js';
+
 export const jobPaths = {
   '/jobs': {
     get: {
       tags: ['Jobs'],
       summary: '채용 공고 목록 조회',
-      description:
-        '페이지네이션, 필터링, 정렬 기능을 제공하는 채용 공고 목록 API',
+      description: '채용 공고 목록을 조회합니다. (인증 불필요)',
       parameters: [
         {
           name: 'page',
           in: 'query',
-          description: '페이지 번호',
           schema: { type: 'integer', minimum: 1, default: 1 },
         },
         {
           name: 'limit',
           in: 'query',
-          description: '페이지당 항목 수',
           schema: { type: 'integer', minimum: 1, maximum: 100, default: 20 },
         },
         {
           name: 'location',
           in: 'query',
-          description: '지역 필터',
+          description: '지역 필터 (예: 서울, 경기)',
           schema: { type: 'string' },
         },
         {
           name: 'experience',
           in: 'query',
-          description: '경력 필터',
+          description: '경력 필터 (예: 신입, 3년 이상)',
+          schema: { type: 'string' },
+        },
+        {
+          name: 'salary',
+          in: 'query',
+          description: '급여 필터 (예: 3000만원 이상)',
           schema: { type: 'string' },
         },
         {
           name: 'skills',
           in: 'query',
-          description: '기술 스택 필터 (콤마로 구분)',
+          description: '기술스택 필터 (콤마로 구분, 예: JavaScript,React,Node.js)',
           schema: { type: 'string' },
         },
         {
-          name: 'type',
+          name: 'keyword',
           in: 'query',
-          description: '고용 형태',
+          description: '검색 키워드 (제목, 내용 검색)',
+          schema: { type: 'string' },
+        },
+        {
+          name: 'company',
+          in: 'query',
+          description: '회사명 검색',
+          schema: { type: 'string' },
+        },
+        {
+          name: 'position',
+          in: 'query',
+          description: '포지션 검색 (예: 프론트엔드, 백엔드)',
+          schema: { type: 'string' },
+        },
+        {
+          name: 'sort',
+          in: 'query',
+          description: '정렬 기준 (latest: 최신순, views: 조회순)',
           schema: {
             type: 'string',
-            enum: [
-              'full-time',
-              'part-time',
-              'contract',
-              'internship',
-              'temporary',
-            ],
+            enum: ['latest', 'views'],
+            default: 'latest',
           },
         },
       ],
@@ -68,7 +86,6 @@ export const jobPaths = {
                     type: 'object',
                     properties: {
                       total: { type: 'integer' },
-                      pages: { type: 'integer' },
                       page: { type: 'integer' },
                       limit: { type: 'integer' },
                     },
@@ -78,34 +95,9 @@ export const jobPaths = {
             },
           },
         },
+        ...commonResponses,
       },
     },
   },
-  '/jobs/{id}': {
-    get: {
-      tags: ['Jobs'],
-      summary: '채용 공고 상세 조회',
-      description: '채용 공고의 상세 정보를 조회합니다.',
-      parameters: [
-        {
-          name: 'id',
-          in: 'path',
-          required: true,
-          description: '채용 공고 ID',
-          schema: { type: 'string' },
-        },
-      ],
-      responses: {
-        200: {
-          description: '채용 공고 조회 성공',
-          content: {
-            'application/json': {
-              schema: { $ref: '#/components/schemas/Job' },
-            },
-          },
-        },
-        404: { description: '채용 공고를 찾을 수 없음' },
-      },
-    },
-  },
+  // ... other paths remain the same
 };

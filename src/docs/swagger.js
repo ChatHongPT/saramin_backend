@@ -1,8 +1,7 @@
-import { schemas } from './swagger/schemas.js';
+import { schemas } from './swagger/schemas/index.js';
 import { authPaths } from './swagger/paths/auth.js';
 import { jobPaths } from './swagger/paths/jobs.js';
 import { applicationPaths } from './swagger/paths/applications.js';
-import { bookmarkPaths } from './swagger/paths/bookmarks.js';
 import { resumePaths } from './swagger/paths/resumes.js';
 import { reviewPaths } from './swagger/paths/reviews.js';
 
@@ -20,30 +19,11 @@ export const swaggerDocs = {
     },
   ],
   tags: [
-    {
-      name: 'Auth',
-      description: '인증 관련 API',
-    },
-    {
-      name: 'Jobs',
-      description: '채용 공고 관련 API',
-    },
-    {
-      name: 'Applications',
-      description: '지원 관련 API',
-    },
-    {
-      name: 'Bookmarks',
-      description: '북마크 관련 API',
-    },
-    {
-      name: 'Resumes',
-      description: '이력서 관련 API',
-    },
-    {
-      name: 'Reviews',
-      description: '리뷰 관련 API',
-    },
+    { name: 'Auth', description: '인증 관련 API' },
+    { name: 'Jobs', description: '채용 공고 관련 API' },
+    { name: 'Applications', description: '지원 관련 API' },
+    { name: 'Resumes', description: '이력서 관련 API' },
+    { name: 'Reviews', description: '리뷰 관련 API' },
   ],
   components: {
     schemas,
@@ -59,7 +39,6 @@ export const swaggerDocs = {
     ...authPaths,
     ...jobPaths,
     ...applicationPaths,
-    ...bookmarkPaths,
     ...resumePaths,
     ...reviewPaths,
   },

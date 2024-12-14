@@ -1,9 +1,10 @@
+import { commonResponses } from '../common/responses.js';
+
 export const resumePaths = {
   '/resumes': {
     post: {
       tags: ['Resumes'],
       summary: '이력서 생성',
-      description: '새로운 이력서를 생성합니다.',
       security: [{ bearerAuth: [] }],
       requestBody: {
         required: true,
@@ -14,50 +15,7 @@ export const resumePaths = {
               required: ['title'],
               properties: {
                 title: { type: 'string' },
-                content: {
-                  type: 'object',
-                  properties: {
-                    basicInfo: {
-                      type: 'object',
-                      properties: {
-                        name: { type: 'string' },
-                        email: { type: 'string', format: 'email' },
-                        phone: { type: 'string' },
-                        address: { type: 'string' },
-                      },
-                    },
-                    education: {
-                      type: 'array',
-                      items: {
-                        type: 'object',
-                        properties: {
-                          school: { type: 'string' },
-                          degree: { type: 'string' },
-                          field: { type: 'string' },
-                          startDate: { type: 'string', format: 'date' },
-                          endDate: { type: 'string', format: 'date' },
-                        },
-                      },
-                    },
-                    experience: {
-                      type: 'array',
-                      items: {
-                        type: 'object',
-                        properties: {
-                          company: { type: 'string' },
-                          position: { type: 'string' },
-                          startDate: { type: 'string', format: 'date' },
-                          endDate: { type: 'string', format: 'date' },
-                          description: { type: 'string' },
-                        },
-                      },
-                    },
-                    skills: {
-                      type: 'array',
-                      items: { type: 'string' },
-                    },
-                  },
-                },
+                content: { $ref: '#/components/schemas/Resume' },
               },
             },
           },
@@ -78,6 +36,7 @@ export const resumePaths = {
             },
           },
         },
+        ...commonResponses,
       },
     },
     get: {
@@ -121,6 +80,7 @@ export const resumePaths = {
             },
           },
         },
+        ...commonResponses,
       },
     },
   },
@@ -141,9 +101,7 @@ export const resumePaths = {
         required: true,
         content: {
           'application/json': {
-            schema: {
-              $ref: '#/components/schemas/Resume',
-            },
+            schema: { $ref: '#/components/schemas/Resume' },
           },
         },
       },
@@ -162,6 +120,7 @@ export const resumePaths = {
             },
           },
         },
+        ...commonResponses,
       },
     },
     delete: {
@@ -190,6 +149,7 @@ export const resumePaths = {
             },
           },
         },
+        ...commonResponses,
       },
     },
   },

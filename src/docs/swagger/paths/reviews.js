@@ -1,3 +1,5 @@
+import { commonResponses } from '../common/responses.js';
+
 export const reviewPaths = {
   '/reviews': {
     post: {
@@ -38,6 +40,7 @@ export const reviewPaths = {
             },
           },
         },
+        ...commonResponses,
       },
     },
     get: {
@@ -86,6 +89,7 @@ export const reviewPaths = {
             },
           },
         },
+        ...commonResponses,
       },
     },
   },
@@ -106,9 +110,7 @@ export const reviewPaths = {
         required: true,
         content: {
           'application/json': {
-            schema: {
-              $ref: '#/components/schemas/Review',
-            },
+            schema: { $ref: '#/components/schemas/Review' },
           },
         },
       },
@@ -127,6 +129,7 @@ export const reviewPaths = {
             },
           },
         },
+        ...commonResponses,
       },
     },
     delete: {
@@ -155,6 +158,7 @@ export const reviewPaths = {
             },
           },
         },
+        ...commonResponses,
       },
     },
   },

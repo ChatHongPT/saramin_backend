@@ -1,3 +1,5 @@
+import { commonResponses } from '../common/responses.js';
+
 export const authPaths = {
   '/auth/register': {
     post: {
@@ -35,8 +37,7 @@ export const authPaths = {
             },
           },
         },
-        400: { description: '잘못된 입력' },
-        409: { description: '이미 존재하는 이메일' },
+        ...commonResponses,
       },
     },
   },
@@ -61,7 +62,7 @@ export const authPaths = {
               schema: {
                 type: 'object',
                 properties: {
-                  accessToken: { type: 'string' },
+                  message: { type: 'string' },
                   user: {
                     type: 'object',
                     properties: {
@@ -70,12 +71,13 @@ export const authPaths = {
                       name: { type: 'string' },
                     },
                   },
+                  accessToken: { type: 'string' },
                 },
               },
             },
           },
         },
-        401: { description: '인증 실패' },
+        ...commonResponses,
       },
     },
   },
@@ -99,11 +101,33 @@ export const authPaths = {
             },
           },
         },
-        401: { description: '토큰 만료 또는 유효하지 않음' },
+        ...commonResponses,
       },
     },
   },
   '/auth/profile': {
+    get: {
+      tags: ['Auth'],
+      summary: '회원 정보 조회',
+      description: '현재 로그인한 사용자의 프로필 정보 조회',
+      security: [{ bearerAuth: [] }],
+      responses: {
+        200: {
+          description: '프로필 조회 성공',
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  user: { $ref: '#/components/schemas/ProfileUpdate' },
+                },
+              },
+            },
+          },
+        },
+        ...commonResponses,
+      },
+    },
     put: {
       tags: ['Auth'],
       summary: '회원 정보 수정',
@@ -132,7 +156,29 @@ export const authPaths = {
             },
           },
         },
-        401: { description: '인증되지 않은 사용자' },
+        ...commonResponses,
+      },
+    },
+    delete: {
+      tags: ['Auth'],
+      summary: '회원 탈퇴',
+      description: '사용자 계정 삭제',
+      security: [{ bearerAuth: [] }],
+      responses: {
+        200: {
+          description: '계정 삭제 성공',
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  message: { type: 'string', example: '계정이 삭제되었습니다.' },
+                },
+              },
+            },
+          },
+        },
+        ...commonResponses,
       },
     },
   },
