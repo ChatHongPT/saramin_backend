@@ -1,12 +1,14 @@
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
+import morgan from 'morgan';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import swaggerUi from 'swagger-ui-express';
-import { swaggerDocs } from './docs/swagger.js'; // Swagger 설정 파일
-import { connectDB } from './config/database.js'; // MongoDB 연결 함수
 import { router as apiRouter } from './routes/api.js';
+import { swaggerDocs } from './docs/swagger.js';
+import { connectDB } from './config/database.js';
+import { serverConfig } from './config/server.config.js';
 import {
   limiter,
   apiLimiter,
@@ -27,12 +29,15 @@ connectDB();
 
 const app = express();
 
-// 환경에 따라 다른 포트 설정
-const PORT = process.env.PORT || (process.env.NODE_ENV === 'production' ? 13085 : 3000);
-
 // Security middleware
-app.use(helmet());
-app.use(cors());
+app.use(helmet({
+  contentSecurityPolicy: false
+}));
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(limiter);
 app.use('/api/', apiLimiter);
 app.use('/api/auth/', authLimiter);
@@ -41,20 +46,41 @@ app.use(preventXSS);
 app.use(preventParamPollution);
 
 // Basic middleware
-app.use(requestLogger); // Add request logging
+app.use(requestLogger);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // Swagger documentation
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs, { explorer: true }));
+const swaggerOptions = {
+  customCss: '.swagger-ui .topbar { display: none }',
+  customSiteTitle: "Saramin API Documentation",
+  swaggerOptions: {
+    urls: [
+      {
+        url: `${serverConfig.getApiUrl()}/swagger.json`,
+        name: 'Saramin API'
+      }
+    ]
+  }
+};
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs, swaggerOptions));
+
+// Serve Swagger JSON
+app.get('/api/swagger.json', (req, res) => {
+  res.json(swaggerDocs);
+});
 
 // Routes
 app.use('/api', apiRouter);
 
 // Root route
 app.get('/', (req, res) => {
-  res.json({ message: 'Welcome to the API' });
+  res.json({ 
+    message: 'Welcome to the API',
+    docs: serverConfig.getSwaggerUrl()
+  });
 });
 
 // Error handling middleware
@@ -66,21 +92,19 @@ app.use((req, res) => {
 });
 
 // Start server
-app.listen(PORT, '0.0.0.0', () => {
-  Logger.info(`Server is running on http://0.0.0.0:${PORT}`);
-  Logger.info(
-    `API Documentation available at http://${process.env.HOST || 'localhost'}:${PORT}/api-docs`
-  );
+const server = app.listen(serverConfig.port, '0.0.0.0', () => {
+  Logger.info(`Server is running on port ${serverConfig.port}`);
+  Logger.info(`API Documentation available at ${serverConfig.getSwaggerUrl()}`);
 });
 
 // Handle unhandled promise rejections
 process.on('unhandledRejection', (err) => {
   Logger.error('Unhandled Promise Rejection:', err);
-  process.exit(1);
+  server.close(() => process.exit(1));
 });
 
 // Handle uncaught exceptions
 process.on('uncaughtException', (err) => {
   Logger.error('Uncaught Exception:', err);
-  process.exit(1);
+  server.close(() => process.exit(1));
 });
