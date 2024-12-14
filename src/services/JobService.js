@@ -1,60 +1,29 @@
 import { Job } from '../models/Job.js';
 import { ApiError } from '../utils/ApiError.js';
-import { parseSkills, parseExperience, parseSalary, createSortOption } from '../utils/jobUtils.js';
+import { createSearchFilters, createSortOption } from '../utils/jobUtils.js';
 
 export class JobService {
-  async getJobs(options = {}) {
-    const { page = 1, limit = 20 } = options;
-    const query = { status: 'active' };
-
-    const [jobs, total] = await Promise.all([
-      Job.find(query)
-        .populate('company')
-        .sort('-createdAt')
-        .skip((page - 1) * limit)
-        .limit(limit)
-        .lean(),
-      Job.countDocuments(query)
-    ]);
-
-    return { jobs, total };
-  }
-
-  async filterJobs(filters = {}, options = {}) {
+  async getJobs(filters = {}, options = {}) {
     try {
-      const { page = 1, limit = 20, sort = 'latest' } = options;
+      const { page = 1, limit = 20, sort = '-createdAt' } = options;
       const query = { status: 'active' };
 
-      // Location filter
-      if (filters.location) {
-        query.location = new RegExp(filters.location, 'i');
+      // Apply search filters
+      if (filters.keyword) {
+        query.$or = [
+          { title: new RegExp(filters.keyword, 'i') },
+          { description: new RegExp(filters.keyword, 'i') }
+        ];
       }
 
-      // Experience filter
-      if (filters.experience) {
-        const exp = parseExperience(filters.experience);
-        if (exp) {
-          query['experience.min'] = { $gte: exp.min };
-          if (exp.max) query['experience.max'] = { $lte: exp.max };
-        }
+      // Apply company filter
+      if (filters.company) {
+        query['company.name'] = new RegExp(filters.company, 'i');
       }
 
-      // Salary filter
-      if (filters.salary) {
-        const sal = parseSalary(filters.salary);
-        if (sal) {
-          query['salary.min'] = { $gte: sal.min };
-          if (sal.max) query['salary.max'] = { $lte: sal.max };
-        }
-      }
-
-      // Skills filter
-      if (filters.skills) {
-        const skillsList = parseSkills(filters.skills);
-        if (skillsList.length > 0) {
-          query['skills.name'] = { $in: skillsList };
-        }
-      }
+      // Apply other filters
+      const searchFilters = createSearchFilters(filters);
+      Object.assign(query, searchFilters);
 
       const sortOption = createSortOption(sort);
 
@@ -70,32 +39,55 @@ export class JobService {
 
       return { jobs, total };
     } catch (error) {
-      throw new ApiError(500, '채용공고 필터링 중 오류가 발생했습니다.');
+      throw new ApiError(500, '채용공고 조회 중 오류가 발생했습니다.');
     }
   }
 
-  async searchJobs(keyword, options = {}) {
-    const { page = 1, limit = 20 } = options;
+  async getJobById(id, options = {}) {
+    try {
+      const job = await Job.findById(id).populate('company');
+      if (!job) {
+        throw new ApiError(404, '채용공고를 찾을 수 없습니다.');
+      }
+
+      // Increment view count
+      job.views += 1;
+      await job.save();
+
+      const result = { job };
+
+      // Get recommended jobs if requested
+      if (options.withRecommendations) {
+        const recommendations = await this.getRecommendedJobs(job);
+        result.recommendations = recommendations;
+      }
+
+      return result;
+    } catch (error) {
+      if (error instanceof ApiError) throw error;
+      throw new ApiError(500, '채용공고 조회 중 오류가 발생했습니다.');
+    }
+  }
+
+  async getRecommendedJobs(job, limit = 5) {
+    // Find jobs with similar attributes
     const query = {
+      _id: { $ne: job._id },
       status: 'active',
       $or: [
-        { title: new RegExp(keyword, 'i') },
-        { description: new RegExp(keyword, 'i') }
+        { 'company._id': job.company._id }, // Same company
+        { 
+          $and: [
+            { location: job.location }, // Same location
+            { 'skills.name': { $in: job.skills.map(s => s.name) } } // Similar skills
+          ]
+        }
       ]
     };
 
-    const [jobs, total] = await Promise.all([
-      Job.find(query)
-        .populate('company')
-        .sort('-createdAt')
-        .skip((page - 1) * limit)
-        .limit(limit)
-        .lean(),
-      Job.countDocuments(query)
-    ]);
-
-    return { jobs, total };
+    return await Job.find(query)
+      .populate('company')
+      .limit(limit)
+      .lean();
   }
-
-  // ... other methods ...
 }
