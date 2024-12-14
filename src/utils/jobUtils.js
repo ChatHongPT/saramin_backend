@@ -4,6 +4,19 @@
 export const createSearchFilters = (filters) => {
   const query = {};
 
+  // Keyword search
+  if (filters.keyword) {
+    query.$or = [
+      { title: new RegExp(filters.keyword, 'i') },
+      { description: new RegExp(filters.keyword, 'i') }
+    ];
+  }
+
+  // Company search
+  if (filters.company) {
+    query['company.name'] = new RegExp(filters.company, 'i');
+  }
+
   // Location filter
   if (filters.location) {
     query.location = new RegExp(filters.location, 'i');
@@ -53,6 +66,7 @@ export const createSortOption = (sort) => {
       return { views: -1 };
     case 'experience':
       return { 'experience.min': -1 };
+    case 'latest':
     default:
       return { createdAt: -1 };
   }
