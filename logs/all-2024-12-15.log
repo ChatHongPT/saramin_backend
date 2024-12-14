@@ -113,3 +113,74 @@
 2024-12-15 00:27:14:2714 [35mhttp[39m: [35mGET /api-docs/swagger-ui-init.js 304 2ms - 127.0.0.1[39m
 2024-12-15 00:27:15:2715 [35mhttp[39m: [35mGET /api-docs/swagger-ui-standalone-preset.js 304 7ms - 127.0.0.1[39m
 2024-12-15 00:27:15:2715 [35mhttp[39m: [35mGET /api/swagger.json 304 1ms - 127.0.0.1[39m
+2024-12-15 00:28:40:2840 [32minfo[39m: [32mServer is running on port 3000[39m
+2024-12-15 00:28:40:2840 [32minfo[39m: [32mAPI Documentation available at http://localhost:3000/api-docs[39m
+2024-12-15 00:28:41:2841 [32minfo[39m: [32mMongoDB Connected: cluster0-shard-00-02.vyeu8.mongodb.net[39m
+2024-12-15 00:28:42:2842 [35mhttp[39m: [35mGET /api-docs/ 304 6ms - 127.0.0.1[39m
+2024-12-15 00:28:42:2842 [35mhttp[39m: [35mGET /api-docs/swagger-ui-init.js 304 1ms - 127.0.0.1[39m
+2024-12-15 00:28:42:2842 [35mhttp[39m: [35mGET /api-docs/swagger-ui.css 200 11ms - 127.0.0.1[39m
+2024-12-15 00:28:42:2842 [35mhttp[39m: [35mGET /api-docs/swagger-ui-standalone-preset.js 200 12ms - 127.0.0.1[39m
+2024-12-15 00:28:42:2842 [35mhttp[39m: [35mGET /api-docs/swagger-ui-bundle.js 200 25ms - 127.0.0.1[39m
+2024-12-15 00:28:42:2842 [35mhttp[39m: [35mGET /api/swagger.json 304 2ms - 127.0.0.1[39m
+2024-12-15 00:30:03:303 [32minfo[39m: [32mServer is running on port 3000[39m
+2024-12-15 00:30:03:303 [32minfo[39m: [32mAPI Documentation available at http://localhost:3000/api-docs[39m
+2024-12-15 00:30:05:305 [35mhttp[39m: [35mGET /api-docs/ 304 5ms - 127.0.0.1[39m
+2024-12-15 00:30:05:305 [35mhttp[39m: [35mGET /api-docs/swagger-ui.css 304 2ms - 127.0.0.1[39m
+2024-12-15 00:30:05:305 [35mhttp[39m: [35mGET /api-docs/swagger-ui-bundle.js 304 3ms - 127.0.0.1[39m
+2024-12-15 00:30:05:305 [35mhttp[39m: [35mGET /api-docs/swagger-ui-init.js 304 2ms - 127.0.0.1[39m
+2024-12-15 00:30:05:305 [35mhttp[39m: [35mGET /api-docs/swagger-ui-standalone-preset.js 304 8ms - 127.0.0.1[39m
+2024-12-15 00:30:05:305 [35mhttp[39m: [35mGET /api/swagger.json 304 2ms - 127.0.0.1[39m
+2024-12-15 00:30:05:305 [35mhttp[39m: [35mGET /api-docs/favicon-32x32.png 200 4ms - 127.0.0.1[39m
+2024-12-15 00:30:29:3029 [31merror[39m: [31mError: 채용공고 조회 중 오류가 발생했습니다.[39m
+2024-12-15 00:30:29:3029 [31merror[39m: [31mStack: Error: 채용공고 조회 중 오류가 발생했습니다.[39m
+[31m    at JobService.getJobs (file:///Users/hongttochi/Desktop/saramin_backend/src/services/JobService.js:48:13)[39m
+[31m    at processTicksAndRejections (node:internal/process/task_queues:96:5)[39m
+[31m    at runNextTicks (node:internal/process/task_queues:65:3)[39m
+[31m    at listOnTimeout (node:internal/timers:528:9)[39m
+[31m    at processTimers (node:internal/timers:502:7)[39m
+[31m    at async getJobs (file:///Users/hongttochi/Desktop/saramin_backend/src/controllers/jobController.js:35:29)[39m
+[31m    at async file:///Users/hongttochi/Desktop/saramin_backend/src/middleware/asyncWrapper.js:4:7[39m
+2024-12-15 00:30:29:3029 [35mhttp[39m: [35mGET /api/jobs?page=1&limit=20&sort=latest&keyword=%ED%95%9C%EA%B5%AD 500 10018ms - 127.0.0.1[39m
+2024-12-15 00:31:03:313 [31merror[39m: [31mError: 채용공고 조회 중 오류가 발생했습니다.[39m
+2024-12-15 00:31:03:313 [31merror[39m: [31mStack: Error: 채용공고 조회 중 오류가 발생했습니다.[39m
+[31m    at JobService.getJobs (file:///Users/hongttochi/Desktop/saramin_backend/src/services/JobService.js:48:13)[39m
+[31m    at processTicksAndRejections (node:internal/process/task_queues:96:5)[39m
+[31m    at runNextTicks (node:internal/process/task_queues:65:3)[39m
+[31m    at listOnTimeout (node:internal/timers:528:9)[39m
+[31m    at processTimers (node:internal/timers:502:7)[39m
+[31m    at async getJobs (file:///Users/hongttochi/Desktop/saramin_backend/src/controllers/jobController.js:35:29)[39m
+[31m    at async file:///Users/hongttochi/Desktop/saramin_backend/src/middleware/asyncWrapper.js:4:7[39m
+2024-12-15 00:31:03:313 [35mhttp[39m: [35mGET /api/jobs?page=1&limit=20&sort=latest&keyword=%ED%95%9C%EA%B5%AD 500 10015ms - 127.0.0.1[39m
+2024-12-15 00:31:15:3115 [31merror[39m: [31mError: 채용공고 조회 중 오류가 발생했습니다.[39m
+2024-12-15 00:31:15:3115 [31merror[39m: [31mStack: Error: 채용공고 조회 중 오류가 발생했습니다.[39m
+[31m    at JobService.getJobs (file:///Users/hongttochi/Desktop/saramin_backend/src/services/JobService.js:48:13)[39m
+[31m    at processTicksAndRejections (node:internal/process/task_queues:96:5)[39m
+[31m    at runNextTicks (node:internal/process/task_queues:65:3)[39m
+[31m    at listOnTimeout (node:internal/timers:528:9)[39m
+[31m    at processTimers (node:internal/timers:502:7)[39m
+[31m    at async getJobs (file:///Users/hongttochi/Desktop/saramin_backend/src/controllers/jobController.js:35:29)[39m
+[31m    at async file:///Users/hongttochi/Desktop/saramin_backend/src/middleware/asyncWrapper.js:4:7[39m
+2024-12-15 00:31:15:3115 [35mhttp[39m: [35mGET /api/jobs?page=1&limit=20&sort=latest 500 10006ms - 127.0.0.1[39m
+2024-12-15 00:31:18:3118 [31merror[39m: [31mMongoDB connection failed:[39m
+2024-12-15 00:31:18:3118 [32minfo[39m: [32mRetrying connection in 5000ms...[39m
+2024-12-15 00:31:32:3132 [31merror[39m: [31mError: 채용공고 조회 중 오류가 발생했습니다.[39m
+2024-12-15 00:31:32:3132 [31merror[39m: [31mStack: Error: 채용공고 조회 중 오류가 발생했습니다.[39m
+[31m    at JobService.getJobs (file:///Users/hongttochi/Desktop/saramin_backend/src/services/JobService.js:48:13)[39m
+[31m    at processTicksAndRejections (node:internal/process/task_queues:96:5)[39m
+[31m    at runNextTicks (node:internal/process/task_queues:65:3)[39m
+[31m    at listOnTimeout (node:internal/timers:528:9)[39m
+[31m    at processTimers (node:internal/timers:502:7)[39m
+[31m    at async getJobs (file:///Users/hongttochi/Desktop/saramin_backend/src/controllers/jobController.js:35:29)[39m
+[31m    at async file:///Users/hongttochi/Desktop/saramin_backend/src/middleware/asyncWrapper.js:4:7[39m
+2024-12-15 00:31:32:3132 [35mhttp[39m: [35mGET /api/jobs?page=1&limit=20&sort=latest 500 10009ms - 127.0.0.1[39m
+2024-12-15 00:31:36:3136 [32minfo[39m: [32mServer is running on port 3000[39m
+2024-12-15 00:31:36:3136 [32minfo[39m: [32mAPI Documentation available at http://localhost:3000/api-docs[39m
+2024-12-15 00:31:37:3137 [32minfo[39m: [32mMongoDB Connected: cluster0-shard-00-00.vyeu8.mongodb.net[39m
+2024-12-15 00:31:44:3144 [35mhttp[39m: [35mGET /api-docs/ 304 5ms - 127.0.0.1[39m
+2024-12-15 00:31:44:3144 [35mhttp[39m: [35mGET /api-docs/swagger-ui.css 304 2ms - 127.0.0.1[39m
+2024-12-15 00:31:44:3144 [35mhttp[39m: [35mGET /api-docs/swagger-ui-bundle.js 304 3ms - 127.0.0.1[39m
+2024-12-15 00:31:44:3144 [35mhttp[39m: [35mGET /api-docs/swagger-ui-init.js 304 2ms - 127.0.0.1[39m
+2024-12-15 00:31:44:3144 [35mhttp[39m: [35mGET /api-docs/swagger-ui-standalone-preset.js 304 6ms - 127.0.0.1[39m
+2024-12-15 00:31:44:3144 [35mhttp[39m: [35mGET /api/swagger.json 304 2ms - 127.0.0.1[39m
+2024-12-15 00:31:53:3153 [35mhttp[39m: [35mGET /api/jobs?page=1&limit=20&sort=latest 200 69ms - 127.0.0.1[39m
+2024-12-15 00:32:00:320 [35mhttp[39m: [35mGET /api/jobs?page=1&limit=20&sort=latest&keyword=%ED%95%9C%EA%B5%AD 200 128ms - 127.0.0.1[39m
