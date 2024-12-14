@@ -2,29 +2,55 @@ import { SearchHistory } from '../models/SearchHistory.js';
 
 export class SearchHistoryService {
   async createSearchHistory(userId, searchData) {
-    const history = await SearchHistory.create({
-      user: userId,
-      ...searchData
-    });
-    return history;
+    try {
+      const history = await SearchHistory.create({
+        user: userId,
+        query: searchData.query,
+        filters: {
+          location: searchData.filters?.location,
+          skills: searchData.filters?.skills,
+          experience: searchData.filters?.experience,
+          salary: searchData.filters?.salary,
+          jobType: searchData.filters?.jobType,
+          company: searchData.filters?.company,
+        },
+        results: {
+          count: searchData.results?.count || 0,
+        }
+      });
+      return history;
+    } catch (error) {
+      console.error('Failed to create search history:', error);
+      throw error;
+    }
   }
 
   async getUserSearchHistory(userId, options = {}) {
     const { page = 1, limit = 20 } = options;
 
-    const [history, total] = await Promise.all([
-      SearchHistory.find({ user: userId })
-        .sort('-createdAt')
-        .skip((page - 1) * limit)
-        .limit(limit)
-        .lean(),
-      SearchHistory.countDocuments({ user: userId })
-    ]);
+    try {
+      const [history, total] = await Promise.all([
+        SearchHistory.find({ user: userId })
+          .sort('-createdAt')
+          .skip((page - 1) * limit)
+          .limit(limit)
+          .lean(),
+        SearchHistory.countDocuments({ user: userId })
+      ]);
 
-    return { history, total };
+      return { history, total };
+    } catch (error) {
+      console.error('Failed to get search history:', error);
+      throw error;
+    }
   }
 
   async clearUserSearchHistory(userId) {
-    await SearchHistory.deleteMany({ user: userId });
+    try {
+      await SearchHistory.deleteMany({ user: userId });
+    } catch (error) {
+      console.error('Failed to clear search history:', error);
+      throw error;
+    }
   }
 }
