@@ -180,3 +180,51 @@
 2024-12-14 14:06:17:617 [35mhttp[39m: [35mGET / 200 2ms - undefined[39m
 2024-12-14 14:09:23:923 [35mhttp[39m: [35mGET / 200 6ms - undefined[39m
 2024-12-14 14:19:17:1917 [35mhttp[39m: [35mGET / 200 2ms - undefined[39m
+2024-12-14 14:27:36:2736 [32minfo[39m: [32mServer is running on port 3000[39m
+2024-12-14 14:27:36:2736 [32minfo[39m: [32mAPI Documentation available at http://localhost:3000/api-docs[39m
+2024-12-14 14:27:36:2736 [32minfo[39m: [32mMongoDB Connected: cluster0-shard-00-00.vyeu8.mongodb.net[39m
+2024-12-14 14:27:38:2738 [35mhttp[39m: [35mGET /api-docs/ 304 4ms - ::1[39m
+2024-12-14 14:27:38:2738 [35mhttp[39m: [35mGET /api-docs/swagger-ui-init.js 304 1ms - ::1[39m
+2024-12-14 14:27:38:2738 [35mhttp[39m: [35mGET /api-docs/swagger-ui.css 200 11ms - ::1[39m
+2024-12-14 14:27:38:2738 [35mhttp[39m: [35mGET /api-docs/swagger-ui-standalone-preset.js 200 15ms - ::1[39m
+2024-12-14 14:27:38:2738 [35mhttp[39m: [35mGET /api-docs/swagger-ui-bundle.js 200 41ms - ::1[39m
+2024-12-14 14:27:57:2757 [35mhttp[39m: [35mGET /api/jobs?page=1&limit=20&sort=latest 200 82ms - ::1[39m
+2024-12-14 14:28:30:2830 [35mhttp[39m: [35mGET /api/jobs?page=1&limit=20&sort=latest&salary=3000 200 70ms - ::1[39m
+2024-12-14 14:28:44:2844 [35mhttp[39m: [35mGET /api/jobs?page=1&limit=20&sort=latest&salary=3000 304 60ms - ::1[39m
+2024-12-14 14:29:08:298 [35mhttp[39m: [35mGET /api/jobs?page=1&limit=20&sort=latest&location=%EC%9D%B8%EC%B2%9C&salary=3000 200 57ms - ::1[39m
+2024-12-14 14:29:38:2938 [31merror[39m: [31mError: 유효하지 않은 토큰입니다.[39m
+2024-12-14 14:29:38:2938 [31merror[39m: [31mStack: Error: 유효하지 않은 토큰입니다.[39m
+[31m    at authenticate (file:///Users/hongttochi/Desktop/saramin_backend/src/middleware/auth.js:20:12)[39m
+[31m    at Layer.handle [as handle_request] (/Users/hongttochi/Desktop/saramin_backend/node_modules/express/lib/router/layer.js:95:5)[39m
+[31m    at trim_prefix (/Users/hongttochi/Desktop/saramin_backend/node_modules/express/lib/router/index.js:328:13)[39m
+[31m    at /Users/hongttochi/Desktop/saramin_backend/node_modules/express/lib/router/index.js:286:9[39m
+[31m    at Function.process_params (/Users/hongttochi/Desktop/saramin_backend/node_modules/express/lib/router/index.js:346:12)[39m
+[31m    at next (/Users/hongttochi/Desktop/saramin_backend/node_modules/express/lib/router/index.js:280:10)[39m
+[31m    at Function.handle (/Users/hongttochi/Desktop/saramin_backend/node_modules/express/lib/router/index.js:175:3)[39m
+[31m    at router (/Users/hongttochi/Desktop/saramin_backend/node_modules/express/lib/router/index.js:47:12)[39m
+[31m    at Layer.handle [as handle_request] (/Users/hongttochi/Desktop/saramin_backend/node_modules/express/lib/router/layer.js:95:5)[39m
+[31m    at trim_prefix (/Users/hongttochi/Desktop/saramin_backend/node_modules/express/lib/router/index.js:328:13)[39m
+2024-12-14 14:29:38:2938 [35mhttp[39m: [35mGET /api/search-history?page=1&limit=20 401 4ms - ::1[39m
+2024-12-14 14:30:03:303 [31merror[39m: [31mError: 이메일 또는 비밀번호가 올바르지 않습니다.[39m
+2024-12-14 14:30:03:303 [31merror[39m: [31mStack: Error: 이메일 또는 비밀번호가 올바르지 않습니다.[39m
+[31m    at AuthService.login (file:///Users/hongttochi/Desktop/saramin_backend/src/services/AuthService.js:21:13)[39m
+[31m    at processTicksAndRejections (node:internal/process/task_queues:96:5)[39m
+[31m    at async login (file:///Users/hongttochi/Desktop/saramin_backend/src/controllers/authController.js:40:32)[39m
+2024-12-14 14:30:03:303 [35mhttp[39m: [35mPOST /api/auth/login 401 70ms - ::1[39m
+2024-12-14 14:30:14:3014 [35mhttp[39m: [35mPOST /api/auth/login 200 542ms - ::1[39m
+2024-12-14 14:30:48:3048 [35mhttp[39m: [35mGET /api/jobs/675c6422a8ceea393fc4726a?withRecommendations=true 200 104ms - ::1[39m
+2024-12-14 14:31:04:314 [35mhttp[39m: [35mGET /api/search-history?page=1&limit=20 200 30ms - ::1[39m
+2024-12-14 14:31:24:3124 [35mhttp[39m: [35mGET /api/search-history?page=1&limit=20 304 36ms - ::1[39m
+2024-12-14 14:31:51:3151 [35mhttp[39m: [35mGET /api/jobs?page=1&limit=20&sort=latest&location=%EC%9D%B8%EC%B2%9C&skills=Python%2C 200 27ms - ::1[39m
+2024-12-14 14:32:01:321 [35mhttp[39m: [35mGET /api/jobs?page=1&limit=20&sort=latest&location=%EC%84%9C%EC%9A%B8&skills=Python%2C 304 45ms - ::1[39m
+2024-12-14 14:32:13:3213 [35mhttp[39m: [35mGET /api/search-history?page=1&limit=20 304 24ms - ::1[39m
+2024-12-14 14:32:37:3237 [35mhttp[39m: [35mGET /api/jobs?page=1&limit=20&sort=latest&keyword=%ED%95%9C%EA%B5%AD&location=%EC%84%9C%EC%9A%B8&skills=Python%2C 200 21ms - ::1[39m
+2024-12-14 14:32:51:3251 [35mhttp[39m: [35mGET /api/jobs?page=1&limit=20&sort=latest&location=%EC%84%9C%EC%9A%B8&skills=Python%2C 304 57ms - ::1[39m
+2024-12-14 14:33:05:335 [35mhttp[39m: [35mGET /api/jobs/675c6419a8ceea393fc47036?withRecommendations=true 200 114ms - ::1[39m
+2024-12-14 14:33:14:3314 [35mhttp[39m: [35mGET /api/search-history?page=1&limit=20 304 26ms - ::1[39m
+2024-12-14 14:36:03:363 [35mhttp[39m: [35mGET /api/auth/profile 200 18ms - ::1[39m
+2024-12-14 14:36:04:364 [35mhttp[39m: [35mGET /api/auth/profile 304 20ms - ::1[39m
+2024-12-14 14:36:59:3659 [35mhttp[39m: [35mGET /api/jobs?page=1&limit=20&sort=latest&keyword=%EC%9B%B9%20%EA%B0%9C%EB%B0%9C%EC%9E%90&location=%EC%84%9C%EC%9A%B8 200 47ms - ::1[39m
+2024-12-14 14:37:00:370 [35mhttp[39m: [35mGET /api/jobs?page=1&limit=20&sort=latest&keyword=%EC%9B%B9%20%EA%B0%9C%EB%B0%9C%EC%9E%90&location=%EC%84%9C%EC%9A%B8 304 48ms - ::1[39m
+2024-12-14 14:37:16:3716 [35mhttp[39m: [35mGET /api/search-history?page=1&limit=20 304 19ms - ::1[39m
+2024-12-14 14:37:51:3751 [35mhttp[39m: [35mPOST /api/reviews 201 81ms - ::1[39m

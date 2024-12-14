@@ -36,12 +36,23 @@ export class JobController {
       sort
     });
 
-    // Save search history if authenticated and using keyword search
-    if (keyword && req.user) {
+    // Save search history if user is authenticated and using search
+    if (req.user && (keyword || company || location || experience || salary || skills)) {
       await this.searchHistoryService.createSearchHistory(req.user.id, {
-        query: keyword,
-        filters: { location, experience, salary, skills },
-        results: { count: total }
+        query: keyword || '',
+        filters: {
+          company,
+          location,
+          experience,
+          salary: salary ? {
+            min: parseInt(salary.split('-')[0]),
+            max: parseInt(salary.split('-')[1])
+          } : null,
+          skills: skills ? skills.split(',').map(s => s.trim()) : []
+        },
+        results: {
+          count: total
+        }
       });
     }
 
