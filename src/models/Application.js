@@ -16,7 +16,7 @@ const applicationSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ['pending', 'reviewed', 'shortlisted', 'rejected', 'accepted'],
+      enum: ['pending', 'accepted', 'rejected'],
       default: 'pending',
     },
     resume: {
@@ -24,55 +24,13 @@ const applicationSchema = new mongoose.Schema(
       version: Number,
     },
     coverLetter: String,
-    answers: [
-      {
-        question: String,
-        answer: String,
-      },
-    ],
-    notes: [
-      {
-        content: String,
-        author: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'User',
-        },
-        createdAt: {
-          type: Date,
-          default: Date.now,
-        },
-      },
-    ],
-    interviews: [
-      {
-        type: {
-          type: String,
-          enum: ['phone', 'video', 'onsite'],
-        },
-        scheduledAt: Date,
-        duration: Number,
-        location: String,
-        notes: String,
-        status: {
-          type: String,
-          enum: ['scheduled', 'completed', 'cancelled'],
-        },
-      },
-    ],
-    createdAt: {
-      type: Date,
-      default: Date.now,
-    },
-    updatedAt: Date,
   },
   {
     timestamps: true,
   }
 );
 
-// Compound indexes
+// Compound index to prevent duplicate applications
 applicationSchema.index({ job: 1, user: 1 }, { unique: true });
-applicationSchema.index({ user: 1, status: 1 });
-applicationSchema.index({ job: 1, status: 1 });
 
 export const Application = mongoose.model('Application', applicationSchema);
