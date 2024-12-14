@@ -1,26 +1,17 @@
 #!/bin/bash
 
-echo "Starting deployment..."
-
-# Install Node.js dependencies
-echo "Installing dependencies..."
+# Install dependencies
 npm install
 
-# Create logs directory
-echo "Creating logs directory..."
-mkdir -p logs
-
-# Install PM2 globally
-echo "Installing PM2..."
+# Install PM2 globally if not already installed
 npm install -g pm2
 
-# Start the application with PM2
-echo "Starting application with PM2..."
-pm2 delete saramin-api 2>/dev/null || true
-pm2 start src/server.js --name saramin-api
+# Start the application using PM2
+pm2 start ecosystem.config.js
 
-# Save PM2 process list and generate startup script
-echo "Configuring PM2 startup..."
+# Save PM2 process list and set to start on system boot
 pm2 save
+pm2 startup
 
-echo "Deployment completed! Server is running on http://113.198.66.75:17085/api-docs"
+# Display status
+pm2 status

@@ -9,7 +9,8 @@
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
     "crawl": "node src/crawlers/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "pm2 start ecosystem.config.js"
   },
   "dependencies": {
     "axios": "^1.6.2",
@@ -28,12 +29,14 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.0.3",
     "morgan": "^1.10.0",
-    "nodemon": "^3.0.2",
     "pm2": "^5.3.0",
     "swagger-ui-express": "^5.0.0",
     "web-streams-polyfill": "^3.2.1",
-    "winston": "^3.11.0",
+    "winston": "^3.17.0",
     "winston-daily-rotate-file": "^4.7.1",
     "xss-clean": "^0.1.4"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
   }
 }
