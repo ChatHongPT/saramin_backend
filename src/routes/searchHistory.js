@@ -6,10 +6,13 @@ import { validatePagination } from '../middleware/validators/common/index.js';
 export const router = express.Router();
 const searchHistoryController = new SearchHistoryController();
 
-router.use(authenticate); // All routes require authentication
+// All routes require authentication
+router.use(authenticate);
 
 // Get user's search history
 router.get('/', validatePagination, searchHistoryController.getSearchHistory);
 
 // Clear search history
 router.delete('/', searchHistoryController.clearSearchHistory);
+
+export default router;
