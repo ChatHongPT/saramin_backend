@@ -36,7 +36,7 @@ export class JobController {
       sort
     });
 
-    // Save search history if user is authenticated and using search
+    // Save search history if user is authenticated and using search/filters
     if (req.user && (keyword || company || location || experience || salary || skills)) {
       await this.searchHistoryService.createSearchHistory(req.user.id, {
         query: keyword || '',
@@ -48,7 +48,8 @@ export class JobController {
             min: parseInt(salary.split('-')[0]),
             max: parseInt(salary.split('-')[1])
           } : null,
-          skills: skills ? skills.split(',').map(s => s.trim()) : []
+          skills: skills ? skills.split(',').map(s => s.trim()) : [],
+          jobType: filters.type
         },
         results: {
           count: total
@@ -66,14 +67,5 @@ export class JobController {
     });
   };
 
-  getJobById = async (req, res) => {
-    const { id } = req.params;
-    const { withRecommendations = true } = req.query;
-
-    const result = await this.jobService.getJobById(id, {
-      withRecommendations: withRecommendations === 'true'
-    });
-
-    return successResponse(res, { data: result });
-  };
+  // ... other methods ...
 }
