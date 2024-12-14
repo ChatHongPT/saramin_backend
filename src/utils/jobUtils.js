@@ -3,24 +3,43 @@
  */
 export const parseSkills = (skillsString) => {
   if (!skillsString) return [];
-  if (Array.isArray(skillsString)) return skillsString;
-  
   return skillsString.split(',').map(skill => skill.trim()).filter(Boolean);
 };
 
 /**
- * 급여 문자열에서 숫자만 추출
+ * 경력 범위 파싱
  */
-export const parseSalary = (salaryString) => {
-  if (!salaryString) return null;
-  const amount = parseInt(salaryString.replace(/[^0-9]/g, ''));
-  return isNaN(amount) ? null : amount;
+export const parseExperience = (expString) => {
+  if (!expString) return null;
+  const [min, max] = expString.split('-').map(Number);
+  return {
+    min: isNaN(min) ? 0 : min,
+    max: isNaN(max) ? min : max
+  };
 };
 
 /**
- * 정렬 옵션 검증
+ * 급여 범위 파싱
  */
-export const validateSortOption = (sort) => {
-  const validOptions = ['latest', 'views'];
-  return validOptions.includes(sort) ? sort : 'latest';
+export const parseSalary = (salaryString) => {
+  if (!salaryString) return null;
+  const [min, max] = salaryString.split('-').map(Number);
+  return {
+    min: isNaN(min) ? 0 : min,
+    max: isNaN(max) ? min : max
+  };
+};
+
+/**
+ * 정렬 옵션 생성
+ */
+export const createSortOption = (sort) => {
+  switch (sort) {
+    case 'salary':
+      return { 'salary.min': -1 };
+    case 'views':
+      return { views: -1 };
+    default:
+      return { createdAt: -1 };
+  }
 };
