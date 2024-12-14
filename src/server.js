@@ -45,7 +45,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // Swagger documentation
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs, { explorer: true }));
 
 // Routes
 app.use('/api', apiRouter);
@@ -67,7 +67,7 @@ app.use((req, res) => {
 app.listen(PORT, '0.0.0.0', () => {
   Logger.info(`Server is running on http://0.0.0.0:${PORT}`);
   Logger.info(
-    `API Documentation available at http://113.198.66.75:${PORT}/api-docs`
+    `API Documentation available at http://${process.env.HOST || 'localhost'}:${PORT}/api-docs`
   );
 });
 
