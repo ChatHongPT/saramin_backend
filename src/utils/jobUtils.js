@@ -1,33 +1,45 @@
 /**
- * 기술스택 문자열을 배열로 파싱
+ * 검색 필터 생성
  */
-export const parseSkills = (skillsString) => {
-  if (!skillsString) return [];
-  return skillsString.split(',').map(skill => skill.trim()).filter(Boolean);
-};
+export const createSearchFilters = (filters) => {
+  const query = {};
 
-/**
- * 경력 범위 파싱
- */
-export const parseExperience = (expString) => {
-  if (!expString) return null;
-  const [min, max] = expString.split('-').map(Number);
-  return {
-    min: isNaN(min) ? 0 : min,
-    max: isNaN(max) ? min : max
-  };
-};
+  // Location filter
+  if (filters.location) {
+    query.location = new RegExp(filters.location, 'i');
+  }
 
-/**
- * 급여 범위 파싱
- */
-export const parseSalary = (salaryString) => {
-  if (!salaryString) return null;
-  const [min, max] = salaryString.split('-').map(Number);
-  return {
-    min: isNaN(min) ? 0 : min,
-    max: isNaN(max) ? min : max
-  };
+  // Experience filter
+  if (filters.experience) {
+    const [min, max] = filters.experience.split('-').map(Number);
+    if (!isNaN(min)) {
+      query['experience.min'] = { $gte: min };
+      if (!isNaN(max)) {
+        query['experience.max'] = { $lte: max };
+      }
+    }
+  }
+
+  // Salary filter
+  if (filters.salary) {
+    const [min, max] = filters.salary.split('-').map(Number);
+    if (!isNaN(min)) {
+      query['salary.min'] = { $gte: min };
+      if (!isNaN(max)) {
+        query['salary.max'] = { $lte: max };
+      }
+    }
+  }
+
+  // Skills filter
+  if (filters.skills) {
+    const skillsList = filters.skills.split(',').map(s => s.trim());
+    if (skillsList.length > 0) {
+      query['skills.name'] = { $in: skillsList };
+    }
+  }
+
+  return query;
 };
 
 /**
@@ -39,6 +51,8 @@ export const createSortOption = (sort) => {
       return { 'salary.min': -1 };
     case 'views':
       return { views: -1 };
+    case 'experience':
+      return { 'experience.min': -1 };
     default:
       return { createdAt: -1 };
   }
