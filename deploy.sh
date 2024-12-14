@@ -1,12 +1,16 @@
 #!/bin/bash
 
+# Stop any existing PM2 processes
+pm2 stop saramin-api || true
+pm2 delete saramin-api || true
+
 # Install dependencies
 npm install
 
-# Install PM2 globally if not already installed
-npm install -g pm2
+# Copy production environment file
+cp .env.production .env
 
-# Start the application using PM2
+# Start application with PM2
 pm2 start ecosystem.config.js
 
 # Save PM2 process list and set to start on system boot
